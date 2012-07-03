@@ -1,0 +1,21 @@
+# Navigation shortcuts.
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# Listing shortcuts.
+alias ll='ls -hl'
+alias la='ls -al'
+
+# Application shortcuts.
+alias vim='/Applications/MacVim/MacVim.app/Contents/MacOS/Vim'
+alias gvim='/Applications/MacVim/MacVim.app/Contents/MacOS/Vim -g'
+#alias samq='$ACTIVEMQ_HOME/bin/activemq console'
+#alias stom='$TOMCAT_HOME/bin/catalina.sh run'
+
+# Directory shortcuts.
+alias govp='cd $VIR_HOME'
+alias govpb='cd $VIR_BROKER_HOME'
+#alias goamq='cd $ACTIVEMQ_HOME'
+#alias gotom='cd $TOMCAT_HOME'

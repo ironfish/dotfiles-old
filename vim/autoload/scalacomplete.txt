@@ -1,0 +1,51 @@
+abstract|[s]    abstract||
+case|[s]    case|- case statement|
+extends|[s]    extends|- define inherited class
+match|[s]    match|- match\case statement|
+for(){}|[s]    for(){}|- for statement|
+for{} yield()|[s]    for{} yield()|- for yield statement|
+with|[s]    with|- mixin trait|
+Any|   [c] Any|- scala|
+AnyRef|   [t] AnyRef|- scala|
+AnyVal|   [t] AnyVal|- scala|
+App|   [t] App|- scala|
+Array|[o][c] Array|- scala|
+Boolean|[o][c] Boolean|- scala|
+Byte|[o][c] Byte|- scala|
+Char|[o][c] Char|- scala|
+Double|[o][c] Double|- scala|
+Float|[o][c] Float|- scala|
+Immutable|   [t] Immutable|- scala|
+Int|[o][c] Int|- scala|
+Long|[o][c] Long|- scala|
+Mutable|   [t] Mutable|- scala|
+Nothing|   [t] Nothing|- scala|
+NotNull|   [t] NotNull|- scala|
+Null|   [t] Null|- scala|
+Option|[o][c] Option|- scala|
+Predef|[o]    Predef|- scala|
+Serializable|   [t] Serializable|- scala|
+Short|[o][c] Short|- scala|
+Some|   [c] Some|- scala|
+@throws|   [c] @throws|- scala|
+transient|   [c] transient|- scala|
+Unit|[o][c] Unit|- scala|
+volatile|   [c] volatile|- scala|
+!|   [c] !|- scala.actors|
+AbstractActor|   [t] AbstractActor|- scala.actors|
+Actor|[o][t] Actor|- scala.actors|
+CanReply|   [t] CanReply|- scala.actors|
+DaemonActor|   [t] DaemonActor|- scala.actors|
+Debug|[o][c] Debug|- scala.actors|
+Exit|   [c] Exit|- scala.actors|
+Future|   [c] Future|- scala.actors|
+Futures|[o]    Futures|- scala.actors|
+InputChannel|   [t] InputChannel|- scala.actors|
+IScheduler|   [t] IScheduler|- scala.actors|
+MessageQueue|   [c] MessageQueue|- scala.actors|
+MessageQueueElement|   [c] MessageQueueElement|- scala.actors|
+OutputChannel|   [t] OutputChannel|- scala.actors|
+BigDecimal|[o][c] BigDecimal|- scala.math|
+BigInt|[o][c] BigInt|- scala.math|
+println()|[m]    println():Unit|- scala.Predef|
+println()|[m]    println(Any):Unit|- scala.Predef|

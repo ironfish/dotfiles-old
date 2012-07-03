@@ -1,0 +1,12 @@
+bin/*
+target/*
+.DS_STORE
+vim/bundle/*
+vim/sessions/*
+vim/vim-backup/*
+vim/vim-tmp/*
+vim/vim-undo/*
+vim/vim-view/*
+bash_history
+bash_prompt_old
+gitconfig

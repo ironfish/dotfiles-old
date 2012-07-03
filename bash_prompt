@@ -1,0 +1,37 @@
+# @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
+# Shamelessly copied from https://github.com/gf3/dotfiles
+# Screenshot: http://i.imgur.com/s0Blh.png
+
+export TERM=xterm-256color
+
+# Assumes 256 color terminal
+# tput setaf sets a foreground colour using ANSI escape.
+tput sgr0
+MAGENTA=$(tput setaf 9)
+ORANGE=$(tput setaf 172)
+GREEN=$(tput setaf 190)
+PURPLE=$(tput setaf 141)
+LIGHT_GRAY=$(tput setaf 250)
+WHITE=$(tput setaf 255)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+export MAGENTA
+export ORANGE
+export GREEN
+export PURPLE
+export LIGHT_GRAY
+export WHITE
+export BOLD
+export RESET
+
+function parse_git_dirty() {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
+function parse_git_branch() {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+PS1="\[$ORANGE\]\u\[$GREEN\]@\[$ORANGE\]\h \[$LIGHT_GRAY\]in \[$GREEN\]\w\[$GREEN\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$GREEN\]\n\$ \[$RESET\]"
+

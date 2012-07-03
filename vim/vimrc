@@ -1,0 +1,553 @@
+" BUNDLE MANAGEMENT ------------------------------------------------------------------------------------------------------------ {{{
+
+" Explicitly get out of vi-compatible mode.
+set nocompatible
+
+" Vundle stuff
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" Github repositories
+Bundle 'gimarik/vundle'
+
+" Navigation
+Bundle 'wincent/Command-T'
+Bundle 'majutsushi/tagbar'
+Bundle 'scrooloose/nerdtree'
+Bundle 'fholgado/minibufexpl.vim'
+
+" Utilities
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'Rykka/colorv.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'xolox/vim-session'
+Bundle 'mileszs/ack.vim'
+
+" SnipMate. First 3 bundles are dependencies.
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "snipmate-snippets"
+Bundle "garbas/vim-snipmate"
+
+" Searching
+Bundle 'henrik/vim-indexed-search'
+
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'nathanaelkane/vim-indent-guides'
+
+" Languages
+Bundle 'derekwyatt/vim-scala'
+
+" Colorschemes
+Bundle 'croaker/mustang-vim'
+Bundle 'nanotech/jellybeans.vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'shannonmoeller/wombat256'
+
+" Load filetype plugins/indent settings.
+filetype plugin indent on
+
+" }}}
+
+" BEHAVIORS -------------------------------------------------------------------------------------------------------------------- {{{
+
+" Turn on syntax coloring.
+syntax enable
+
+" Remap the leader key.
+let mapleader = ","
+
+" Read when the file has changed outside of vim.
+set autoread
+
+" You can change buffers without saving.
+set hidden
+
+" Wait 300 milliseconds for mapped key.
+set timeoutlen=300
+
+" Use sysetm clipboard.
+set clipboard=unnamed
+
+" Save changes on buffer switch.
+set autowrite
+
+" Number of items to remember in history
+set history=1000
+
+" Set backup
+set backup
+
+" Backup file directory.
+set backupdir=~/.vim/vim-backup//
+
+" Swap file directory.
+set directory=~/.vim/vim-tmp//
+
+" Tells Vim to create <FILENAME>.un~ files whenever you edit a file. These files contain undo information so you can undo previous 
+" actions even after you close and reopen the file.
+set undodir=~/.vim/vim-undo//
+set undofile
+
+" Content directory is always matching the content of the active window.
+" NOTE: This messes up fuzzyfinder. You always want the recursive search to start from the directory that you start vim from.
+"set autochdir
+
+" Lower case u is cool for undo, but ctrl-r for redo sucks, so use Upper case U instead.
+noremap U <C-R>
+
+" fast terminal
+set ttyfast
+
+" Turn mouse on.
+set mouse=a
+
+" Remember last position in file.
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+
+" Quick edit my vimrc.
+nnoremap <leader>ev :e $MYVIMRC<CR>
+
+" Set the view directory.
+set viewdir=~/.vim/vim-view//
+
+" Save view on exit, will persist folds.
+au BufWinLeave * silent! mkview
+
+" Load view on enter, will remember folds.
+au BufWinEnter * silent! loadview
+
+" }}}
+
+" COLOR OPTIONS ---------------------------------------------------------------------------------------------------------------- {{{
+
+" Important for dark colorthemes.
+set background=dark
+
+" Set the windows transparency. I don't use this as I rely on the shell for transparency.
+"set transparency=10
+
+" 256 color support.
+set t_Co=256
+
+" Set color scheme.
+"colorscheme wombat256
+"colorscheme mustang
+"colorscheme molokai
+"colorscheme badwolf
+colorscheme mustang
+"colorscheme wombat256
+
+"colorscheme jellybeans
+"let g:jellybeans_overrides = {
+"\    'Todo': { 'guifg': '303030', 'guibg': 'f0f000',
+"\              'ctermfg': 'Black', 'ctermbg': 'Yellow',
+"\              'attr': 'bold' },
+"\}
+
+
+"colorscheme solarized
+"let g:solarized_termcolors=256
+"let g:solarized_underline = 0
+"let g:solarized_contrast = "high"
+
+" }}}
+
+" FOLDING ---------------------------------------------------------------------------------------------------------------------- {{{
+
+"set foldlevelstart=0
+set foldlevel=1
+set foldmethod=marker
+set foldmarker={{{,}}}
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" "Refocus" folds
+"nnoremap ,z zMzvzz
+
+" Make zO recursively open whatever top level fold we're in, no matter where the
+" cursor happens to be.
+"nnoremap zO zCzO
+
+" Custom method that changes the look and feel of the fold.
+function! MyFoldText() " {{{
+  let line = getline(v:foldstart)
+
+  let nucolwidth = &fdc + &number * &numberwidth
+  let windowwidth = winwidth(0) - nucolwidth - 3
+  let foldedlinecount = v:foldend - v:foldstart
+
+  " expand tabs into spaces
+  let onetab = strpart('          ', 0, &tabstop)
+  let line = substitute(line, '\t', onetab, 'g')
+
+  let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+  let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+  return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+
+" SEARCH OPTIONS --------------------------------------------------------------------------------------------------------------- {{{
+
+" Set the search to wrap lines.
+set wrapscan
+
+" Case insensitive searching.
+set ignorecase
+
+" Case sensitive when given caps.
+set smartcase
+
+" Highlight search results.
+set hlsearch
+
+" Incremental highlight as search is typed.
+set incsearch
+
+" Toggle / clear highlights.
+"nnoremap <leader>h :set invhls hls?<CR>
+nnoremap <leader>h :noh<cr>
+
+" }}}
+
+" NAVIGATION OPTIONS ----------------------------------------------------------------------------------------------------------- {{{
+
+" Go to end of line.
+imap <leader><right> <esc>$
+nnoremap <leader><right> $
+vnoremap <leader><right> $
+
+" Go to beggining of line.
+imap <leader><left> <esc>0
+nnoremap <leader><left> 0
+vnoremap <leader><left> 0
+
+" User tab instead of % to switch between matching pairs.
+nnoremap <tab> %
+vnoremap <tab> %
+
+" Make cursor keys wrap (] and \ are for right and left arrows).
+set whichwrap=h,l,[<]>],[<\>]
+
+" Backspace over autoindent, end of line (to join lines), and pre-existing text.
+set backspace=indent,eol,start
+
+" Split window vertically.
+nnoremap <leader>sv <C-w>v
+" Move to the left split window.
+nnoremap <leader><leader><left> <C-w><left>
+" Move to the right split window.
+nnoremap <leader><leader><right> <C-w><right>
+" Split window horizontally.
+nnoremap <leader>sh <C-w>s
+" Move to the bottom split window.
+nnoremap <leader><leader><down> <C-w><down>
+" Move to the top split window.
+nnoremap <leader><leader><up> <C-w><up>
+
+" }}}
+
+" FILE TYPE OPTIONS ------------------------------------------------------------------------------------------------------------ {{{
+
+augroup ft_scala " {{{
+  au!
+  " Set scalacomplete to function scalacomplete#Complete in vim/autoload/scalacomplete.vim
+  au FileType scala set omnifunc=scalacomplete#Complete
+"  au FileType scala setlocal foldmethod=marker
+"  au FileType scala setlocal foldmarker={,}
+   au FileType scala setlocal foldmethod=indent
+   au FileType scala setlocal foldnestmax=10
+   au FileType scala setlocal nofoldenable
+   au FileType scala setlocal foldlevel=1
+   au FileType scala set tags=~/Workspace/.scalatags
+augroup END " }}}
+
+" }}}
+
+" MENUS AND OMNICOMPLETE OPTIONS ----------------------------------------------------------------------------------------------- {{{
+
+" Used for completion based on syntax file - i don't use this
+"set ofu=syntaxcomplete#Complete
+
+
+" So completion popup does not select the first item, and typing new letters updates the completion list.
+set completeopt=longest,menuone,preview
+
+" Set menu for TAB key.
+set wildmenu
+
+" Complete only up to the point of ambiguity.
+set wildmode=list:longest,full
+
+" Ignore files and directory types. This is primarily for Command-T.
+set wildignore=*/target/*,*.sublime-project,*.sublime-workspace
+
+" When completing by tag, show the whole tag, not just the function name.
+set showfulltag
+
+" remap control-space to code complete
+" NOTE: this comment must not be on the same line as the remap
+" NOTE: Most unix terminals don't know what to do with the space bar so you must user <Nul> instead of <C-space> for no-gui
+if has("gui_running")
+  :inoremap <C-space> <C-x><C-o>
+else
+  :inoremap <Nul> <C-x><C-o>
+"   :inoremap <leader><space> <C-x><C-o>
+endif
+
+" }}}
+
+" TEXT FORMAT OPTIONS ---------------------------------------------------------------------------------------------------------- {{{
+
+" Set encoding.
+set encoding=utf-8
+
+" Set column width.
+"set columns=136
+
+" Copy indent from current line when starting a new line.
+set autoindent
+
+" Set the text width to 132.
+set textwidth=132
+
+" Set the right margin.
+set colorcolumn=+1
+
+function! Tabstyle_spaces()
+
+  " Use 2 spaces, interpret tab sa an indent.
+  set softtabstop=2
+
+  " number of spaces used for indent.
+  set shiftwidth=2
+
+  " Set tab width.
+  set tabstop=2
+
+  " Replace tabs with spaces.
+  set expandtab
+
+endfunction
+call Tabstyle_spaces()
+
+" }}}
+
+" UI OPTIONS ------------------------------------------------------------------------------------------------------------------- {{{
+
+" Set the current file name to the title.
+set title
+
+" Keep the cursor 8 lines from top and bottom when the page scrolls.
+set scrolloff=8
+
+" Highlight current line.
+set cursorline
+
+" Highlights matching braces|brackets|parens when the cursor is on a bracket.
+" NOTE: Not used. I use matchpairs instead.
+"set showmatch
+
+" Highlight matching tags.
+set matchpairs=(:),[:],{:},<:>
+
+" Show line numbers.
+set number
+
+" turn word wrapping off
+"set nowrap
+
+" Wrap at word.
+set linebreak
+
+" Show break character when wrapping occurs.
+set showbreak=↪
+
+" List of invisible characters to be shown.
+set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
+
+" Toggle invisible characters.
+nnoremap <leader>i :set list!<CR>
+
+" Invisible character colors
+"highlight NonText guifg=#4a4a59
+"highlight SpecialKey guifg=#4a4a59
+
+" Setup the statuc line. I don't use this because I'm using powerline.vim instead.
+"set statusline=%f%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\[HEX=\%02.2B]\ [POS=%l,%v][%p%%]\ [LEN=%L]
+"set statusline=%-t%-m%-h%-r%-y\ buf\ %-n%=\ascii=\%03.3b\ hex=\%02.2B\ %l,%c\ %p%%\ %L
+"set statusline=%f\ %m\ %r%{fugitive#statusline()}\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
+"set statusline=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
+
+" Set status line position.
+set laststatus=2
+
+" Show the ruler in the status line.
+set ruler
+
+" Show the current mode in the status line.
+set showmode
+
+" Show informatin about the current command.
+set showcmd
+" }}}
+
+" VIM-SESSION.VIM----------------------------------------------------------------------------------------------------------------{{{
+" URL: https://github.com/xolox/vim-session
+
+"let g:session_autosave='prompt'
+"let g:session_autoload='prompt'
+nnoremap <leader>os :OpenSession<CR>
+
+" }}}
+
+" PLUGINS COMMAND-T.VIM ---------------------------------------------------------------------------------------------------------{{{
+" URL: https://github.com/wincent/Command-T
+
+" Remap command-t cancel.
+if &term =~ "xterm" || &term =~ "screen"
+  let g:CommandTCancelMap     = ['<ESC>','<C-c>']
+  let g:CommandTSelectNextMap = ['<C-n>','<C-j>','<ESC>OB']
+  let g:CommandTSelectPrevMap = ['<C-p>','<C-k>','<ESC>OA']
+endif
+
+" }}}
+
+" PLUGINS VIM-INDENT-GUIDES.VIM ------------------------------------------------------------------------------------------------ {{{
+" URL: https://github.com/nathanaelkane/vim-indent-guides
+"
+" Doesn't make sense to show the 1st level guide if left margin is a different color from background.
+let g:indent_guides_start_level=2
+
+" Display indent guides on startup.
+let g:indent_guides_enable_on_vim_startup=1
+
+" Indent guide size = 1 character.
+let g:indent_guides_guide_size=1
+
+let g:indent_guides_auto_colors=0
+
+" The following settings are for solarized (colorscheme) support.
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
+
+" The following settings are for mustang (colorscheme) support.
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#2d2d2d ctermbg=236
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2d2d2d ctermbg=236
+
+" }}}
+
+" PLUGINS TAGBAR.VIM ----------------------------------------------------------------------------------------------------------- {{{
+" URL: https://github.com/majutsushi/tagbar
+
+" Toggle tagbar with \g.
+nnoremap <leader>g :TagbarToggle<CR>
+
+let g:tagbar_type_scala = {
+  \ 'ctagstype' : 'Scala',
+  \ 'kinds'     : [
+    \ 'p:packages:1',
+    \ 'V:values',
+    \ 'v:variables',
+    \ 'T:types',
+    \ 't:traits',
+    \ 'o:objects',
+    \ 'a:aclasses',
+    \ 'c:classes',
+    \ 'r:cclasses',
+    \ 'm:methods'
+  \ ]
+\ }
+
+" }}}
+
+" PLUGINS POWERLINE.VIM ---------------------------------------------------------------------------------------------------------{{{
+" URL: https://github.com/Lokaltog/vim-powerline
+
+" Forces glyphs "arrow" to show in powerline.
+" NOTE: On OSX you will need to download the user contributed fonts from powerline github and install them in fontbook, then 
+" install them in the terminal application.
+let g:Powerline_symbols = 'fancy'
+
+" }}}
+
+" NERDCOMMENTER.VIM -------------------------------------------------------------------------------------------------------------{{{
+" URL: https://github.com/scrooloose/nerdcommenter
+
+vmap <leader>/ ,c<space>gv
+map <leader>/ ,c<space>
+
+" }}}
+
+" NERDTREE.VIM ------------------------------------------------------------------------------------------------------------------{{{
+" URL: https://github.com/scrooloose/nerdtree/
+
+nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
+
+"let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeShowBookmarks=1
+
+" Change the NERDTree directory to the root node.
+let NERDTreeChDirMode=2
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+"  }}}
+
+" PLUGINS MINIBUFEXPL.VIM ------------------------------------------------------------------------------------------------------ {{{
+" URL: https://github.com/fholgado/minibufexpl.vim
+
+" Toggle minbufexplorer with Control-b.
+nnoremap <leader>be :TMiniBufExplorer<CR>
+
+"let g:miniBufExplMapCTabSwitchBufs = 1
+
+"let g:miniBufExplUseSingleClick = 1
+
+" }}}
+
+" PLUGINS CTRLP.VIM ------------------------------------------------------------------------------------------------------------ {{{
+" URL: https://github.com/kien/ctrlp.vim
+
+"set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" Make ctrlp keep the startup working path.
+"let g:ctrlp_working_path_mode = 0
+
+" Setup ctrlp custom ignore of files.
+"let g:ctrlp_custom_ignore = {
+"  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|target$',
+"  \ 'file': '\.DS_Store$\|\.chproj$\|\.cache$\|\.project$\|\.classpath$\|\.sublime-project$\|\.sublime-workspace$',
+"  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+"  \}
+
+" Open CtrlPBuffer with \b.
+"nnoremap <leader>b :CtrlPBuffer<CR>             " open CtrlPBuffer with \b
+
+" }}}
+
+" PLUGINS FUZZYFINDER.VIM ------------------------------------------------------------------------------------------------------ {{{
+" URL: http://www.vim.org/scripts/script.php?script_id=1984
+
+" Exclude certain file types.
+"let g:fuf_file_exclude='\.DS_Store\|\.svn/\|\.idea/\|\.iml/\|\.class'
+
+" Exclude certain directory types.
+"let g:fuf_dir_exclude=""
+
+" Find file with the current buffer's directory.
+"nmap ,f :FufFileWithCurrentBufferDir<CR>
+
+" List open buffers.
+"nmap ,b :FufBuffer<CR>
+
+" List tagged files.
+"nmap ,t :FufTaggedFile<CR>
+
+" }}}
+

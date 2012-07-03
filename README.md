@@ -6,7 +6,7 @@ I'm a mac head so this while this configuration may work on other nixes, its OSX
 
 ## Assumptions
 
-This configuration is a work in process and will definitely change over time. Additionally it assumes you have certain software installed like [MacVim](http://code.google.com/p/macvim/), [CTAGS](http://ctags.sourceforge.net/), [Scala](http://www.scala-lang.org/), [SBT](https://github.com/harrah/xsbt/wiki/), etc. I recommend using [Homebrew](http://mxcl.github.com/homebrew/) for installing this stuff. I also use [ITerm 2](http://www.iterm2.com/#/section/home) instead of Apple's Terminal.
+This configuration is a work in process and will definitely change over time. Additionally it assumes you have certain software installed like [MacVim](http://code.google.com/p/macvim/), [CTAGS](http://ctags.sourceforge.net/), [Scala](http://www.scala-lang.org/), [SBT](https://github.com/harrah/xsbt/wiki/), [Ack](http://betterthangrep.com/), etc. I recommend using [Homebrew](http://mxcl.github.com/homebrew/) for installing this stuff. I also use [ITerm 2](http://www.iterm2.com/#/section/home) instead of Apple's Terminal.
 
 NOTE: I'm seriously considering switching to [ZSH](https://github.com/robbyrussell/oh-my-zsh/) so you may see many changes to these files in the future.
 
@@ -48,6 +48,19 @@ $ mkdir vim-undo
 $ mkdir vim-view
 $ mkdir sessions
 </pre>
+
+## Vim Plugings
+
+I use a lot of plugins for vim and manage them with [Vundle](https://github.com/gmarik/vundle/). It's a great vim bundle manager similar to [Pathogen](https://github.com/tpope/vim-pathogen/). You'll need to install Vundle to use the  plugins listed in my vimrc. I highly, highly recommend you read the Vundle documentation but this is what you need to do to get started:
+
+<pre>
+<i># This assumes you setup the .vim soflink listed above.</i>
+$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+</pre>
+
+Next you will need to launch `vim` and run `:BundleInstall`.
+
+**NOTE**: Some of the bundles require external software like Ack, Scala, etc. As mentioned above, I recommend you use Hombrew to install these.
 
 ## Colors
 

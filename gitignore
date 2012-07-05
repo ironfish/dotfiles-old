@@ -1,6 +1,7 @@
 bin/*
 target/*
 .DS_STORE
+secrets
 vim/bundle/*
 vim/sessions/*
 vim/vim-backup/*
@@ -9,4 +10,3 @@ vim/vim-undo/*
 vim/vim-view/*
 bash_history
 bash_prompt_old
-gitconfig

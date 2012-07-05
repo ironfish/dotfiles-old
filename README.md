@@ -34,8 +34,6 @@ $ ln -s ~/dotfiles/sbtconfig .sbtconfig
 $ ln -s ~/dotfiles/vim .vim
 $ ln -s ~/dotfiles/vimrc .vimrc
 $ ln -s ~/dotfiles/gitignore .gitignore
-
-<i># NOTE: This file is not included. You'll have to setup your own.</i>
 $ ln -s ~/dotfiles/gitconfig .gitconfig
 </pre>
 
@@ -47,6 +45,24 @@ $ mkdir vim-tmp
 $ mkdir vim-undo
 $ mkdir vim-view
 $ mkdir sessions
+</pre>
+
+I don't include my git user info in my gitconfig. I set them up as environment variables in `~/.secrets`. You will want to do the same.
+
+<pre>
+$ cd ~/dotfiles
+$ vim secrets
+
+<i># Add the following to the secrets file.</i>
+# Set your git user info
+export GIT_AUTHOR_NAME='Your Name'
+export GIT_AUTHOR_EMAIL='you@domain.com'
+export GIT_COMMITTER_NAME='Your Name'
+export GIT_COMMITTER_EMAIL='you@domain.com'
+
+<i># Add softlink so git will pick your credentials up.</i>
+$ cd ~
+$ ln -s ~/dotfiles/secrets .secrets
 </pre>
 
 ## Vim Plugings

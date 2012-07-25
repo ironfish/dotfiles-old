@@ -23,6 +23,9 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'xolox/vim-session'
 Bundle 'mileszs/ack.vim'
 
+" Git
+Bundle 'tpope/vim-fugitive'
+
 " SnipMate. First 3 bundles are dependencies.
 Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"

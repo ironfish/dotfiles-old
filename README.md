@@ -29,10 +29,10 @@ $ ln -s ~/dotfiles/bash_history .bash_history
 
 $ ln -s ~/dotfiles/bash_profile .bash_profile
 $ ln -s ~/dotfiles/bash_prompt .bash_prompt
-$ ln -s ~/dotfiles/ctags .ctags
+$ ln -s ~/dotfiles/vim/ctags .ctags
 $ ln -s ~/dotfiles/sbtconfig .sbtconfig
 $ ln -s ~/dotfiles/vim .vim
-$ ln -s ~/dotfiles/vimrc .vimrc
+$ ln -s ~/dotfiles/vim/vimrc .vimrc
 $ ln -s ~/dotfiles/gitignore .gitignore
 $ ln -s ~/dotfiles/gitconfig .gitconfig
 </pre>
@@ -77,6 +77,14 @@ $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 Next you will need to launch `vim` and run `:BundleInstall`.
 
 **NOTE**: Some of the bundles require external software like Ack, Scala, etc. As mentioned above, I recommend you use Hombrew to install these.
+
+### Command-T
+I use [command-t](https://wincent.com/products/command-t) as a quick launch for opening files and managing buffers. As noted above I also use vundle to manage bundles and this is how command-t gets install but there are some additional steps required to get it to work as command-t relies on on a compiled C extention.
+
+<pre>
+$ cd ~/dotfiles/vim/bundle/Command-T
+$ rake make
+</pre>
 
 ## Colors
 

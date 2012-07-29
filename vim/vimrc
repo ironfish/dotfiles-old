@@ -266,7 +266,7 @@ augroup ft_scala " {{{
    au FileType scala setlocal foldnestmax=10
    au FileType scala setlocal nofoldenable
    au FileType scala setlocal foldlevel=1
-   au FileType scala set tags=~/Workspace/.scalatags
+   au FileType scala set tags=~/Workspace/scalatags
 augroup END " }}}
 
 " }}}

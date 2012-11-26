@@ -9,7 +9,7 @@ fun! scalacomplete#Complete(findstart, base)
   else
     let res = []
 "    for m in split("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")
-    for m in sort(readfile('/Users/ddevore/.vim/autoload/scalacomplete.txt'))
+    for m in sort(readfile('/Users/Duncan/.vim/autoload/scalacomplete.txt'))
 "    for m in readfile('/Users/ddevore/.vim/autoload/scalacomplete.txt')
       echo m
       echo m

@@ -1,6 +1,6 @@
 [core]
 	editor = subl -w
-	excludesfile = /Users/ddevore/.gitignore
+	excludesfile = /Users/Duncan/.gitignore
 [credential]
 	helper = osxkeychain
 [color]

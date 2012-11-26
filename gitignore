@@ -1,4 +1,5 @@
 bin/*
+target
 target/*
 .DS_STORE
 secrets
@@ -10,3 +11,8 @@ vim/vim-undo/*
 vim/vim-view/*
 bash_history
 bash_prompt_old
+.history
+*.sublime-workspace
+.cache
+.classpath
+.project

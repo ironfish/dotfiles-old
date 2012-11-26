@@ -20,7 +20,8 @@ export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 # HOMEBREW SETTINGS ------------------------------------------------------------------------------------------------------------ {{{
 
 # Path fix for Hombrew version of Git
-export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
+# NOTE: This is now set in /etc/paths
+#export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 
 # Homebrew bash completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
@@ -38,14 +39,22 @@ fi
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$JAVA_HOME/bin:$PATH
 
+# ~/bin directory
+export PATH="$PATH:~/bin"
+
+# set path for GUI apps.
+launchctl setenv PATH $PATH
+
 # Maven home & path
-export M2_HOME=/Users/ddevore/Applications/apache-maven-3.0.3
-export M2=$M2_HOME/bin
-export PATH=$M2:$PATH
+# Maven now managed by homebrew
+#export M2_HOME=/Users/ddevore/Applications/apache-maven-3.0.3
+#export M2=$M2_HOME/bin
+#export PATH=$M2:$PATH
 
 # Postgres home & path
-export PG_HOME=/Users/ddevore/Applications/PostgreSQL/9.0
-export PATH=$PG_HOME/bin:$PATH
+# Postgres now managed by homebrew
+#export PG_HOME=/Users/ddevore/Applications/PostgreSQL/9.0
+#export PATH=$PG_HOME/bin:$PATH
 
 # Sbt home & path
 # NOTE: sbt now managed by homebrew
@@ -58,8 +67,9 @@ export PATH=$PG_HOME/bin:$PATH
 #export PATH=$SCALA_HOME/bin:$PATH
 
 # Subversion home & path
-export SVN_HOME=/opt/subversion/
-export PATH=$SVN_HOME/bin:$PATH
+# NOTE: svn mananged by homebrew
+#export SVN_HOME=/opt/subversion/
+#export PATH=$SVN_HOME/bin:$PATH
 
 # Tomcat home
 #export TOMCAT_HOME=/Users/ddevore/Applications/apache-tomcat-7.0.19

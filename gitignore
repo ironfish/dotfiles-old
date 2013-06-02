@@ -12,7 +12,10 @@ vim/vim-view/*
 bash_history
 bash_prompt_old
 .history
+*.sublime-project
 *.sublime-workspace
 .cache
 .classpath
 .project
+.idea
+.idea_modules

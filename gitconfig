@@ -19,3 +19,6 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[user]
+	name = duncan.devore@gmail.com
+	email = duncan.devore@gmail.com

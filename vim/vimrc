@@ -46,6 +46,7 @@ Bundle 'croaker/mustang-vim'
 Bundle 'nanotech/jellybeans.vim'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'shannonmoeller/wombat256'
+Bundle 'jasonkuhrt/Tomorrow-Theme'
 
 " Load filetype plugins/indent settings.
 filetype plugin indent on

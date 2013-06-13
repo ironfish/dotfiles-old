@@ -15,7 +15,7 @@ alias la='ls -al'
 #alias vim='/usr/local/Cellar/macvim/7.3-64/MacVim.app/Contents/MacOS/Vim'
 #alias samq='$ACTIVEMQ_HOME/bin/activemq console'
 #alias stom='$TOMCAT_HOME/bin/catalina.sh run'
-
+alias sp='subl --project "$@"'
 # Directory shortcuts.
 alias govp='cd ~/Workspace/viridity/vpower'
 

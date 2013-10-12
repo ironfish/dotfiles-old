@@ -18,4 +18,5 @@ alias la='ls -al'
 alias sp='subl --project "$@"'
 # Directory shortcuts.
 alias govp='cd ~/Workspace/viridity/vpower'
+alias goev='cd ~/Workspace/eligosource/eventsourced'
 

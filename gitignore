@@ -20,3 +20,4 @@ bash_prompt_old
 .idea
 .idea_modules
 .settings
+snapshots/*

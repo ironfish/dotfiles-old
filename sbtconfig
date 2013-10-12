@@ -1,1 +1,1 @@
-SBT_OPTS="-Xms512m -Xmx2048m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m -XX:+UseCodeCacheFlushing"
+SBT_OPTS="-Xms2048m -Xmx4096m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=1024m -XX:+UseCodeCacheFlushing"

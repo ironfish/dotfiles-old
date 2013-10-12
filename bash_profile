@@ -36,8 +36,8 @@ fi
 #export ACTIVEMQ_HOME=/Users/ddevore/Applications/apache-activemq-5.5.0
 
 # Java home & path
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH=$JAVA_HOME/bin:$PATH
+#export JAVA_HOME=$(/usr/libexec/java_home)
+#export PATH=$JAVA_HOME/bin:$PATH
 
 # ~/bin directory
 export PATH="$PATH:~/bin"

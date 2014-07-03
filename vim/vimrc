@@ -12,13 +12,11 @@ Plugin 'gmarik/Vundle.vim'
 
 " Navigation
 Plugin 'wincent/command-t'
-"Bundle 'kien/ctrlp.vim'
 "Bundle 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdtree'
 Plugin 'fholgado/minibufexpl.vim'
 
 " Utilities
-"Bundle 'scrooloose/nerdcommenter'
 Plugin 'Rykka/colorv.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'xolox/vim-session'
@@ -31,17 +29,11 @@ Plugin 'airblade/vim-gitgutter'
 
 " Snippets
 Plugin 'drmingdrmer/xptemplate'
-" SnipMate. First 3 bundles are dependencies.
-"Bundle 'MarcWeber/vim-addon-mw-utils'
-"Bundle 'tomtom/tlib_vim'
-"Bundle 'snipmate-snippets'
-"Bundle 'garbas/vim-snipmate'
 
 " Searching
 Plugin 'henrik/vim-indexed-search'
 
 Plugin 'bling/vim-airline'
-"Bundle 'Lokaltog/powerline'
 Plugin 'nathanaelkane/vim-indent-guides'
 
 " Languages
@@ -51,8 +43,6 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'croaker/mustang-vim'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'altercation/vim-colors-solarized'
-"Bundle 'shannonmoeller/wombat256'
-"Bundle 'jasonkuhrt/Tomorrow-Theme'
 
 call vundle#end()
 
@@ -410,25 +400,23 @@ set showmode
 set showcmd
 " }}}
 
-" VIM-SESSION.VIM {{{
-" URL: https://github.com/xolox/vim-session
+" PLUGINS VIM-SESSION.VIM ------------------------------------------------------------------------------------------------------ {{{
+" https://github.com/xolox/vim-session
 
 "let g:session_autosave='prompt'
 "let g:session_autoload='prompt'
 nnoremap <leader>os :OpenSession<CR>
-
 " }}}
 
-" PLUGINS GITGUTTER.VIM {{{
-" URL: https://github.com/airblade/vim-gitgutter
+" PLUGINS GITGUTTER.VIM -------------------------------------------------------------------------------------------------------- {{{
+" https://github.com/airblade/vim-gitgutter
 
 let g:gitgutter_sign_column_always = 1
 let g:gitgutter_highlight_lines = 1
-
 " }}}
 
-" PLUGINS COMMAND-T.VIM {{{
-" URL: https://github.com/wincent/Command-T
+" PLUGINS COMMAND-T.VIM -------------------------------------------------------------------------------------------------------- {{{
+" https://github.com/wincent/Command-T
 
 " Remap command-t cancel.
 if &term =~ "xterm" || &term =~ "screen"
@@ -436,11 +424,10 @@ if &term =~ "xterm" || &term =~ "screen"
   let g:CommandTSelectNextMap = ['<C-n>','<C-j>','<ESC>OB']
   let g:CommandTSelectPrevMap = ['<C-p>','<C-k>','<ESC>OA']
 endif
-
 " }}}
 
-" PLUGINS VIM-INDENT-GUIDES.VIM {{{
-" URL: https://github.com/nathanaelkane/vim-indent-guides
+" PLUGINS VIM-INDENT-GUIDES.VIM ------------------------------------------------------------------------------------------------ {{{
+" https://github.com/nathanaelkane/vim-indent-guides
 "
 " Doesn't make sense to show the 1st level guide if left margin is a different color from background.
 let g:indent_guides_start_level=2
@@ -460,11 +447,10 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
 " The following settings are for mustang (colorscheme) support.
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#2d2d2d ctermbg=236
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2d2d2d ctermbg=236
-
 " }}}
 
-" PLUGINS TAGBAR.VIM {{{
-" URL: https://github.com/majutsushi/tagbar
+" PLUGINS TAGBAR.VIM ----------------------------------------------------------------------------------------------------------- {{{
+" https://github.com/majutsushi/tagbar
 
 " Toggle tagbar with \g.
 "nnoremap <leader>g :TagbarToggle<CR>
@@ -484,10 +470,10 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
 "    \ 'm:methods'
 "  \ ]
 "\ }
-
 " }}}
 
-" PLUGINS AIRLINE.VIM {{{
+" PLUGINS AIRLINE.VIM ---------------------------------------------------------------------------------------------------------- {{{
+" https://github.com/bling/vim-airline
 
 let g:airline_powerline_fonts = 1
 
@@ -495,40 +481,19 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
-
 "}}}
 
-" PLUGINS XPTEMPLATE.VIM {{{
+" PLUGINS XPTEMPLATE.VIM ------------------------------------------------------------------------------------------------------- {{{
+" https://github.com/drmingdrmer/xptemplate
 
 " Add xptemplate global personal directory value
 if has("unix")
   set runtimepath+=~/.vim/xpt-personal
 endif
-
 " }}}
 
-" PLUGINS POWERLINE.VIM {{{
-" URL: https://github.com/Lokaltog/vim-powerline
-
-" Forces glyphs "arrow" to show in powerline.
-" NOTE: On OSX you will need to download the user contributed fonts from powerline github and install them in fontbook, then
-" install them in the terminal application.
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-"let g:Powerline_symbols = 'fancy'
-
-"let g:airline_powerline_fonts = 1
-" }}}
-
-" PLUGINS NERDCOMMENTER.VIM {{{
-" URL: https://github.com/scrooloose/nerdcommenter
-
-"vmap <leader>/ ,c<space>gv
-"map <leader>/ ,c<space>
-
-" }}}
-
-" PLUGINS NERDTREE.VIM {{{
-" URL: https://github.com/scrooloose/nerdtree/
+" PLUGINS NERDTREE.VIM --------------------------------------------------------------------------------------------------------- {{{
+" https://github.com/scrooloose/nerdtree/
 
 nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
@@ -540,43 +505,14 @@ let NERDTreeShowBookmarks=1
 " Change the NERDTree directory to the root node.
 let NERDTreeChDirMode=2
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" }}}
 
-"  }}}
-
-" PLUGINS MINIBUFEXPL.VIM {{{
-" URL: https://github.com/fholgado/minibufexpl.vim
+" PLUGINS MINIBUFEXPL.VIM ------------------------------------------------------------------------------------------------------ {{{
+" https://github.com/fholgado/minibufexpl.vim
 
 " Toggle minbufexplorer with Control-b.
 nnoremap <leader>be :MBEToggle<CR>
 nnoremap <leader>bn :MBEbn<CR>
 nnoremap <leader>bp :MBEbp<CR>
-"let g:miniBufExplMapCTabSwitchBufs = 1
-"let g:miniBufExplUseSingleClick = 1
-
-" }}}
-
-" PLUGINS CTRLP.VIM {{{
-" URL: https://github.com/kien/ctrlp.vim
-
-"set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-" Make ctrlp keep the startup working path.
-"let g:ctrlp_working_path_mode = 0
-
-" Order matching files top to bottom with ttb
-"let g:ctrlp_match_window = 'bottom,order:ttb'
-
-"let g:ctrlp_match_window = 'min:4,max:72'
-
-" Setup ctrlp custom ignore of files.
-"let g:ctrlp_custom_ignore = {
-"  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|target$',
-"  \ 'file': '\.DS_Store$\|\.chproj$\|\.cache$\|\.project$\|\.classpath$\|\.sublime-project$\|\.sublime-workspace$',
-"  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-""\}
-
-" Open CtrlPBuffer with \b.
-"nnoremap <leader>b :CtrlPBuffer<CR>             " open CtrlPBuffer with \b
-
 " }}}
 

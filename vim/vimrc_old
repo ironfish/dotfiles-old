@@ -5,63 +5,56 @@ set nocompatible
 
 " Vundle stuff
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'gmarik/Vundle.vim'
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" Github repositories
+Bundle 'gmarik/Vundle.vim'
 
 " Navigation
-Plugin 'wincent/command-t'
-"Bundle 'kien/ctrlp.vim'
-"Bundle 'majutsushi/tagbar'
-Plugin 'scrooloose/nerdtree'
-Plugin 'fholgado/minibufexpl.vim'
+Bundle 'wincent/Command-T'
+Bundle 'kien/ctrlp.vim'
+Bundle 'majutsushi/tagbar'
+Bundle 'scrooloose/nerdtree'
+Bundle 'fholgado/minibufexpl.vim'
 
 " Utilities
-"Bundle 'scrooloose/nerdcommenter'
-Plugin 'Rykka/colorv.vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'xolox/vim-session'
-Plugin 'xolox/vim-misc'
-Plugin 'mileszs/ack.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'Rykka/colorv.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'xolox/vim-session'
+Bundle 'xolox/vim-misc'
+Bundle 'mileszs/ack.vim'
 
 " Git
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
+Bundle 'tpope/vim-fugitive'
 
-" Snippets
-Plugin 'drmingdrmer/xptemplate'
 " SnipMate. First 3 bundles are dependencies.
-"Bundle 'MarcWeber/vim-addon-mw-utils'
-"Bundle 'tomtom/tlib_vim'
-"Bundle 'snipmate-snippets'
-"Bundle 'garbas/vim-snipmate'
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "snipmate-snippets"
+Bundle "garbas/vim-snipmate"
 
 " Searching
-Plugin 'henrik/vim-indexed-search'
+Bundle 'henrik/vim-indexed-search'
 
-Plugin 'bling/vim-airline'
-"Bundle 'Lokaltog/powerline'
-Plugin 'nathanaelkane/vim-indent-guides'
+"Bundle 'bling/vim-airline'
+Bundle 'Lokaltog/powerline'
+Bundle 'nathanaelkane/vim-indent-guides'
 
 " Languages
-Plugin 'derekwyatt/vim-scala'
+Bundle 'derekwyatt/vim-scala'
 
 " Colorschemes
-Plugin 'croaker/mustang-vim'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'altercation/vim-colors-solarized'
+Bundle 'croaker/mustang-vim'
+Bundle 'nanotech/jellybeans.vim'
+Bundle 'altercation/vim-colors-solarized'
 "Bundle 'shannonmoeller/wombat256'
 "Bundle 'jasonkuhrt/Tomorrow-Theme'
-
-call vundle#end()
 
 " Load filetype plugins/indent settings.
 filetype plugin indent on
 
 " }}}
-
-
 
 " BEHAVIORS -------------------------------------------------------------------------------------------------------------------- {{{
 
@@ -149,7 +142,8 @@ set t_Co=256
 "colorscheme mustang
 "colorscheme molokai
 "colorscheme badwolf
-"colorscheme mustang
+colorscheme mustang
+"colorscheme wombat256
 
 "colorscheme jellybeans
 "let g:jellybeans_overrides = {
@@ -159,11 +153,10 @@ set t_Co=256
 "\}
 
 
-colorscheme solarized
-let g:solarized_termcolors=256
-let g:solarized_underline = 0
-"let g:solarized_contrast = 'high'
-let g:solarized_visibility = 'low'
+"colorscheme solarized
+"let g:solarized_termcolors=256
+"let g:solarized_underline = 0
+"let g:solarized_contrast = "high"
 
 " }}}
 
@@ -391,7 +384,7 @@ nnoremap <leader>i :set list!<CR>
 "highlight NonText guifg=#4a4a59
 "highlight SpecialKey guifg=#4a4a59
 
-" Setup the static line. I don't use this because I'm using powerline.vim instead.
+" Setup the statuc line. I don't use this because I'm using powerline.vim instead.
 "set statusline=%f%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\[HEX=\%02.2B]\ [POS=%l,%v][%p%%]\ [LEN=%L]
 "set statusline=%-t%-m%-h%-r%-y\ buf\ %-n%=\ascii=\%03.3b\ hex=\%02.2B\ %l,%c\ %p%%\ %L
 "set statusline=%f\ %m\ %r%{fugitive#statusline()}\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
@@ -410,7 +403,7 @@ set showmode
 set showcmd
 " }}}
 
-" VIM-SESSION.VIM {{{
+" VIM-SESSION.VIM----------------------------------------------------------------------------------------------------------------{{{
 " URL: https://github.com/xolox/vim-session
 
 "let g:session_autosave='prompt'
@@ -419,15 +412,7 @@ nnoremap <leader>os :OpenSession<CR>
 
 " }}}
 
-" PLUGINS GITGUTTER.VIM {{{
-" URL: https://github.com/airblade/vim-gitgutter
-
-let g:gitgutter_sign_column_always = 1
-let g:gitgutter_highlight_lines = 1
-
-" }}}
-
-" PLUGINS COMMAND-T.VIM {{{
+" PLUGINS COMMAND-T.VIM ---------------------------------------------------------------------------------------------------------{{{
 " URL: https://github.com/wincent/Command-T
 
 " Remap command-t cancel.
@@ -439,7 +424,7 @@ endif
 
 " }}}
 
-" PLUGINS VIM-INDENT-GUIDES.VIM {{{
+" PLUGINS VIM-INDENT-GUIDES.VIM ------------------------------------------------------------------------------------------------ {{{
 " URL: https://github.com/nathanaelkane/vim-indent-guides
 "
 " Doesn't make sense to show the 1st level guide if left margin is a different color from background.
@@ -454,80 +439,60 @@ let g:indent_guides_guide_size=1
 let g:indent_guides_auto_colors=0
 
 " The following settings are for solarized (colorscheme) support.
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
 
 " The following settings are for mustang (colorscheme) support.
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#2d2d2d ctermbg=236
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2d2d2d ctermbg=236
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#2d2d2d ctermbg=236
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2d2d2d ctermbg=236
 
 " }}}
 
-" PLUGINS TAGBAR.VIM {{{
+" PLUGINS TAGBAR.VIM ----------------------------------------------------------------------------------------------------------- {{{
 " URL: https://github.com/majutsushi/tagbar
 
 " Toggle tagbar with \g.
-"nnoremap <leader>g :TagbarToggle<CR>
+nnoremap <leader>g :TagbarToggle<CR>
 
-"let g:tagbar_type_scala = {
-"  \ 'ctagstype' : 'Scala',
-"  \ 'kinds'     : [
-"    \ 'p:packages:1',
-"    \ 'V:values',
-"    \ 'v:variables',
-"    \ 'T:types',
-"    \ 't:traits',
-"    \ 'o:objects',
-"    \ 'a:aclasses',
-"    \ 'c:classes',
-"    \ 'r:cclasses',
-"    \ 'm:methods'
-"  \ ]
-"\ }
-
-" }}}
-
-" PLUGINS AIRLINE.VIM {{{
-
-let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-
-"}}}
-
-" PLUGINS XPTEMPLATE.VIM {{{
-
-" Add xptemplate global personal directory value
-if has("unix")
-  set runtimepath+=~/.vim/xpt-personal
-endif
+let g:tagbar_type_scala = {
+  \ 'ctagstype' : 'Scala',
+  \ 'kinds'     : [
+    \ 'p:packages:1',
+    \ 'V:values',
+    \ 'v:variables',
+    \ 'T:types',
+    \ 't:traits',
+    \ 'o:objects',
+    \ 'a:aclasses',
+    \ 'c:classes',
+    \ 'r:cclasses',
+    \ 'm:methods'
+  \ ]
+\ }
 
 " }}}
 
-" PLUGINS POWERLINE.VIM {{{
+" PLUGINS POWERLINE.VIM ---------------------------------------------------------------------------------------------------------{{{
 " URL: https://github.com/Lokaltog/vim-powerline
 
 " Forces glyphs "arrow" to show in powerline.
 " NOTE: On OSX you will need to download the user contributed fonts from powerline github and install them in fontbook, then
 " install them in the terminal application.
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 "let g:Powerline_symbols = 'fancy'
 
 "let g:airline_powerline_fonts = 1
 " }}}
 
-" PLUGINS NERDCOMMENTER.VIM {{{
+" NERDCOMMENTER.VIM -------------------------------------------------------------------------------------------------------------{{{
 " URL: https://github.com/scrooloose/nerdcommenter
 
-"vmap <leader>/ ,c<space>gv
-"map <leader>/ ,c<space>
+vmap <leader>/ ,c<space>gv
+map <leader>/ ,c<space>
 
 " }}}
 
-" PLUGINS NERDTREE.VIM {{{
+" NERDTREE.VIM ------------------------------------------------------------------------------------------------------------------{{{
 " URL: https://github.com/scrooloose/nerdtree/
 
 nnoremap <leader>e :NERDTreeToggle<CR>
@@ -543,19 +508,19 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 "  }}}
 
-" PLUGINS MINIBUFEXPL.VIM {{{
+" PLUGINS MINIBUFEXPL.VIM ------------------------------------------------------------------------------------------------------ {{{
 " URL: https://github.com/fholgado/minibufexpl.vim
 
 " Toggle minbufexplorer with Control-b.
-nnoremap <leader>be :MBEToggle<CR>
-nnoremap <leader>bn :MBEbn<CR>
-nnoremap <leader>bp :MBEbp<CR>
+nnoremap <leader>be :TMiniBufExplorer<CR>
+
 "let g:miniBufExplMapCTabSwitchBufs = 1
+
 "let g:miniBufExplUseSingleClick = 1
 
 " }}}
 
-" PLUGINS CTRLP.VIM {{{
+" PLUGINS CTRLP.VIM ------------------------------------------------------------------------------------------------------------ {{{
 " URL: https://github.com/kien/ctrlp.vim
 
 "set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -563,20 +528,35 @@ nnoremap <leader>bp :MBEbp<CR>
 " Make ctrlp keep the startup working path.
 "let g:ctrlp_working_path_mode = 0
 
-" Order matching files top to bottom with ttb
-"let g:ctrlp_match_window = 'bottom,order:ttb'
-
-"let g:ctrlp_match_window = 'min:4,max:72'
-
 " Setup ctrlp custom ignore of files.
 "let g:ctrlp_custom_ignore = {
 "  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|target$',
 "  \ 'file': '\.DS_Store$\|\.chproj$\|\.cache$\|\.project$\|\.classpath$\|\.sublime-project$\|\.sublime-workspace$',
 "  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-""\}
+"  \}
 
 " Open CtrlPBuffer with \b.
 "nnoremap <leader>b :CtrlPBuffer<CR>             " open CtrlPBuffer with \b
+
+" }}}
+
+" PLUGINS FUZZYFINDER.VIM ------------------------------------------------------------------------------------------------------ {{{
+" URL: http://www.vim.org/scripts/script.php?script_id=1984
+
+" Exclude certain file types.
+"let g:fuf_file_exclude='\.DS_Store\|\.svn/\|\.idea/\|\.iml/\|\.class'
+
+" Exclude certain directory types.
+"let g:fuf_dir_exclude=""
+
+" Find file with the current buffer's directory.
+"nmap ,f :FufFileWithCurrentBufferDir<CR>
+
+" List open buffers.
+"nmap ,b :FufBuffer<CR>
+
+" List tagged files.
+"nmap ,t :FufTaggedFile<CR>
 
 " }}}
 

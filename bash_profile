@@ -12,8 +12,9 @@ shopt -s nocaseglob
 export CLICOLOR=1
 
 # Good for dark backgrounds.
-export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
-#export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+#export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+#export LSCOLORS=gxfxcxdxbxegedabagacad
 
  #}}}
 
@@ -36,7 +37,7 @@ fi
 #export ACTIVEMQ_HOME=/Users/ddevore/Applications/apache-activemq-5.5.0
 
 # Java home & path
-#export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME=$(/usr/libexec/java_home)
 #export PATH=$JAVA_HOME/bin:$PATH
 
 # ~/bin directory

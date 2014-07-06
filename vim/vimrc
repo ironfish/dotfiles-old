@@ -11,17 +11,22 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Navigation
-Plugin 'wincent/command-t'
+"Plugin 'wincent/command-t'
 "Bundle 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdtree'
-Plugin 'fholgado/minibufexpl.vim'
+"Plugin 'fholgado/minibufexpl.vim'
+" unite uses vimproc
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/unite.vim'
 
 " Utilities
+Plugin 'ervandew/supertab'
 Plugin 'Rykka/colorv.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'xolox/vim-session'
 Plugin 'xolox/vim-misc'
 Plugin 'mileszs/ack.vim'
+Plugin 'rking/ag.vim'
 
 " Git
 Plugin 'tpope/vim-fugitive'
@@ -43,6 +48,7 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'croaker/mustang-vim'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'reedes/vim-colors-pencil'
 
 call vundle#end()
 
@@ -135,6 +141,7 @@ set background=dark
 set t_Co=256
 
 " Set color scheme.
+colorscheme pencil
 "colorscheme wombat256
 "colorscheme mustang
 "colorscheme molokai
@@ -149,11 +156,11 @@ set t_Co=256
 "\}
 
 
-colorscheme solarized
-let g:solarized_termcolors=256
-let g:solarized_underline = 0
+"colorscheme solarized
+"let g:solarized_termcolors=256
+"let g:solarized_underline = 0
 "let g:solarized_contrast = 'high'
-let g:solarized_visibility = 'low'
+"let g:solarized_visibility = 'low'
 
 " }}}
 
@@ -411,19 +418,56 @@ nnoremap <leader>os :OpenSession<CR>
 " PLUGINS GITGUTTER.VIM -------------------------------------------------------------------------------------------------------- {{{
 " https://github.com/airblade/vim-gitgutter
 
-let g:gitgutter_sign_column_always = 1
+let g:gitgutter_sign_column_always = 0
 let g:gitgutter_highlight_lines = 1
+" }}}
+
+" PLUGINS UNITE.VIM ------------------------------------------------------------------------------------------------------------ {{{
+
+" Search open buffers
+nnoremap <silent> <C-b> :Unite -buffer-name=buffers -winheight=10 buffer<cr>
+
+" Search files like Command-T or CtrlP
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom#source('file_rec/async','sorters','sorter_rank')
+" replacing unite with ctrl-p
+nnoremap <silent> <C-u> :Unite -start-insert -buffer-name=files -winheight=10 file_rec/async:!<cr>
+
+" Search using ack
+"let g:unite_source_grep_command='ack'
+"let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+"let g:unite_source_grep_recursive_opt=''
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts =
+  \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+let g:unite_source_grep_recursive_opt = ''
+
+nnoremap <silent> <C-f> :Unite -buffer-name=search grep:.<cr>
+
+" Function to close open unit window
+function! s:unite_settings()
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  nmap <buffer> Q <plug>(unite_exit)
+  nmap <buffer> <esc> <plug>(unite_exit)
+  imap <buffer> <esc> <plug>(unite_exit)
+endfunction
+
+autocmd FileType unite call s:unite_settings()
+
 " }}}
 
 " PLUGINS COMMAND-T.VIM -------------------------------------------------------------------------------------------------------- {{{
 " https://github.com/wincent/Command-T
 
 " Remap command-t cancel.
-if &term =~ "xterm" || &term =~ "screen"
-  let g:CommandTCancelMap     = ['<ESC>','<C-c>']
-  let g:CommandTSelectNextMap = ['<C-n>','<C-j>','<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>','<C-k>','<ESC>OA']
-endif
+"if &term =~ "xterm" || &term =~ "screen"
+"  let g:CommandTCancelMap     = ['<ESC>','<C-c>']
+"  let g:CommandTSelectNextMap = ['<C-n>','<C-j>','<ESC>OB']
+"  let g:CommandTSelectPrevMap = ['<C-p>','<C-k>','<ESC>OA']
+"endif
 " }}}
 
 " PLUGINS VIM-INDENT-GUIDES.VIM ------------------------------------------------------------------------------------------------ {{{
@@ -476,12 +520,32 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
 " https://github.com/bling/vim-airline
 
 let g:airline_powerline_fonts = 1
+let g:airline_theme = 'pencil'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
+let g:airline#extensions#tabline#enabled = 1
 "}}}
+
+" PLUGINS SUPERTAB.VIM --------------------------------------------------------------------------------------------------------- {{{
+
+" avoid key conflict
+let g:SuperTabMappingForward = '<Plug>supertabKey'
+
+" if nothing matched in xpt, try supertab
+let g:xptemplate_fallback = '<Plug>supertabKey'
+
+" xpt uses <Tab> as trigger key
+let g:xptemplate_key = '<Tab>'
+
+" use <tab>/<S-tab> to navigate through pum. Optional
+" let g:xptemplate_pum_tab_nav = 1
+"
+" xpt triggers only when you typed whole name of a snippet. Optional
+let g:xptemplate_minimal_prefix = 'full'
+" }}}
 
 " PLUGINS XPTEMPLATE.VIM ------------------------------------------------------------------------------------------------------- {{{
 " https://github.com/drmingdrmer/xptemplate
@@ -511,8 +575,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " https://github.com/fholgado/minibufexpl.vim
 
 " Toggle minbufexplorer with Control-b.
-nnoremap <leader>be :MBEToggle<CR>
-nnoremap <leader>bn :MBEbn<CR>
-nnoremap <leader>bp :MBEbp<CR>
+"nnoremap <leader>be :MBEToggle<CR>
+"nnoremap <leader>bn :MBEbn<CR>
+"nnoremap <leader>bp :MBEbp<CR>
+
+"let g:miniBufExplorerAutoStart = 0
 " }}}
 

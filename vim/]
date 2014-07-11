@@ -13,16 +13,15 @@ Plugin 'gmarik/Vundle.vim'
 " Navigation
 "Plugin 'wincent/command-t'
 "Bundle 'majutsushi/tagbar'
-"Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 "Plugin 'fholgado/minibufexpl.vim'
 " unite uses vimproc
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimfiler.vim'
-Plugin 'Shougo/unite-outline'
 
 " Utilities
-"Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 Plugin 'Rykka/colorv.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'xolox/vim-session'
@@ -35,15 +34,13 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 
 " Snippets
-"Plugin 'drmingdrmer/xptemplate'
+Plugin 'drmingdrmer/xptemplate'
 
 " Searching
 Plugin 'henrik/vim-indexed-search'
 
-" Visual
 Plugin 'bling/vim-airline'
 Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Yggdroot/indentLine'
 
 " Languages
 Plugin 'derekwyatt/vim-scala'
@@ -434,10 +431,10 @@ nmap <space> [unite]
 nnoremap [unite] <nop>
 
 " File searching using <space>f
-"call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom#source('file_rec/async','sorters','sorter_rank')
-nnoremap <silent> [unite]f :Unite -no-split -buffer-name=files -profile-name=buffer -auto-preview file_rec/async:!<cr>
+nnoremap <silent> [unite]f :<C-u>Unite -no-split -buffer-name=files -profile-name=buffer -auto-preview file_rec/async:!<cr>
 
 " Buffer switching using <space>b
 nnoremap <silent> [unite]b :<C-u>Unite -no-split -buffer-name=buffers -quick-match -auto-preview buffer:<cr>
@@ -450,7 +447,6 @@ let g:unite_source_grep_default_opts =
 let g:unite_source_grep_recursive_opt = ''
 nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
 
-
 " Function to close open unit window
 function! s:unite_settings()
   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
@@ -459,27 +455,8 @@ function! s:unite_settings()
   nmap <silent> <buffer> <esc><esc> <plug>(unite_exit)
   imap <silent> <buffer> <esc><esc> <plug>(unite_exit)
 endfunction
+
 autocmd FileType unite call s:unite_settings()
-
-" }}}
-
-" PLUGINS UNITE-OUTLINE.VIM ---------------------------------------------------------------------------------------------------- {{{
-" https://github.com/Shougo/unite-outline
-
-nnoremap [unite]o :Unite -no-split -start-insert -auto-preview outline<cr>
-
-" }}}
-
-" PLUGINS VIMFILER ------------------------------------------------------------------------------------------------------------- {{{
-
-nnoremap <silent> [unite]v   :<C-u>VimFiler<CR>
-nnoremap          [unite]ff  :<C-u>VimFilerExplorer<CR>
-
-function! s:vimfiler_settings()
-  nmap <silent> <buffer> <esc><esc> <plug>(vimfiler_exit)
-  imap <silent> <buffer> <esc><esc> <plug>(vimfiler_exit)
-endfunction
-autocmd FileType vimfiler call s:vimfiler_settings()
 
 " }}}
 
@@ -494,30 +471,23 @@ autocmd FileType vimfiler call s:vimfiler_settings()
 "endif
 " }}}
 
-" PLUGINS INDENTLINE.VIM ------------------------------------------------------------------------------------------------------- {{{
-" https://github.com/Yggdroot/indentLine
-
-let g:indentLine_char='┆'
-
-" }}}
-
 " PLUGINS VIM-INDENT-GUIDES.VIM ------------------------------------------------------------------------------------------------ {{{
 " https://github.com/nathanaelkane/vim-indent-guides
 "
 " Doesn't make sense to show the 1st level guide if left margin is a different color from background.
-"let g:indent_guides_start_level=2
+let g:indent_guides_start_level=2
 
 " Display indent guides on startup.
-"let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_enable_on_vim_startup=1
 
 " Indent guide size = 1 character.
-"let g:indent_guides_guide_size=1
+let g:indent_guides_guide_size=1
 
-"let g:indent_guides_auto_colors=0
+let g:indent_guides_auto_colors=0
 
 " The following settings are for solarized (colorscheme) support.
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
 
 " The following settings are for mustang (colorscheme) support.
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#2d2d2d ctermbg=236
@@ -563,43 +533,43 @@ let g:airline#extensions#tabline#enabled = 1
 " PLUGINS SUPERTAB.VIM --------------------------------------------------------------------------------------------------------- {{{
 
 " avoid key conflict
-"let g:SuperTabMappingForward = '<Plug>supertabKey'
+let g:SuperTabMappingForward = '<Plug>supertabKey'
 
 " if nothing matched in xpt, try supertab
-"let g:xptemplate_fallback = '<Plug>supertabKey'
+let g:xptemplate_fallback = '<Plug>supertabKey'
 
 " xpt uses <Tab> as trigger key
-"let g:xptemplate_key = '<Tab>'
+let g:xptemplate_key = '<Tab>'
 
 " use <tab>/<S-tab> to navigate through pum. Optional
 " let g:xptemplate_pum_tab_nav = 1
 "
 " xpt triggers only when you typed whole name of a snippet. Optional
-"let g:xptemplate_minimal_prefix = 'full'
+let g:xptemplate_minimal_prefix = 'full'
 " }}}
 
 " PLUGINS XPTEMPLATE.VIM ------------------------------------------------------------------------------------------------------- {{{
 " https://github.com/drmingdrmer/xptemplate
 
 " Add xptemplate global personal directory value
-"if has("unix")
-"  set runtimepath+=~/.vim/xpt-personal
-"endif
+if has("unix")
+  set runtimepath+=~/.vim/xpt-personal
+endif
 " }}}
 
 " PLUGINS NERDTREE.VIM --------------------------------------------------------------------------------------------------------- {{{
 " https://github.com/scrooloose/nerdtree/
 
-"nnoremap <leader>e :NERDTreeToggle<CR>
-"nnoremap <leader>nf :NERDTreeFind<CR>
+nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
 
-""let NERDTreeMinimalUI = 1
-"let NERDTreeDirArrows = 1
-"let NERDTreeShowBookmarks=1
+"let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeShowBookmarks=1
 
 " Change the NERDTree directory to the root node.
-"let NERDTreeChDirMode=2
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeChDirMode=2
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " }}}
 
 " PLUGINS MINIBUFEXPL.VIM ------------------------------------------------------------------------------------------------------ {{{

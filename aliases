@@ -17,6 +17,5 @@ alias la='ls -al'
 #alias stom='$TOMCAT_HOME/bin/catalina.sh run'
 alias sp='subl --project "$@"'
 # Directory shortcuts.
-alias govp='cd ~/Workspace/viridity/vpower'
-alias goev='cd ~/Workspace/eligosource/eventsourced'
+alias gww='cd ~/workspace/ww'
 

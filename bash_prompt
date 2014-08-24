@@ -33,5 +33,12 @@ function parse_git_branch() {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
-PS1="\[$ORANGE\]\u\[$GREEN\]@\[$ORANGE\]\h \[$LIGHT_GRAY\]in \[$GREEN\]\w\[$GREEN\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$GREEN\]\n\$ \[$RESET\]"
+powerline_path=$(python -c 'import pkgutil; print pkgutil.get_loader("powerline").filename' 2>/dev/null)
+
+if [[ "$powerline_path" != "" ]]; then
+  source ${powerline_path}/bindings/bash/powerline.sh
+else
+  # Setup your normal PS1 here.
+  PS1="\[$ORANGE\]\u\[$GREEN\]@\[$ORANGE\]\h \[$LIGHT_GRAY\]in \[$GREEN\]\w\[$GREEN\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$GREEN\]\n\$ \[$RESET\]"
+fi
 

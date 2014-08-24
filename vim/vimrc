@@ -2,70 +2,92 @@
 
 " Explicitly get out of vi-compatible mode.
 set nocompatible
-
-" Vundle stuff
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
+" Neobundle stuff
+" Required
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+
+" Required
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+" Required
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" My Bundles here:
+" Refer to |:NeoBundle-examples|.
+" Note You don't set neobundle setting in .gvimrc!
+
+" unite uses vimproc
+NeoBundle 'Shougo/vimproc.vim', {
+\ 'build' : {
+\   'mac' : 'make -f make_mac.mak'
+\ },
+\}
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimfiler.vim'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+
+" Markdown
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'plasticboy/vim-markdown'
+
+" Utilities
+"NeoBundle 'ervandew/supertab'
+NeoBundle 'Rykka/colorv.vim'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'xolox/vim-session'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'tomtom/tcomment_vim'
+
+" Git
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'airblade/vim-gitgutter'
+
+" Searching
+NeoBundle 'henrik/vim-indexed-search'
+
+" Visual
+NeoBundle 'bling/vim-airline'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'Yggdroot/indentLine'
+
+" Languages
+NeoBundle 'derekwyatt/vim-scala'
+
+" Colorschemes
+NeoBundle 'croaker/mustang-vim'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'reedes/vim-colors-pencil'
+
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+
+"Plugin 'gmarik/Vundle.vim'
 
 " Navigation
 "Plugin 'wincent/command-t'
 "Bundle 'majutsushi/tagbar'
 "Plugin 'scrooloose/nerdtree'
 "Plugin 'fholgado/minibufexpl.vim'
-" unite uses vimproc
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/vimfiler.vim'
-Plugin 'Shougo/unite-outline'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'Shougo/neosnippet'
-Plugin 'Shougo/neosnippet-snippets'
 
-" Markdown
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-
-" Utilities
-"Plugin 'ervandew/supertab'
-Plugin 'Rykka/colorv.vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'xolox/vim-session'
-Plugin 'xolox/vim-misc'
-Plugin 'mileszs/ack.vim'
-Plugin 'rking/ag.vim'
-Plugin 'tomtom/tcomment_vim'
-
-" Git
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-
-" Snippets
-"Plugin 'drmingdrmer/xptemplate'
-
-" Searching
-Plugin 'henrik/vim-indexed-search'
-
-" Visual
-Plugin 'bling/vim-airline'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Yggdroot/indentLine'
-
-" Languages
-Plugin 'derekwyatt/vim-scala'
-
-" Colorschemes
-Plugin 'croaker/mustang-vim'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'reedes/vim-colors-pencil'
-
-call vundle#end()
+"call vundle#end()
 
 " Load filetype plugins/indent settings.
-filetype plugin indent on
+"filetype plugin indent on
 
 " }}}
 
@@ -112,7 +134,7 @@ set undodir=~/.vim/vim-undo//
 set undofile
 
 " Content directory is always matching the content of the active window.
-" NOTE: This messes up fuzzyfinder. You always want the recursive search to start from the directory that you start vim from.
+" NOTE This messes up fuzzyfinder. You always want the recursive search to start from the directory that you start vim from.
 "set autochdir
 
 " Lower case u is cool for undo, but ctrl-r for redo sucks, so use Upper case U instead.
@@ -187,7 +209,7 @@ set foldmarker={{{,}}}
 nnoremap <Space> za
 vnoremap <Space> za
 
-" "Refocus" folds
+" Refocus folds
 "nnoremap ,z zMzvzz
 
 " Make zO recursively open whatever top level fold we're in, no matter where the
@@ -728,4 +750,3 @@ let g:airline#extensions#tabline#enabled = 1
 
 "let g:miniBufExplorerAutoStart = 0
 " }}}
-

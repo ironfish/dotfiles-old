@@ -45,6 +45,7 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'terryma/vim-multiple-cursors'
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -384,6 +385,10 @@ call Tabstyle_spaces()
 
 " UI OPTIONS ------------------------------------------------------------------------------------------------------------------- {{{
 
+if has("gui_vimr")
+  :set guifont=Source\ Code\ Pro\ Medium:h13
+endif
+
 " Set the current file name to the title.
 set title
 
@@ -551,7 +556,7 @@ function! s:vimfiler_settings()
   imap <silent> <buffer> <esc><esc> <plug>(vimfiler_exit)
 endfunction
 autocmd FileType vimfiler call s:vimfiler_settings()
-"autocmd VimEnter * VimFilerExplorer
+autocmd VimEnter * VimFilerExplorer
 " }}}
 
 " PLUGINS COMMAND-T.VIM -------------------------------------------------------------------------------------------------------- {{{

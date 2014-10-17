@@ -33,9 +33,6 @@ fi
 
 # DEVELOPMENT SETTINGS --------------------------------------------------------------------------------------------------------- {{{
 
-# ActiveMQ path
-#export ACTIVEMQ_HOME=/Users/ddevore/Applications/apache-activemq-5.5.0
-
 # Java home & path
 export JAVA_HOME=$(/usr/libexec/java_home)
 #export PATH=$JAVA_HOME/bin:$PATH
@@ -45,39 +42,6 @@ export PATH="$PATH:~/bin"
 
 # set path for GUI apps.
 launchctl setenv PATH $PATH
-
-# Maven home & path
-# Maven now managed by homebrew
-#export M2_HOME=/Users/ddevore/Applications/apache-maven-3.0.3
-#export M2=$M2_HOME/bin
-#export PATH=$M2:$PATH
-
-# Postgres home & path
-# Postgres now managed by homebrew
-#export PG_HOME=/Users/ddevore/Applications/PostgreSQL/9.0
-#export PATH=$PG_HOME/bin:$PATH
-
-# Sbt home & path
-# NOTE: sbt now managed by homebrew
-#export SBT_HOME=/Users/ddevore/Applications/sbt-launch-0.7.7
-#export PATH=$SBT_HOME/bin:$PATH
-
-# Scala home & path
-# NOTE: sala now managed by homebrew
-#export SCALA_HOME=/Users/ddevore/Applications/scala-2.9.1.final
-#export PATH=$SCALA_HOME/bin:$PATH
-
-# Subversion home & path
-# NOTE: svn mananged by homebrew
-#export SVN_HOME=/opt/subversion/
-#export PATH=$SVN_HOME/bin:$PATH
-
-# Tomcat home
-#export TOMCAT_HOME=/Users/ddevore/Applications/apache-tomcat-7.0.19
-
-# VPower home
-export VIR_HOME=/Users/ddevore/Workspace/Viridity/Tracks/vpower
-export VIR_BROKER_HOME=/Users/ddevore/Workspace/Viridity/Tracks/vpower/vpower-optimize/vpower-optimize-broker
 
 # Increase memory when running maven
 export MAVEN_OPTS="-Xms256m -Xmx1024m -XX:MaxPermSize=512m"

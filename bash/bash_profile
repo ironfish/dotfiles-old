@@ -1,0 +1,27 @@
+# --- Load {{
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+for file in ~/.{bash_prompt,bash_aliases,secrets}; do
+  [ -r "$file" ] && source "$file"
+done
+unset file
+shopt -s nocaseglob                                            # case insensitive globbing for pathname expansion
+# --- Load }}
+
+# --- Colors {{
+export CLICOLOR=1                                              # darwin's bash shell is different from linus @see man ls
+export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD                         # good for dark backgrounds
+# --- Colors }}
+
+# --- Homebrew {{
+# Homebrew bash completion
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+  . `brew --prefix`/etc/bash_completion
+fi
+# --- Homebrew }}
+
+# --- Development {{
+export JAVA_HOME=$(/usr/libexec/java_home)                     # java home and path
+export PATH="$PATH:~/bin"                                      # add path for ~/bin directory
+launchctl setenv PATH $PATH                                    # set path for gui apps
+export MAVEN_OPTS="-Xms256m -Xmx1024m -XX:MaxPermSize=512m"    # increase memory for maven
+# --- Development }}

@@ -1,6 +1,6 @@
 [core]
-	editor = vim
-	excludesfile = /Users/Duncan/.gitignore
+	editor = subl -n -w
+	excludesfile = /Users/ironfish/dotfiles/git/gitignore
 [credential]
 	helper = osxkeychain
 [color]

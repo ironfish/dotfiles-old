@@ -1,0 +1,286 @@
+" vim: set foldmarker={{,}} foldmethod=marker:
+" --- Bundles {{
+set nocompatible                                 " be iMproved
+set runtimepath+=~/.nvim/bundle/neobundle.vim/   " runtime path for NeoBundle (required) 
+call neobundle#begin(expand('~/.nvim/bundle/'))  " fire up NeoBundle (required)
+NeoBundleFetch 'Shougo/neobundle.vim'            " let NeoBundle manage NeoBundle (required)
+
+" --- Color Scheme
+NeoBundle 'reedes/vim-colors-pencil'             " nice theme for markdown and more
+
+" --- Git
+NeoBundle 'tpope/vim-fugitive'                   " git wrapper for commands
+NeoBundle 'airblade/vim-gitgutter'               " shows git diff in gutter
+
+" --- Languages
+NeoBundle 'derekwyatt/vim-scala'                 " scala syntax support and more
+
+" --- Navigation
+NeoBundle 'Shougo/vimproc.vim', {
+\  'build' : {
+\    'mac' : 'make -f make_mac.mak'
+\  },
+\}
+NeoBundle 'Shougo/unite.vim'                     " requires vimproc for async
+NeoBundle 'Shougo/unite-outline'                 " outline view for current buffer
+NeoBundle 'Shougo/vimfiler.vim'                  " finder like view
+
+" --- Search
+NeoBundle 'rking/ag.vim'                         " ag 'silver_surfer' replacement for ack
+
+" --- Text
+NeoBundle 'godlygeek/tabular'                    " text filtering and alignment
+NeoBundle 'tpope/vim-surround'                   " surrounds with brackets, quotes, etc.
+NeoBundle 'tpope/vim-markdown'                   " markdown support
+NeoBundle 'tomtom/tcomment_vim'                  " comment out code
+NeoBundleDisable 'Shougo/neocomplete.vim'               " text completion
+NeoBundle 'terryma/vim-multiple-cursors'         " multiple cursor support like sublime
+NeoBundle 'ervandew/supertab'                    " text completion
+
+" --- UI
+NeoBundle 'bling/vim-airline'                    " lean and mean status / tabline for vim
+NeoBundle 'Yggdroot/indentLine'                  " display indents as thin vertical lines
+
+call neobundle#end()
+filetype plugin indent on                        " required for neobundle
+NeoBundleCheck                                   " checks for uninstalled bundles on startup
+" --- Bundles }}
+
+" --- Behaviors {{
+syntax enable                                    " syntax coloring
+set autoindent                                   " copy indent to new line
+set autoread                                     " when a file has changed outside of nvim
+set backspace=indent,eol,start                   " backspace over autoindent, eol, start to join lines
+set colorcolumn=+1                               " set the right margin
+set cursorcolumn                                 " highlight the current column
+set cursorline                                   " highlight the current line
+set encoding=utf-8                               " default set by neovim
+set expandtab                                    " replace tabs with spaces
+set history=100                                  " remember some stuff
+set laststatus=2                                 " set status line position
+set linebreak                                    " wrap at word
+set matchpairs=(:),[:],{:},<:>                   " highlight matching tags
+set mouse=a                                      " mouse support
+set number                                       " show line numbers
+set ruler                                        " show ruler in status line
+set scrolloff=8                                  " keep cursor 8 lines from top and bottom when page scrolls
+set shortmess+=A                                 " don't warn when there is an existing swap file
+set shiftwidth=2                                 " number of spaces to use for indent
+set showbreak=↪                                  " show break character when wrapping
+set showcmd                                      " show information about current command
+set showfulltag                                  " show the whole tag, not just the function name
+set showmode                                     " show mode in status line
+set softtabstop=2                                " use 2 spaces, interpret tab as indent
+set tabstop=2                                    " set tab width
+set textwidth=132                                " set width to 132
+set timeoutlen=300                               " wait 300 millis for mapped key
+set title                                        " set the current file name to the title
+set ttyfast                                      " fast terminal
+set whichwrap=h,l,[<]>],[<\>]                    " Make cursor keys wrap (] and \ are for right and left arrows).
+set wildmenu                                     " set menu for tab key
+set wildmode=list:longest,full                   " complete only up to the point of ambiguity
+
+" list of invisible character to show
+set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
+
+"set omnifunc=syntaxcomplete#Complete
+"autocmd FileType scala setlocal omnifunc=scalacomplete#CompleteTags
+"set completeopt=longest,menuone,preview
+"set tags=~/dotfiles/nvim/scalatags
+
+" --- Behaviors }}
+
+" --- Color Scheme {{
+colorscheme pencil                               " set color scheme
+set background=dark                              " important for dark color schemes
+set t_Co=256                                     " 256 color support
+" --- Color Scheme }}
+
+" --- Folding {{
+set foldlevel=1                                  " set fold level
+set foldlevelstart=10                            " start with fold level of 1
+set foldmethod=indent                            " fold based on indent level
+set foldnestmax=10                               " max 10 depth
+set nofoldenable                                 " don't fold files by default on open
+" --- Folding }}
+
+" --- Key Mappings {{
+let mapleader=","                                " remap leader to ,
+nnoremap <leader>f za                            " ,f to fold
+noremap U <C-R>                                  " ctrl-r for redo sucks, use uppercase U instead
+noremap  <leader>s :update<CR>                   " ,s to save
+vnoremap <leader>s <C-C>:update<CR>
+inoremap <leader>s <C-O>:update<CR>
+imap     <leader>e <esc>$                        " ,e to go to end of line 
+nnoremap <leader>e $
+vnoremap <leader>e $
+imap     <leader>b <esc>0                        ", b to go to beginning of line
+nnoremap <leader>b 0
+vnoremap <leader>b 0
+nnoremap <tab> %                                 " use tab instead of % to switch between matching pair
+vnoremap <tab> %
+nnoremap <leader>h :noh<cr>                      " toggle / clear highlights
+vmap <TAB> >>
+vmap <S-TAB> <<
+nmap <TAB> >>
+nmap <S-TAB> <<
+nnoremap <leader>i :set list!<CR>                " toggle invisible characters
+" --- Key Mappings }}
+
+" --- Search {{
+set hlsearch                                     " highlight search results
+set ignorecase                                   " set search to ignore case
+set incsearch                                    " incremental highlight as search is typed
+set smartcase                                    " case sensitive search when given caps
+set wrapscan                                     " set search to wrap lines
+" --- Search }}
+
+" --- File Configs {{
+" html
+autocmd FileType html setlocal shiftwidth=4
+autocmd FileType html setlocal tabstop=4
+autocmd FileType html setlocal softtabstop=4
+autocmd FileType html setlocal expandtab
+" markdown
+autocmd BufNewFile,BufReadPost *.md       set filetype=markdown
+autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
+" python
+autocmd FileType python setlocal shiftwidth=4
+autocmd FileType python setlocal tabstop=4
+autocmd FileType python setlocal softtabstop=4
+autocmd FileType python setlocal expandtab 
+" --- File Configs }}
+
+" --- Plugins {{
+
+" --- https://github.com/airblade/vim-gitgutter
+let g:gitgutter_sign_column_always=0
+let g:gitgutter_highlight_lines=1
+
+" --- https://github.com/bling/vim-airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'pencil'
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+let g:airline#extensions#tabline#enabled = 1
+
+" --- https://github.com/Yggdroot/indentLine
+let g:indentLine_char='┆'
+
+" --- https://github.com/Shougo/neocomplete.vim
+let g:acp_enableAtStartup = 0                                 " disable AutoComplPop
+if has('lua')                                                 " nvim doesn't support lua yet
+  let g:neocomplete#enable_at_startup = 1                     " use neocomplete
+endif
+let g:neocomplete#enable_smart_case = 1                       " use smart case
+let g:neocomplete#sources#syntax#min_keyword_length = 3       " minimum syntax keyword length
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+let g:neocomplete#sources#dictionary#dictionaries = {
+\ 'default' : '',
+\ 'scala' : $HOME.'/dotfiles/vim/dict/scala.dict'
+\ }
+
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}                     " define keywords
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y>  neocomplete#close_popup()
+"inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+" --- https://github.com/ervandew/supertab
+
+" --- http://vimawesome.com/plugin/tcomment
+
+" --- https://github.com/Shougo/unite.vim
+nmap <space> [unite]
+nnoremap [unite] <nop>
+let g:unite_data_directory = '~/.unite'
+set previewheight=20
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom#profile('default', 'context', {'start_insert' : 1, 'no_split' : 1, 'resize' : 0})
+"call unite#custom#source(
+"    \ 'file_rec,file_rec/async,file_mru,file,buffer,grep',
+"    \ 'ignore_pattern',
+"    \ join(['\.git/', '\.idea/', 'target/'], '\|'))
+let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup -g ""'
+
+" File searching using <space>f
+nnoremap <silent> [unite]f :<C-u>Unite -no-split -buffer-name=files -profile-name=buffer file_rec/async:!<cr>
+
+" Buffer switching using <space>b
+nnoremap <silent> [unite]b :<C-u>Unite -no-split -buffer-name=buffers buffer -quick-match<cr>
+
+" Grepping using <space>/
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts =
+\  '-i --nocolor --nogroup --hidden ' .
+\  '--ignore ''.hg'' ' .
+\  '--ignore ''.svn'' ' .
+\  '--ignore ''.git'' ' .
+\  '--ignore ''.idea'' ' .
+\  '--ignore ''target'' ' .
+\  '--ignore ''.bzr'''
+let g:unite_source_grep_recursive_opt = ''
+nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+
+" Function to close open unit window
+function! s:unite_settings()
+  imap <buffer> <C-j>      <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>      <Plug>(unite_select_previous_line)
+  nmap <buffer> <C-p>      <Plug>(unite_toggle_auto_preview)
+  nmap <buffer> <esc><esc> <Plug>(unite_exit)
+  imap <buffer> <esc><esc> <Plug>(unite_exit)
+  nnoremap <silent><buffer><expr> p
+  \  empty(filter(range(1, winnr('$')),
+  \  'getwinvar(v:val, "&previewwindow") != 0')) ?
+  \  unite#do_action('preview') : ":\<C-u>pclose!\<CR>"
+endfunction
+autocmd FileType unite call s:unite_settings()
+
+" --- https://github.com/Shougo/unite-outline
+nnoremap [unite]o :Unite -no-split -auto-preview outline<cr>
+
+" --- https://github.com/Shougo/vimfiler.vim
+nnoremap <silent> [unite]v   :<C-u>VimFiler<CR>
+nnoremap          [unite]ff  :<C-u>VimFilerExplorer<CR>
+let g:vimfiler_as_default_explorer = 1
+
+function! s:vimfiler_settings()
+  nmap <silent> <buffer> <esc><esc> <plug>(vimfiler_exit)
+  imap <silent> <buffer> <esc><esc> <plug>(vimfiler_exit)
+endfunction
+autocmd FileType vimfiler call s:vimfiler_settings()
+autocmd VimEnter * VimFilerExplorer
+
+" --- https://github.com/tpope/vim-markdown
+
+" --- https://github.com/terryma/vim-multiple-cursors
+
+" --- https://github.com/tpope/vim-surround
+
+" --- Plugins }}
+

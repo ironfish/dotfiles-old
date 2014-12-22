@@ -1,0 +1,14 @@
+ag.vim
+indentLine
+neobundle.vim
+supertab
+tabular
+tcomment_vim
+vim-airline
+vim-colors-pencil
+vim-fugitive
+vim-gitgutter
+vim-markdown
+vim-multiple-cursors
+vim-scala
+vim-surround

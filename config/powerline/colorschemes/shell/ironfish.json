@@ -1,0 +1,31 @@
+{
+	"name": "Ironfish color scheme for shell prompts",
+	"groups": {
+		"hostname":             { "fg": "brightyellow", "bg": "mediumorange", "attr": [] },
+		"cwd":                  { "fg": "white", "bg": "mediumpurple", "attr": [] },
+		"cwd:current_folder":   { "fg": "white", "bg": "mediumpurple", "attr": ["bold"] },
+		"cwd:divider":          { "fg": "white", "bg": "mediumpurple", "attr": [] },
+		"branch":               { "fg": "gray9", "bg": "gray3", "attr": [] },
+		"branch_dirty":         { "fg": "brightyellow", "bg": "gray3", "attr": [] },
+		"branch_clean":         { "fg": "gray9", "bg": "gray3", "attr": [] },
+		"branch:divider":       { "fg": "gray7", "bg": "gray2", "attr": [] },
+		"jobnum":               { "fg": "brightyellow", "bg": "mediumorange", "attr": [] },
+		"user":                 { "fg": "white", "bg": "darkblue", "attr": ["bold"] },
+		"user:divider":         { "fg": "white", "bg": "darkblue", "attr": [] },
+		"date":                 { "fg": "white", "bg": "mediumgreen", "attr": [] },
+		"time":                 { "fg": "white", "bg": "mediumgreen", "attr": [] },
+		"time:divider":         { "fg": "white", "bg": "mediumgreen", "attr": [] },
+		"exit_fail":            { "fg": "white", "bg": "darkestred", "attr": [] },
+		"exit_success":         { "fg": "white", "bg": "darkestgreen", "attr": [] },
+		"environment":          { "fg": "white", "bg": "darkestgreen", "attr": [] },
+		"mode":                 { "fg": "darkestgreen", "bg": "brightgreen", "attr": ["bold"] },
+		"attached_clients":     { "fg": "white", "bg": "darkestgreen", "attr": [] }
+	},
+	"mode_translations": {
+		"vicmd": {
+			"groups": {
+				"mode": {"fg": "darkestcyan", "bg": "white", "attr": ["bold"]}
+			}
+		}
+	}
+}

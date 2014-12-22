@@ -1,91 +1,180 @@
-# dotfiles@ddevore
+# dotfiles@ironfish
 
 ## Disclaimer
 
-I'm a mac head so this while this configuration may work on other nixes, its OSX centric. 
+I'm a mac head so this while this configuration may work on other nixes, its OSX centric, and is a work in process. This means it will definitely change over time.
 
-## Assumptions
+## OSX Clean Install
 
-This configuration is a work in process and will definitely change over time. Additionally it assumes you have certain software installed like [MacVim](http://code.google.com/p/macvim/), [CTAGS](http://ctags.sourceforge.net/), [Scala](http://www.scala-lang.org/), [SBT](https://github.com/harrah/xsbt/wiki/), [Ack](http://betterthangrep.com/), etc. I recommend using [Homebrew](http://mxcl.github.com/homebrew/) for installing this stuff. I also use [ITerm 2](http://www.iterm2.com/#/section/home) instead of Apple's Terminal.
+Do yourself a favor and don't upgrade, do a clean install.
 
-NOTE: I'm seriously considering switching to [ZSH](https://github.com/robbyrussell/oh-my-zsh/) so you may see many changes to these files in the future.
+### Create Bootable USB Drive
 
-## Setup
+Thanks [Mashable](http://mashable.com/2014/10/17/clean-install-os-x-yosemite/)!
 
-Pull the files down:
-<pre>
-$ git clone https://github.com/ddevore/dotfiles.git
-</pre>
+1. Opening up Disk Utility, it's in the Utilities folder in Applications.
+2. Select your USB drive and click on the `Erase` tab. Select `Mac OS Extended (Journaled)` as the format type and keep the name as `OSXBoot`.
+3. Click the `Erase` button. This will take a few minutes, but will erase your USB drive will be erased and format it with the proper file system.
+4. Downloaded the latest installer (i.e. Yosemite) from the Mac App Store; use the following to create a bootable USB drive. (you will need at least 8 Gb to play with).
+5. Run the following from terminal.
 
-After pulling to your home `~` directory, you will need to setup the following softlinks.
+```bash
+# assumes your usb drive is named OSXBoot and is mounted
+$ sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/OSXBoot --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --nointeraction
+```
 
-<pre>
+## Development Setup
+
+### Xcode Install
+
+1. Install Xcode from the Mac App Store.
+2. Install command line tools with `xcode-select --install`
+
+### Homebrew Install
+
+[Homebrew](http://brew.sh) is pretty much the defacto standard for installing nix stuff on OSX. [Cask](http://caskroom.io), and [Cask Versions](https://github.com/caskroom/homebrew-versions) are awesome too.
+
+```bash
+# install homebrew
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# check the install
+$ brew doctor
+# install cask
+$ brew install caskroom/cask/brew-cask
+# install cask versions
+$ brew tap caskroom/versions
+```
+
+### Languages
+
+```bash
+# install python stuff.
+$ brew install python
+$ pip install --upgrade setuptools
+$ pip install --upgrade pip
+
+# install java
+$ brew cask install java
+
+# install scala stuff
+$ brew install scala --with-docs --with-src
+$ brew install sbt
+```
+
+### Powerline
+
+Power line is a statusline plugin for vim, bash, zsh, tmux, etc.
+
+* [Powerline Source](https://github.com/powerline/powerline)
+* [Powerline Docs](https://powerline.readthedocs.org/en/latest/)
+
+```bash
+$ pip install git+git://github.com/Lokaltog/powerline
+```
+
+Because we installed python w/ homebrew we can't user `--user` option @see [Installation on OSX](https://powerline.readthedocs.org/en/latest/installation/osx.html)
+
+```bash
+# used for various segments for powerline
+$ pip install --upgrade psutil
+```
+
+### vim
+
+```bash
+# install macvim as main vim
+$ brew install macvim --override-system-vim --with-luai
+$ brew install ctags
+```
+
+### neovim
+
+[neovim](http://neovim.org) is considered by some to be the next generation of vim.
+
+```bash
+$ brew install neovim
+$ pip install --upgrade neovim
+```
+
+### tmux
+
+```bash
+$ brew install tmux
+# required for tmux to work right on OSX
+$ brew install reattach-to-user-namespace
+```
+
+### Apps and Utils
+
+```bash
+# much better than ack
+$ brew install ag
+
+# install git
+$ brew install git
+
+$ brew cask install bartender
+$ brew cask install dropbox
+$ brew cask install flowdock
+$ brew cask install istat-menus
+$ brew cask install iterm2
+$ brew cask install skype
+$ brew cask install sublime-text-dev
+$ brew cask install vimr
+$ brew cask install vlc
+```
+
+### Clone Repo
+
+```bash
+$ git clone https://github.com/ironfish/dotfiles.git
+```
+
+### Softlinks and Folders
+
+```bash
 $ cd ~
-
-$ ln -s ~/dotfiles/aliases .aliases
-
-<i># NOTE: This files not included as you probably don't want my bash history anyways. ;-)</i>
-$ ln -s ~/dotfiles/bash_history .bash_history 
-
-$ ln -s ~/dotfiles/bash_profile .bash_profile
-$ ln -s ~/dotfiles/bash_prompt .bash_prompt
+$ ln -s ~/dotfiles/bash/bash_aliases .bash_aliases
+$ ln -s ~/dotfiles/bash/bash_profile .bash_profile
+$ ln -s ~/dotfiles/bash/bash_prompt .bash_prompt
 $ ln -s ~/dotfiles/vim/ctags .ctags
-$ ln -s ~/dotfiles/sbtconfig .sbtconfig
-$ ln -s ~/dotfiles/vim .vim
+$ ln -s ~/dotfiles/vim/ .vim
 $ ln -s ~/dotfiles/vim/vimrc .vimrc
-$ ln -s ~/dotfiles/gitignore .gitignore
-$ ln -s ~/dotfiles/gitconfig .gitconfig
-</pre>
+$ ln -s ~/dotfiles/git/gitignore .gitignore
+$ ln -s ~/dotfiles/git/gitconfig .gitconfig
+$ ln -s ~/dotfiles/nvim/ .nvim
+$ ln -s ~/dotfiles/nvim/nvimrc .nvimrc
+$ ln -s ~/dotfiles/tmux/tmux.conf .tmux.conf
+$ ln -s ~/dotfiles/config/ .config
 
-Since you probably don't want my vim backup, tmp, undo and view history, they are not included. You'll need to setup the following directories in the `~/dotfiles/vim` directory as I don't use the standard vim directory names."
-<pre>
-$ cd ~/dotfiles/vim
+# setup tmp directory and files
+$ mkdir ~/dotfiles/tmp
+$ cd ~/dotfiles/tmp
 $ mkdir vim-backup
 $ mkdir vim-tmp
 $ mkdir vim-undo
 $ mkdir vim-view
 $ mkdir sessions
-</pre>
+$ touch bash_history
+$ touch nviminfo
+$ touch nvimlog
+$ touch viminfo
+$ ln -s ~/dotfiles/tmp/bash_history .bash_history 
+$ ln -s ~/dotfiles/tmp/nviminfo .nviminfo 
+$ ln -s ~/dotfiles/tmp/nvimlog .nvimlog 
+$ ln -s ~/dotfiles/tmp/viminfo .viminfo 
 
-I don't include my git user info in my gitconfig. I set them up as environment variables in `~/.secrets`. You will want to do the same.
-
-<pre>
+# setup secrets file
 $ cd ~/dotfiles
 $ vim secrets
 
-<i># Add the following to the secrets file.</i>
-# Set your git user info
+# add the following to secrets
 export GIT_AUTHOR_NAME='Your Name'
 export GIT_AUTHOR_EMAIL='you@domain.com'
 export GIT_COMMITTER_NAME='Your Name'
 export GIT_COMMITTER_EMAIL='you@domain.com'
 
-<i># Add softlink so git will pick your credentials up.</i>
+# add softlink so git will pick your credentials up
 $ cd ~
 $ ln -s ~/dotfiles/secrets .secrets
-</pre>
-
-## Vim Plugings
-
-I use a lot of plugins for vim and manage them with [Vundle](https://github.com/gmarik/vundle/). It's a great vim bundle manager similar to [Pathogen](https://github.com/tpope/vim-pathogen/). You'll need to install Vundle to use the  plugins listed in my vimrc. I highly, highly recommend you read the Vundle documentation but this is what you need to do to get started:
-
-<pre>
-<i># This assumes you setup the .vim soflink listed above.</i>
-$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-</pre>
-
-Next you will need to launch `vim` and run `:BundleInstall`.
-
-**NOTE**: Some of the bundles require external software like Ack, Scala, etc. As mentioned above, I recommend you use Hombrew to install these.
-
-### Command-T
-I use [command-t](https://wincent.com/products/command-t) as a quick launch for opening files and managing buffers. As noted above I also use vundle to manage bundles and this is how command-t gets install but there are some additional steps required to get it to work as command-t relies on on a compiled C extention.
-
-<pre>
-$ cd ~/dotfiles/vim/bundle/Command-T
-$ rake make
-</pre>
-
-## Colors
-
-Colors can be a complicated thing in terminal land. In the `~/dotfiles/utilities` directory I've included some scripts that are pretty cool. They will print out how colors will look in your terminal.
+```

@@ -21,3 +21,6 @@ bash_prompt_old
 .idea_modules
 .settings
 snapshots/*
+tmp
+tmp/*
+*.swp

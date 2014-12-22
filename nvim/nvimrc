@@ -1,0 +1,200 @@
+" vim: set foldmarker={{,}} foldmethod=marker:
+" --- Bundles {{
+call plug#begin('~/.nvim/plugged')                         " https://github.com/junegunn/vim-plug
+
+Plug 'https://github.com/tpope/vim-fugitive'               " git: wrapper for commands
+Plug 'https://github.com/airblade/vim-gitgutter'           " git: diff in gutter
+Plug 'https://github.com/rking/ag.vim'                     " grep: 'silver_searcher' replacement for ack
+Plug 'https://github.com/godlygeek/tabular'                " util: filtering and alignment
+"Plug 'https://github.com/plasticboy/vim-markdown'          " lang: markdown support
+Plug 'https://github.com/reedes/vim-pencil'
+Plug 'https://github.com/derekwyatt/vim-scala'             " lang: scala syntax support and more
+Plug 'https://github.com/reedes/vim-colors-pencil'         " theme for markdown and more
+Plug 'https://github.com/tpope/vim-surround'               " util: surrounds with brackets, quotes, etc.
+Plug 'https://github.com/tomtom/tcomment_vim'              " util: comment out code
+Plug 'https://github.com/terryma/vim-multiple-cursors'     " util: multiple cursor support like sublime
+Plug 'https://github.com/ervandew/supertab'                " util: completion
+Plug 'https://github.com/bling/vim-airline'                " ui: mean status / tabline for vim
+Plug 'https://github.com/Yggdroot/indentLine'              " ui: indents as thin vertical lines
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+
+call plug#end()
+" --- Bundles }}
+
+" --- Behaviors {{
+filetype plugin on
+set autoindent                                             " copy indent to new line
+set autoread                                               " when a file has changed outside of nvim
+set backspace=indent,eol,start                             " backspace over autoindent, eol, start to join lines
+set clipboard=unnamed                                      " use system clipboard
+set colorcolumn=+1                                         " set the right margin
+set cursorcolumn                                           " highlight the current column
+set cursorline                                             " highlight the current line
+set encoding=utf-8                                         " default set by neovim
+set expandtab                                              " replace tabs with spaces
+set history=100                                            " remember some stuff
+set laststatus=2                                           " set status line position
+set linebreak                                              " wrap at word
+set matchpairs=(:),[:],{:},<:>                             " highlight matching tags
+set mouse=a                                                " mouse support
+set number                                                 " show line numbers
+set ruler                                                  " show ruler in status line
+set scrolloff=8                                            " keep cursor 8 lines from top and bottom when page scrolls
+set shortmess+=A                                           " don't warn when there is an existing swap file
+set shiftwidth=2                                           " number of spaces to use for indent
+set showbreak=↪                                            " show break character when wrapping
+set showcmd                                                " show information about current command
+set showfulltag                                            " show the whole tag, not just the function name
+set showmode                                               " show mode in status line
+set softtabstop=2                                          " use 2 spaces, interpret tab as indent
+set tabstop=2                                              " set tab width
+set textwidth=132                                          " set width to 132
+set timeoutlen=300                                         " wait 300 millis for mapped key
+set title                                                  " set the current file name to the title
+set ttyfast                                                " fast terminal
+set whichwrap=h,l,[<]>],[<\>]                              " Make cursor keys wrap (] and \ are for right and left arrows).
+set wildmenu                                               " set menu for tab key
+set wildmode=list:longest,full                             " complete only up to the point of ambiguity
+
+" list of invisible character to show
+set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
+" --- Behaviors }}
+
+" --- Color Scheme {{
+colorscheme pencil                                         " set color scheme
+set background=dark                                        " important for dark color schemes
+set t_Co=256                                               " 256 color support
+" --- Color Scheme }}
+
+" --- Folding {{
+set foldlevel=1                                            " set fold level
+set foldlevelstart=10                                      " start with fold level of 1
+set foldmethod=indent                                      " fold based on indent level
+set foldnestmax=10                                         " max 10 depth
+set nofoldenable                                           " don't fold files by default on open
+" --- Folding }}
+
+" --- Key Mappings {{
+let mapleader=","                                          " remap leader to ,
+nnoremap <leader>f za                                      " ,f to fold
+noremap U <C-R>                                            " ctrl-r for redo sucks, use uppercase U instead
+noremap  <leader>s :update<CR>                             " ,s to save
+vnoremap <leader>s <C-C>:update<CR>
+inoremap <leader>s <C-O>:update<CR>
+imap     <leader>e <esc>$                                  " ,e to go to end of line
+nnoremap <leader>e $
+vnoremap <leader>e $
+imap     <leader>b <esc>0                                  ", b to go to beginning of line
+nnoremap <leader>b 0
+vnoremap <leader>b 0
+nnoremap <tab> %                                           " use tab instead of % to switch between matching pair
+vnoremap <tab> %
+nnoremap <leader>h :noh<cr>                                " toggle / clear highlights
+nnoremap <leader>i :set list!<CR>                          " toggle invisible characters
+nnoremap <leader>d :bd<CR>                                 " close buffer
+nnoremap <leader>v <C-w>v                                  " vertical window split
+nnoremap <leader><leader>l <C-w><left>                     " move to left split
+nnoremap <leader><leader>r <C-w><right>                    " move to right split
+nnoremap <leader><leader>h <C-w>s                          " horizontal window split
+nnoremap <leader><leader>d <C-w><down>                     " move to down split
+nnoremap <leader><leader>u <C-w><up>                       " move to up split
+
+" --- Key Mappings }}
+
+" --- Search {{
+set hlsearch                                               " highlight search results
+set ignorecase                                             " set search to ignore case
+set incsearch                                              " incremental highlight as search is typed
+set smartcase                                              " case sensitive search when given caps
+set wrapscan                                               " set search to wrap lines
+" --- Search }}
+
+" --- File Configs {{
+" html
+autocmd FileType html setlocal shiftwidth=4
+autocmd FileType html setlocal tabstop=4
+autocmd FileType html setlocal softtabstop=4
+autocmd FileType html setlocal expandtab
+" markdown
+autocmd BufNewFile,BufReadPost *.md       set filetype=markdown
+autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
+" python
+autocmd FileType python setlocal shiftwidth=4
+autocmd FileType python setlocal tabstop=4
+autocmd FileType python setlocal softtabstop=4
+autocmd FileType python setlocal expandtab 
+" --- File Configs }}
+
+" --- Plugins {{
+
+" --- vim-gitgutter
+let g:gitgutter_sign_column_always=0
+let g:gitgutter_highlight_lines=1
+
+" --- vim-airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'pencil'
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+let g:airline#extensions#tabline#enabled = 1
+
+" --- fzf {{
+" --- Search like ctrlp
+" source:  use ag with (l=files-with-matches, g=PATTERN)
+" sink:    vim edit
+" options: fzf multi-select
+nnoremap <space><space> :call fzf#run({
+\  'source':      'ag -l -g ""',
+\  'sink':        'e',
+\  'options':     '-m',
+\  'tmux_height': '40%'
+\ })<CR>
+" open in a new tab
+nnoremap <space>t :call fzf#run({
+\  'source':      'ag -l -g ""',
+\  'sink':        'tabe',
+\  'options':     '-m',
+\  'tmux_height': '40%'
+\ })<CR>
+" vertical split
+nnoremap <space>v :call fzf#run({
+\  'source':      'ag -l -g ""',
+\  'sink':        'vertical botright split',
+\  'tmux_width':  winwidth('.')/2
+\ })<CR>
+" horizontal split
+nnoremap <space>h :call fzf#run({
+\  'source':      'ag -l -g ""',
+\  'sink':        'botright split',
+\  'tmux_height': '40%'
+\ })<CR>
+
+" --- Buffer select
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <space>b :call fzf#run({
+\  'source':      reverse(<sid>buflist()),
+\  'sink':        function('<sid>bufopen'),
+\  'options':     '+m',
+\  'tmux_height': '40%'
+\ })<CR>
+" --- fzf }}
+
+" --- indentLine
+let g:indentLine_char='┆'
+
+" --- Plugins }}
+

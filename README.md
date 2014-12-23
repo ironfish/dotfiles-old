@@ -138,12 +138,14 @@ $ ln -s ~/dotfiles/bash/bash_aliases .bash_aliases
 $ ln -s ~/dotfiles/bash/bash_profile .bash_profile
 $ ln -s ~/dotfiles/bash/bash_prompt .bash_prompt
 $ ln -s ~/dotfiles/vim/ctags .ctags
-$ ln -s ~/dotfiles/vim/ .vim
-$ ln -s ~/dotfiles/vim/vimrc .vimrc
-$ ln -s ~/dotfiles/git/gitignore .gitignore
-$ ln -s ~/dotfiles/git/gitconfig .gitconfig
+
+# neovim and vim share the same rc and directory
+$ ln -s ~/dotfiles/nvim/ .vim
+$ ln -s ~/dotfiles/nvim/nvimrc .vimrc
 $ ln -s ~/dotfiles/nvim/ .nvim
 $ ln -s ~/dotfiles/nvim/nvimrc .nvimrc
+
+$ ln -s ~/dotfiles/git/gitconfig .gitconfig
 $ ln -s ~/dotfiles/tmux/tmux.conf .tmux.conf
 $ ln -s ~/dotfiles/config/ .config
 

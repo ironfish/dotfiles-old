@@ -1,4 +1,3 @@
-" vim: set foldmarker={{,}} foldmethod=marker:
 " --- Bundles {{
 call plug#begin('~/.nvim/plugged')                         " https://github.com/junegunn/vim-plug
 
@@ -17,6 +16,8 @@ Plug 'https://github.com/ervandew/supertab'                " util: completion
 Plug 'https://github.com/bling/vim-airline'                " ui: mean status / tabline for vim
 Plug 'https://github.com/Yggdroot/indentLine'              " ui: indents as thin vertical lines
 
+Plug 'https://github.com/ironfish/scala-api-complete'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 call plug#end()
@@ -31,10 +32,12 @@ set clipboard=unnamed                                      " use system clipboar
 set colorcolumn=+1                                         " set the right margin
 set cursorcolumn                                           " highlight the current column
 set cursorline                                             " highlight the current line
+set directory=~/dotfiles/tmp/vim-tmp/                      " swap file directory
 set encoding=utf-8                                         " default set by neovim
 set expandtab                                              " replace tabs with spaces
 set history=100                                            " remember some stuff
 set laststatus=2                                           " set status line position
+set lazyredraw                                             " redraw only when needed
 set linebreak                                              " wrap at word
 set matchpairs=(:),[:],{:},<:>                             " highlight matching tags
 set mouse=a                                                " mouse support
@@ -53,6 +56,7 @@ set textwidth=132                                          " set width to 132
 set timeoutlen=300                                         " wait 300 millis for mapped key
 set title                                                  " set the current file name to the title
 set ttyfast                                                " fast terminal
+set viewdir=~/dotfiles/tmp/vim-view                        " view directory
 set whichwrap=h,l,[<]>],[<\>]                              " Make cursor keys wrap (] and \ are for right and left arrows).
 set wildmenu                                               " set menu for tab key
 set wildmode=list:longest,full                             " complete only up to the point of ambiguity
@@ -68,11 +72,12 @@ set t_Co=256                                               " 256 color support
 " --- Color Scheme }}
 
 " --- Folding {{
-set foldlevel=1                                            " set fold level
-set foldlevelstart=10                                      " start with fold level of 1
-set foldmethod=indent                                      " fold based on indent level
-set foldnestmax=10                                         " max 10 depth
 set nofoldenable                                           " don't fold files by default on open
+set foldmarker={{,}}                                       " fold marker
+set foldmethod=marker                                      " fold based on indent level
+set foldlevel=1
+set foldlevelstart=10
+set foldnestmax=10
 " --- Folding }}
 
 " --- Key Mappings {{
@@ -90,7 +95,8 @@ nnoremap <leader>b 0
 vnoremap <leader>b 0
 nnoremap <tab> %                                           " use tab instead of % to switch between matching pair
 vnoremap <tab> %
-nnoremap <leader>h :noh<cr>                                " toggle / clear highlights
+nnoremap <leader>n :call ToggleNumber()<CR>                " toggle number/relativenumber
+nnoremap <leader>h :noh<cr>                                " toggle/clear highlights
 nnoremap <leader>i :set list!<CR>                          " toggle invisible characters
 nnoremap <leader>d :bd<CR>                                 " close buffer
 nnoremap <leader>v <C-w>v                                  " vertical window split
@@ -124,6 +130,18 @@ autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal tabstop=4
 autocmd FileType python setlocal softtabstop=4
 autocmd FileType python setlocal expandtab 
+" scala
+autocmd BufNewFile,BufRead *.scala set filetype=scala
+autocmd FileType scala setlocal shiftwidth=2
+autocmd FileType scala setlocal tabstop=2
+autocmd FileType scala setlocal softtabstop=2
+autocmd FileType scala setlocal expandtab
+autocmd FileType scala setlocal foldmethod=indent
+autocmd FileType scala setlocal foldlevel=1
+autocmd FileType scala setlocal foldlevelstart=10
+autocmd FileType scala setlocal foldnestmax=10
+autocmd FileType scala setlocal nofoldenable
+autocmd FileType scala setlocal omnifunc=scalaapi#complete
 " --- File Configs }}
 
 " --- Plugins {{
@@ -196,5 +214,28 @@ nnoremap <space>b :call fzf#run({
 " --- indentLine
 let g:indentLine_char='┆'
 
+" --- supertab
+
+" @see - https://github.com/ervandew/supertab/issues/99
+"let g:SuperTabDefaultCompletionType = "context"
+"let g:SuperTabContextDefaultCompletionType = "<c-p>"
+"let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+"let g:SuperTabContextDiscoverDiscovery = ["&omnifunc:<c-x><c-o>"]
+"autocmd FileType * 
+"  \ if &omnifunc != '' |
+"  \ call SuperTabChain(&omnifunc, "<c-p>") |
+"  \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+"  \ endif
+
 " --- Plugins }}
 
+" --- functions {{
+function! ToggleNumber()
+  if(&relativenumber == 1)
+    set norelativenumber
+    set number
+  else
+    set relativenumber
+  endif
+endfunction
+" --- functions }}

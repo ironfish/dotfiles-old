@@ -1,0 +1,12 @@
+[submodule "themes/iTerm2-Color-Schemes"]
+	path = themes/iTerm2-Color-Schemes
+	url = https://github.com/mbadolato/iTerm2-Color-Schemes
+[submodule "themes/fonts"]
+	path = themes/fonts
+	url = https://github.com/powerline/fonts
+[submodule "themes/base16-iterm2"]
+	path = themes/base16-iterm2
+	url = https://github.com/chriskempson/base16-iterm2
+[submodule "themes/base16-shell"]
+	path = themes/base16-shell
+	url = https://github.com/chriskempson/base16-shell

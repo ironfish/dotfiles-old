@@ -1,3 +1,7 @@
+if &shell=~# 'fish$'
+  set shell=sh
+endif
+
 " --- Bundles {{
 call plug#begin('~/.nvim/plugged')                         " https://github.com/junegunn/vim-plug
 
@@ -5,23 +9,25 @@ Plug 'https://github.com/tpope/vim-fugitive'               " git: wrapper for co
 Plug 'https://github.com/airblade/vim-gitgutter'           " git: diff in gutter
 Plug 'https://github.com/rking/ag.vim'                     " grep: 'silver_searcher' replacement for ack
 Plug 'https://github.com/godlygeek/tabular'                " util: filtering and alignment
-"Plug 'https://github.com/plasticboy/vim-markdown'          " lang: markdown support
-Plug 'https://github.com/reedes/vim-pencil'
+Plug 'https://github.com/plasticboy/vim-markdown'          " lang: markdown support
+"Plug 'https://github.com/reedes/vim-pencil'
 Plug 'https://github.com/derekwyatt/vim-scala'             " lang: scala syntax support and more
 Plug 'https://github.com/reedes/vim-colors-pencil'         " theme for markdown and more
+Plug 'https://github.com/altercation/vim-colors-solarized' " theme solarized
+Plug 'https://github.com/chriskempson/base16-vim'          " theme base-16
+Plug 'https://github.com/itspriddle/vim-marked'            " open marked for markdown preview
 Plug 'https://github.com/tpope/vim-surround'               " util: surrounds with brackets, quotes, etc.
 Plug 'https://github.com/tomtom/tcomment_vim'              " util: comment out code
 Plug 'https://github.com/terryma/vim-multiple-cursors'     " util: multiple cursor support like sublime
-Plug 'https://github.com/ervandew/supertab'                " util: completion
+Plug 'https://github.com/ervandew/supertab'                " util: tab completion
 Plug 'https://github.com/bling/vim-airline'                " ui: mean status / tabline for vim
 Plug 'https://github.com/Yggdroot/indentLine'              " ui: indents as thin vertical lines
-
 Plug 'https://github.com/ironfish/scala-api-complete'
-
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 call plug#end()
 " --- Bundles }}
+
 
 " --- Behaviors {{
 filetype plugin on
@@ -66,9 +72,14 @@ set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
 " --- Behaviors }}
 
 " --- Color Scheme {{
-colorscheme pencil                                         " set color scheme
+let base16colorspace=256                                   " needed for base16 colorschemes
+colorscheme base16-tomorrow
+"colorscheme base16-monokai
+"colorscheme base16-twilight
+"colorscheme solarized
+"colorscheme pencil
 set background=dark                                        " important for dark color schemes
-set t_Co=256                                               " 256 color support
+"set t_Co=256                                               " 256 color support
 " --- Color Scheme }}
 
 " --- Folding {{
@@ -90,7 +101,7 @@ inoremap <leader>s <C-O>:update<CR>
 imap     <leader>e <esc>$                                  " ,e to go to end of line
 nnoremap <leader>e $
 vnoremap <leader>e $
-imap     <leader>b <esc>0                                  ", b to go to beginning of line
+imap     <leader>b <esc>0                                  " ,b to go to beginning of line
 nnoremap <leader>b 0
 vnoremap <leader>b 0
 nnoremap <tab> %                                           " use tab instead of % to switch between matching pair
@@ -105,7 +116,8 @@ nnoremap <leader><leader>r <C-w><right>                    " move to right split
 nnoremap <leader><leader>h <C-w>s                          " horizontal window split
 nnoremap <leader><leader>d <C-w><down>                     " move to down split
 nnoremap <leader><leader>u <C-w><up>                       " move to up split
-
+nnoremap j gj                                              " move cursor down within non-breaking lines
+nnoremap k gk                                              " move cursor up within non-breaking lines
 " --- Key Mappings }}
 
 " --- Search {{
@@ -129,7 +141,7 @@ autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal tabstop=4
 autocmd FileType python setlocal softtabstop=4
-autocmd FileType python setlocal expandtab 
+autocmd FileType python setlocal expandtab
 " scala
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 autocmd FileType scala setlocal shiftwidth=2
@@ -142,17 +154,22 @@ autocmd FileType scala setlocal foldlevelstart=10
 autocmd FileType scala setlocal foldnestmax=10
 autocmd FileType scala setlocal nofoldenable
 autocmd FileType scala setlocal omnifunc=scalaapi#complete
+"autocmd FileType scala ScalaApiLoad
 " --- File Configs }}
 
 " --- Plugins {{
 
 " --- vim-gitgutter
-let g:gitgutter_sign_column_always=0
-let g:gitgutter_highlight_lines=1
+let g:gitgutter_sign_column_always=0                       " disable gutter when gitgutter disabled
+let g:gitgutter_enabled = 1                                " enable at start
+let g:gitgutter_signs = 1                                  " enable signs
+let g:gitgutter_highlight_lines=1                          " enable line highlight
+nnoremap <leader>gg :GitGutterToggle<CR>
 
 " --- vim-airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'pencil'
+"let g:airline_theme = 'pencil'
+let g:airline_theme = 'base16'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -192,20 +209,22 @@ nnoremap <space>h :call fzf#run({
 \ })<CR>
 
 " --- Buffer select
-function! s:buflist()
+function! BufList()
   redir => ls
   silent ls
   redir END
   return split(ls, '\n')
 endfunction
 
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+function! BufOpen(e)
+  execute 'buffer'. matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-nnoremap <space>b :call fzf#run({
-\  'source':      reverse(<sid>buflist()),
-\  'sink':        function('<sid>bufopen'),
+"\  'source':      reverse(<sid>buflist()),
+"\  'sink':        function('<sid>bufopen'),
+nnoremap <silent> <space>b :call fzf#run({
+\  'source':      reverse(BufList()),
+\  'sink':        function('BufOpen'),
 \  'options':     '+m',
 \  'tmux_height': '40%'
 \ })<CR>
@@ -215,18 +234,16 @@ nnoremap <space>b :call fzf#run({
 let g:indentLine_char='┆'
 
 " --- supertab
-
-" @see - https://github.com/ervandew/supertab/issues/99
-"let g:SuperTabDefaultCompletionType = "context"
-"let g:SuperTabContextDefaultCompletionType = "<c-p>"
-"let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-"let g:SuperTabContextDiscoverDiscovery = ["&omnifunc:<c-x><c-o>"]
-"autocmd FileType * 
-"  \ if &omnifunc != '' |
-"  \ call SuperTabChain(&omnifunc, "<c-p>") |
-"  \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-"  \ endif
-
+"@see - https://github.com/ervandew/supertab/issues/99
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-p>"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextDiscoverDiscovery = ["&omnifunc:<c-x><c-o>"]
+autocmd FileType *
+  \ if &omnifunc != '' |
+  \ call SuperTabChain(&omnifunc, "<c-p>") |
+  \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+  \ endif
 " --- Plugins }}
 
 " --- functions {{

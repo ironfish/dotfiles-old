@@ -13,6 +13,7 @@ alias la='ls -al'
 alias sp='subl --project "$@"'
 alias v='open -a VimR'
 # Directory shortcuts.
+alias gn='cd ~/Dropbox/Notes'
 alias gw='cd ~/workspace'
 alias gwt='cd ~/workspace/typesafe'
 alias gww='cd ~/workspace/ww'

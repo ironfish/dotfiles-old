@@ -8,8 +8,8 @@ shopt -s nocaseglob                                            # case insensitiv
 # --- Load }}
 
 # --- Colors {{
-export CLICOLOR=1                                              # darwin's bash shell is different from linus @see man ls
-export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD                         # good for dark backgrounds
+#export CLICOLOR=1                                              # darwin's bash shell is different from linus @see man ls
+#export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD                         # good for dark backgrounds
 # --- Colors }}
 
 # --- Homebrew {{

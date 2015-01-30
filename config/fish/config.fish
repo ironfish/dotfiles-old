@@ -6,7 +6,7 @@ set fish_theme bobthefish-dkd
 #set -g theme_display_user yes
 set -g theme_display_ruby no
 
-eval sh $HOME/dotfiles/themes/base16-shell/base16-tomorrow.dark.sh
+#eval sh $HOME/dotfiles/themes/base16-shell/base16-tomorrow.dark.sh
 #eval sh $HOME/dotfiles/themes/base16-shell/base16-monokai.dark.sh
 #eval sh $HOME/dotfiles/themes/base16-shell/base16-twilight.dark.sh
 

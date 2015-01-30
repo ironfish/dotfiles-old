@@ -71,17 +71,6 @@ set wildmode=list:longest,full                             " complete only up to
 set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
 " --- Behaviors }}
 
-" --- Color Scheme {{
-let base16colorspace=256                                   " needed for base16 colorschemes
-colorscheme base16-tomorrow
-"colorscheme base16-monokai
-"colorscheme base16-twilight
-"colorscheme solarized
-"colorscheme pencil
-set background=dark                                        " important for dark color schemes
-"set t_Co=256                                               " 256 color support
-" --- Color Scheme }}
-
 " --- Folding {{
 set nofoldenable                                           " don't fold files by default on open
 set foldmarker={{,}}                                       " fold marker
@@ -157,25 +146,45 @@ autocmd FileType scala setlocal omnifunc=scalaapi#complete
 "autocmd FileType scala ScalaApiLoad
 " --- File Configs }}
 
-" --- Plugins {{
+" --- Color Scheme {{
+set background=dark                                        " important for dark color schemes
+"set t_Co=256                                               " 256 color support
 
-" --- vim-gitgutter
-let g:gitgutter_sign_column_always=0                       " disable gutter when gitgutter disabled
-let g:gitgutter_enabled = 1                                " enable at start
-let g:gitgutter_signs = 1                                  " enable signs
-let g:gitgutter_highlight_lines=1                          " enable line highlight
-nnoremap <leader>gg :GitGutterToggle<CR>
+"let base16colorspace=256                                   " needed for base16 colorschemes
+"colorscheme base16-tomorrow
+"colorscheme base16-monokai
+"colorscheme base16-twilight
+"let g:airline_theme = 'base16'
+
+colorscheme solarized
+let g:solarized_termcolors=256
+let g:solarized_underline = 0
+let g:solarized_contrast = "high"
+highlight clear SignColumn                                  " Sign Column made by solarized color is strange, clear it.
+call gitgutter#highlight#define_highlights()                " vim-gitgutter will use Sign Column to set its color, reload it.
+let g:airline_theme = 'solarized'                           " set airblade's theme to soloraized.
+
+"colorscheme pencil
+"let g:airline_theme = 'pencil'
+" --- Color Scheme }}
+
+" --- Plugins {{
 
 " --- vim-airline
 let g:airline_powerline_fonts = 1
-"let g:airline_theme = 'pencil'
-let g:airline_theme = 'base16'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
 let g:airline#extensions#tabline#enabled = 1
+
+" --- vim-gitgutter
+let g:gitgutter_sign_column_always=0                       " disable gutter when gitgutter disabled
+let g:gitgutter_enabled = 1                                " enable at start
+let g:gitgutter_signs = 1                                  " enable signs
+let g:gitgutter_highlight_lines=0                          " enable line highlight
+nnoremap <leader>gg :GitGutterToggle<CR>
 
 " --- fzf {{
 " --- Search like ctrlp

@@ -17,6 +17,8 @@ bin/*
 config/fish/config.secret.*
 config/fish/fish_history
 config/fish/fishd*
+nvim/autoload/*
+nvim/bundle/*
 nvim/plugged/*
 secrets
 snapshots/*

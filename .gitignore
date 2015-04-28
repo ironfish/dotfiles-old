@@ -5,6 +5,7 @@
 .history
 .idea
 .idea_modules
+*.log
 .project
 .settings
 *.sublime-project

@@ -2,7 +2,7 @@ if &shell=~# 'fish$'
   set shell=/bin/sh
 endif
 
-" --- Bundles {{
+" --- bundles {{
 call plug#begin('~/.nvim/plugged')                         " https://github.com/junegunn/vim-plug
 
 Plug 'https://github.com/tpope/vim-fugitive'               " git:   wrapper for commands
@@ -20,14 +20,11 @@ Plug 'https://github.com/tpope/vim-vinegar'
 Plug 'https://github.com/rking/ag.vim'                     " util:  'silver_searcher' replacement for ack
 Plug 'https://github.com/godlygeek/tabular'                " util:  filtering and alignment
 Plug 'https://github.com/tpope/vim-surround'               " util:  surrounds with brackets, quotes, etc.
-"Plug 'https://github.com/tomtom/tcomment_vim'              " util:  comment out code
-"Plug 'https://github.com/scrooloose/nerdcommenter'         " Util:  comment out code
 Plug 'https://github.com/tyru/caw.vim'                     " Util:  comment out code
 Plug 'https://github.com/terryma/vim-multiple-cursors'     " util:  multiple cursor support like sublime
 Plug 'https://github.com/ervandew/supertab'                " util:  tab completion
 Plug 'https://github.com/rizzatti/dash.vim'                " util:  load dash
 
-"Plug 'https://github.com/plasticboy/vim-markdown'          " lang:  markdown support (must come after tabular)
 Plug 'https://github.com/gabrielelana/vim-markdown'        " lang:  markdown support (must come after tabular)
 Plug 'https://github.com/derekwyatt/vim-scala'             " lang:  scala syntax support and more
 Plug 'https://github.com/ironfish/scala-api-complete'      " lang:  my autocomplete for scala
@@ -37,9 +34,9 @@ Plug 'https://github.com/Yggdroot/indentLine'              " ui:    indents as t
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 call plug#end()
-" --- Bundles }}
+" --- bundles }}
 
-" --- Behaviors {{
+" --- behaviors {{
 filetype plugin indent on
 filetype plugin on
 set autoindent                                             " copy indent to new line
@@ -49,7 +46,6 @@ set clipboard=unnamed                                      " use system clipboar
 set colorcolumn=+1                                         " set the right margin
 set cursorcolumn                                           " highlight the current column
 set cursorline                                             " highlight the current line
-set directory=~/dotfiles/tmp/vim-tmp/                      " swap file directory
 set encoding=utf-8                                         " default set by neovim
 set expandtab                                              " replace tabs with spaces
 set history=100                                            " remember some stuff
@@ -76,71 +72,114 @@ set title                                                  " set the current fil
 if !has('nvim')
 set ttyfast                                                " fast terminal
 endif
-set viewdir=~/dotfiles/tmp/vim-view                        " view directory
 set visualbell                                             " turn of the stup bell.
 set whichwrap=h,l,[<]>],[<\>]                              " Make cursor keys wrap (] and \ are for right and left arrows).
 set wildmenu                                               " set menu for tab key
 set wildmode=list:longest,full                             " complete only up to the point of ambiguity
 
+" directories
+set backupdir=~/dotfiles/tmp/nvim-backup/                  " backup directory
+set directory=~/dotfiles/tmp/nvim-swap/                    " swap file directory
+set undodir=~/dotfiles/tmp/nvim-undo/                      " undo directory
+set viewdir=~/dotfiles/tmp/nvim-view/                      " view directory
+set viminfo='1000,n~/dotfiles/tmp/viminfo                  " viminfo directory
+
 " list of invisible character to show
 set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
-" --- Behaviors }}
+" --- behaviors }}
 
-" --- Folding {{
-set nofoldenable                                           " don't fold files by default on open
-set foldmarker={{,}}                                       " fold marker
-set foldmethod=marker                                      " fold based on indent level
+" --- folding {{
+" don't fold files by default on open
+set nofoldenable
+" fold marker
+set foldmarker={{,}}
+" fold based on indent level
+set foldmethod=marker
 set foldlevel=1
 set foldlevelstart=10
 set foldnestmax=10
-" --- Folding }}
+" --- folding }}
 
-" --- Key Mappings {{
-let mapleader=","                                          " remap leader to ,
-nnoremap <leader>f za                                      " ,f to fold
-noremap U <C-R>                                            " ctrl-r for redo sucks, use uppercase U instead
-noremap  <leader>s :update<CR>                             " ,s to save
+" --- mappings {{
+" remap leader to ,
+let mapleader=","
+" ,f to fold
+nnoremap <leader>f za
+" ctrl-r for redo sucks, use uppercase U instead
+noremap U <C-R>
+
+" ,s to save
+noremap  <leader>s :update<CR>
 vnoremap <leader>s <C-C>:update<CR>
 inoremap <leader>s <C-O>:update<CR>
-imap     <leader>e <esc>$                                  " ,e to go to end of line
+
+" ,e to go to end of line
+imap     <leader>e <esc>$
 nnoremap <leader>e $
 vnoremap <leader>e $
-imap     <leader>b <esc>0                                  " ,b to go to beginning of line
+
+" ,b to go to beginning of line
+imap     <leader>b <esc>0
 nnoremap <leader>b 0
 vnoremap <leader>b 0
-nnoremap <tab> %                                           " use tab instead of % to switch between matching pair
+
+" use tab instead of % to switch between matching pair
+nnoremap <tab> %
 vnoremap <tab> %
-nnoremap <leader>n :call ToggleNumber()<CR>                " toggle number/relativenumber
-nnoremap <leader>h :noh<cr>                                " toggle/clear highlights
-nnoremap <leader>i :set list!<CR>                          " toggle invisible characters
-nnoremap <leader>d :bd<CR>                                 " close buffer
-nnoremap <leader>v <C-w>v                                  " vertical window split
-nnoremap <leader><leader>l <C-w><left>                     " move to left split
-nnoremap <leader><leader>r <C-w><right>                    " move to right split
-nnoremap <leader><leader>h <C-w>s                          " horizontal window split
-nnoremap <leader><leader>d <C-w><down>                     " move to down split
-nnoremap <leader><leader>u <C-w><up>                       " move to up split
-nnoremap j gj                                              " move cursor down within non-breaking lines
-nnoremap k gk                                              " move cursor up within non-breaking lines
-" --- Key Mappings }}
 
-" --- Search {{
-set hlsearch                                               " highlight search results
-set ignorecase                                             " set search to ignore case
-set incsearch                                              " incremental highlight as search is typed
-set smartcase                                              " case sensitive search when given caps
-set wrapscan                                               " set search to wrap lines
-" --- Search }}
+" toggle number/relativenumber
+nnoremap <leader>n :call ToggleNumber()<CR>
+" toggle/clear highlights
+nnoremap <leader>h :noh<cr>
+" toggle invisible characters
+nnoremap <leader>i :set list!<CR>
+" close buffer
+nnoremap <leader>d :bd<CR>
+" vertical window split
+nnoremap <leader>v <C-w>v
+" move to left split
+nnoremap <leader><leader>l <C-w><left>
+" move to right split
+nnoremap <leader><leader>r <C-w><right>
+" horizontal window split
+nnoremap <leader><leader>h <C-w>s
+" move to down split
+nnoremap <leader><leader>d <C-w><down>
+" move to up split
+nnoremap <leader><leader>u <C-w><up>
+" move cursor down within non-breaking lines
+nnoremap j gj
+" move cursor up within non-breaking lines
+nnoremap k gk
+" --- mappings }}
 
-" --- Spelling {{
-set complete+=kspell                                       " turn on tab completion for spelling
-set dictionary+=/usr/share/dict/words                      " unix/osx dictionary
-set spellfile=$HOME/.nvim/spell/en.utf8.add                " spelling whitelist
-set spelllang=en_us                                        " spelling language
+" --- search {{
+" highlight search results
+set hlsearch
+" set search to ignore case
+set ignorecase
+" incremental highlight as search is typed
+set incsearch
+" case sensitive search when given caps
+set smartcase
+" set search to wrap lines
+set wrapscan
+" --- search }}
+
+" --- spelling {{
+" turn on tab completion for spelling
+set complete+=kspell
+" unix/osx dictionary
+set dictionary+=/usr/share/dict/words
+" spelling whitelist
+set spellfile=$HOME/.nvim/spell/en.utf8.add
+" spelling language
+set spelllang=en_us
+" toggle spelling
 map <leader>ss :setlocal spell!<cr>
-" --- }}
+" --- spelling }}
 
-" --- File Configs {{
+" --- file configs {{
 " html
 autocmd FileType html setlocal shiftwidth=4
 autocmd FileType html setlocal tabstop=4
@@ -148,10 +187,6 @@ autocmd FileType html setlocal softtabstop=4
 autocmd FileType html setlocal expandtab
 " markdown
 autocmd FileType md   setlocal textwidth=0
-"autocmd BufNewFile,BufRead *.md       set filetype=markdown
-"autocmd BufNewFile,BufRead *.markdown set filetype=markdown
-"autocmd BufNewFile,BufReadPost *.md       set filetype=markdown
-"autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
 " python
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal tabstop=4
@@ -169,39 +204,24 @@ autocmd FileType scala setlocal foldlevelstart=10
 autocmd FileType scala setlocal foldnestmax=10
 autocmd FileType scala setlocal nofoldenable
 autocmd FileType scala setlocal omnifunc=scalaapi#complete
-"autocmd FileType scala ScalaApiLoad
-" spelling
-"au BufRead *.txt setlocal spell
-"au BufRead *.md setlocal spell
+" --- file configs }}
 
-" --- File Configs }}
-
-" --- Color Scheme {{
-"set t_Co=256                                               " 256 color support
-set background=dark                                        " important for dark color schemes
-
-"let base16colorspace=256                                   " needed for base16 colorschemes
-"colorscheme base16-tomorrow
-"colorscheme base16-monokai
-"colorscheme base16-twilight
-"let g:airline_theme = 'base16'
-
-colorscheme solarized                                      " note: this must come first before settings.
-let g:solarized_termcolors = 256                           " important for terminal (non-gui)
+" --- colorsheme {{
+" important for dark color schemes
+set background=dark
+" note: this must come first before settings
+colorscheme solarized
+" important for terminal (non-gui)
+let g:solarized_termcolors = 256
 let g:solarized_underline  = 0
 let g:solarized_contrast   = "high"
-highlight clear SignColumn                                 " Sign Column made by solarized color is strange, clear it.
-let g:airline_theme        = 'solarized'                   " set airblade's theme to soloraized.
+" Sign Column made by solarized color is strange, clear it
+highlight clear SignColumn
+" set airblade's theme to solorized
+let g:airline_theme        = 'solarized'
+" --- colorscheme }}
 
-"0colorscheme pencil
-"let g:pencil_higher_contrast_ui = 0                        " 0=low (def), 1=high¬
-"let g:pencil_terminal_italics = 1                          " support italics in markdown
-"let g:airline_theme = 'pencil'                             " set airline color scheme
-" --- Color Scheme }}
-
-" --- Plugins {{
-
-" --- vim-airline
+" --- airline {{
 let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
@@ -209,18 +229,27 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_symbols.space = "\ua0"
 let g:airline#extensions#tabline#enabled = 1
+" -- airline }}
 
-" --- caw commenter
+" --- caw commenter {{
 nmap <Leader>c <Plug>(caw:I:toggle)
 vmap <Leader>c <Plug>(caw:I:toggle)
+" --- caw commentor }}
 
-" --- vim-gitgutter
-let g:gitgutter_sign_column_always=0                       " disable gutter when gitgutter disabled
-let g:gitgutter_enabled = 1                                " enable at start
-let g:gitgutter_signs = 1                                  " enable signs
-let g:gitgutter_highlight_lines=0                          " enable line highlight
-call gitgutter#highlight#define_highlights()               " vim-gitgutter will use Sign Column to set its color, reload it.
+" --- gitgutter {{
+" disable gutter when gitgutter disabled
+let g:gitgutter_sign_column_always=0
+" enable at start
+let g:gitgutter_enabled = 1
+" enable signs
+let g:gitgutter_signs = 1
+" enable line highlights
+let g:gitgutter_highlight_lines=0
+" gitgutter will use Sign Column to set its color, reload it
+call gitgutter#highlight#define_highlights()
+" toggle gitgutter
 nnoremap <leader>gg :GitGutterToggle<CR>
+" --- gitgutter }}
 
 " --- fzf {{
 " --- Search like ctrlp
@@ -273,16 +302,26 @@ nnoremap <silent> <space>b :call fzf#run({
 \  'down':        len(<sid>buflist()) + 2 })<CR>
 " --- fzf }}
 
-" --- indentLine
+" --- indentLine {{
 let g:indentLine_char='┆'
 let g:indentLine_leadingSpaceChar="."
 let g:indentLine_leadingSpaceEnabled=1
+" --- indentline }}
 
-" --- nerdtr,e
-let NERDTreeHijackNetrw=1                                  " make nerdtree act like netrw
+" --- nerdtree {{
+" make nerdtree act like netrw
+let NERDTreeHijackNetrw=1
+" toggle nerdtree
 nnoremap <leader>t :NERDTreeToggle<CR>
+" set bookmarks file
+let NERDTreeBookmarksFile=expand("$HOME/dotfiles/tmp/ntbookmarks")
+" show bookmarks table
+let NERDTreeShowBookmarks=1
+" show hidden files
+let NERDTreeShowHidden=1
+" -- nerdtree }}
 
-" --- supertab
+" --- supertab {{
 "@see - https://github.com/ervandew/supertab/issues/99
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-p>"
@@ -293,7 +332,7 @@ autocmd FileType *
   \ call SuperTabChain(&omnifunc, "<c-p>") |
   \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
   \ endif
-" --- Plugins }}
+" --- supertab }}
 
 " --- functions {{
 function! ToggleNumber()

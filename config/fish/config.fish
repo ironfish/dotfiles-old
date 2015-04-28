@@ -9,6 +9,8 @@ set -g theme_display_ruby no
 #eval sh $HOME/dotfiles/themes/base16-shell/base16-tomorrow.dark.sh
 #eval sh $HOME/dotfiles/themes/base16-shell/base16-monokai.dark.sh
 #eval sh $HOME/dotfiles/themes/base16-shell/base16-twilight.dark.sh
+#eval sh $HOME/dotfiles/themes/base16-shell/base16-solarized.dark.sh
+#eval sh $HOME/dotfiles/themes/base16-shell/base16-ocean.dark.sh
 
 set UTIME upt
 

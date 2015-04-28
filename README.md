@@ -165,20 +165,18 @@ $ cd ~
 # setup tmp file aliases
 $ mkdir ~/dotfiles/tmp
 $ mkdir ~/dotfiles/tmp/bash_history
+$ mkdir ~/dotfiles/tmp/nvim-backup
+$ mkdir ~/dotfiles/tmp/nvim-swap
+$ mkdir ~/dotfiles/tmp/nvim-undo
+$ mkdir ~/dotfiles/tmp/nvim-view
 $ mkdir ~/dotfiles/tmp/nviminfo
 $ mkdir ~/dotfiles/tmp/nvimlog
 $ mkdir ~/dotfiles/tmp/scala_history
 $ mkdir ~/dotfiles/tmp/sessions
-$ mkdir ~/dotfiles/tmp/vim-backup
-$ mkdir ~/dotfiles/tmp/vim-tmp
-$ mkdir ~/dotfiles/tmp/vim-undo
-$ mkdir ~/dotfiles/tmp/vim-view
-$ mkdir ~/dotfiles/tmp/viminfo
 $ ln -s ~/dotfiles/tmp/bash_history .bash_history
 $ ln -s ~/dotfiles/tmp/nviminfo .nviminfo
 $ ln -s ~/dotfiles/tmp/nvimlog .nvimlog
 $ ln -s ~/dotfiles/tmp/scala_history .scala_history
-$ ln -s ~/dotfiles/tmp/viminfo .viminfo
 
 # setup bash file aliases
 $ ln -s ~/dotfiles/bash/bash_aliases .bash_aliases

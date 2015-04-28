@@ -50,14 +50,22 @@ $ brew tap caskroom/versions
 ```bash
 # install python stuff.
 $ brew install python
+
+# install / upgrade setuptools
 $ pip install --upgrade setuptools
+
+# install / upgrade pip
 $ pip install --upgrade pip
+
+# list outdated pip stuff
+$ pip list -o
 
 # install java
 $ brew cask install java
 
 # install scala stuff
 $ brew install scala --with-docs --with-src
+
 $ brew install sbt
 ```
 
@@ -82,8 +90,11 @@ $ pip install --upgrade psutil
 ### vim
 
 ```bash
-# install macvim as main vim
-$ brew install macvim --override-system-vim --with-luai
+# install vim
+
+# override the system vim and include lua
+$ brew install vim --override-system-vim --with lua
+
 $ brew install ctags
 ```
 
@@ -92,7 +103,12 @@ $ brew install ctags
 [neovim](http://neovim.org) is considered by some to be the next generation of vim.
 
 ```bash
-$ brew install neovim
+$ brew tap neovim/homebrew-neovim
+
+# install / upgrade neovim
+$ brew install --HEAD neovim
+
+# required for pythong neovim stuff
 $ pip install --upgrade neovim
 ```
 
@@ -100,8 +116,19 @@ $ pip install --upgrade neovim
 
 ```bash
 $ brew install tmux
-# required for tmux to work right on OSX
+
+# required for tmux to work right on OSX for copy/paste
 $ brew install reattach-to-user-namespace
+```
+### fish shell
+
+I like [fish](http://fishshell.com/) as a shell. If you have not heard of it you should check it out. For configuration, it's probably best to use [oh-my-fish](https://github.com/bpinto/oh-my-fish).
+
+```bash
+$ brew install fish`
+
+# use oh-my-fish for configuration
+$ curl -L https://github.com/bpinto/oh-my-fish/raw/master/tools/install.fish | fish
 ```
 
 ### Apps and Utils
@@ -134,37 +161,44 @@ $ git clone https://github.com/ironfish/dotfiles.git
 
 ```bash
 $ cd ~
+
+# setup tmp file aliases
+$ mkdir ~/dotfiles/tmp
+$ mkdir ~/dotfiles/tmp/bash_history
+$ mkdir ~/dotfiles/tmp/nviminfo
+$ mkdir ~/dotfiles/tmp/nvimlog
+$ mkdir ~/dotfiles/tmp/scala_history
+$ mkdir ~/dotfiles/tmp/sessions
+$ mkdir ~/dotfiles/tmp/vim-backup
+$ mkdir ~/dotfiles/tmp/vim-tmp
+$ mkdir ~/dotfiles/tmp/vim-undo
+$ mkdir ~/dotfiles/tmp/vim-view
+$ mkdir ~/dotfiles/tmp/viminfo
+$ ln -s ~/dotfiles/tmp/bash_history .bash_history
+$ ln -s ~/dotfiles/tmp/nviminfo .nviminfo
+$ ln -s ~/dotfiles/tmp/nvimlog .nvimlog
+$ ln -s ~/dotfiles/tmp/scala_history .scala_history
+$ ln -s ~/dotfiles/tmp/viminfo .viminfo
+
+# setup bash file aliases
 $ ln -s ~/dotfiles/bash/bash_aliases .bash_aliases
 $ ln -s ~/dotfiles/bash/bash_profile .bash_profile
 $ ln -s ~/dotfiles/bash/bash_prompt .bash_prompt
-$ ln -s ~/dotfiles/vim/ctags .ctags
+$ ln -s ~/dotfiles/ctags .ctags
 
-# neovim and vim share the same rc and directory
-$ ln -s ~/dotfiles/nvim/ .vim
-$ ln -s ~/dotfiles/nvim/nvimrc .vimrc
+# setup misc. configuration files
+# setup fish and powerline config directory
+$ ln -s ~/dotfiles/config .config
+$ ln -s ~/dotfiles/config/gitconfig .gitconfig
+
+# setup neovim and vim, they share the same rc and directory
 $ ln -s ~/dotfiles/nvim/ .nvim
 $ ln -s ~/dotfiles/nvim/nvimrc .nvimrc
+$ ln -s ~/dotfiles/nvim/ .vim
+$ ln -s ~/dotfiles/nvim/nvimrc .vimrc
 
-$ ln -s ~/dotfiles/git/gitconfig .gitconfig
+# setup tmux
 $ ln -s ~/dotfiles/tmux/tmux.conf .tmux.conf
-$ ln -s ~/dotfiles/config/ .config
-
-# setup tmp directory and files
-$ mkdir ~/dotfiles/tmp
-$ cd ~/dotfiles/tmp
-$ mkdir vim-backup
-$ mkdir vim-tmp
-$ mkdir vim-undo
-$ mkdir vim-view
-$ mkdir sessions
-$ touch bash_history
-$ touch nviminfo
-$ touch nvimlog
-$ touch viminfo
-$ ln -s ~/dotfiles/tmp/bash_history .bash_history 
-$ ln -s ~/dotfiles/tmp/nviminfo .nviminfo 
-$ ln -s ~/dotfiles/tmp/nvimlog .nvimlog 
-$ ln -s ~/dotfiles/tmp/viminfo .viminfo 
 
 # setup secrets file
 $ cd ~/dotfiles

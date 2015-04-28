@@ -1,24 +1,22 @@
 [core]
-	editor = subl -n -w
-	excludesfile = /Users/ironfish/dotfiles/git/gitignore
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 [color]
-	# Use colors in Git commands that are capable of colored output when outputting to the terminal
-	ui = auto
+  # Use colors in Git commands that are capable of colored output when outputting to the terminal
+  ui = auto
 [color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
 [color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 [user]
-	name = duncan.devore@gmail.com
-	email = duncan.devore@gmail.com
+  name = duncan.devore@gmail.com
+  email = duncan.devore@gmail.com

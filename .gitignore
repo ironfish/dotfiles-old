@@ -14,8 +14,9 @@
 bash_history
 bash_prompt_old
 bin/*
-config/fish/fish_history
 config/fish/config.secret.*
+config/fish/fish_history
+config/fish/fishd*
 nvim/plugged/*
 secrets
 snapshots/*

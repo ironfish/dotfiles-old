@@ -13,6 +13,7 @@ bash_history
 bash_prompt_old
 bin/*
 config/fish/fish_history
+config/fish/config.secret.*
 secrets
 snapshots/*
 target

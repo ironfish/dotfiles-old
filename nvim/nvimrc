@@ -1,35 +1,46 @@
 if &shell=~# 'fish$'
-  set shell=sh
+  set shell=/bin/sh
 endif
 
 " --- Bundles {{
 call plug#begin('~/.nvim/plugged')                         " https://github.com/junegunn/vim-plug
 
-Plug 'https://github.com/tpope/vim-fugitive'               " git: wrapper for commands
-Plug 'https://github.com/airblade/vim-gitgutter'           " git: diff in gutter
-Plug 'https://github.com/rking/ag.vim'                     " grep: 'silver_searcher' replacement for ack
-Plug 'https://github.com/godlygeek/tabular'                " util: filtering and alignment
-Plug 'https://github.com/plasticboy/vim-markdown'          " lang: markdown support
-"Plug 'https://github.com/reedes/vim-pencil'
-Plug 'https://github.com/derekwyatt/vim-scala'             " lang: scala syntax support and more
-Plug 'https://github.com/reedes/vim-colors-pencil'         " theme for markdown and more
-Plug 'https://github.com/altercation/vim-colors-solarized' " theme solarized
-Plug 'https://github.com/chriskempson/base16-vim'          " theme base-16
-Plug 'https://github.com/itspriddle/vim-marked'            " open marked for markdown preview
-Plug 'https://github.com/tpope/vim-surround'               " util: surrounds with brackets, quotes, etc.
-Plug 'https://github.com/tomtom/tcomment_vim'              " util: comment out code
-Plug 'https://github.com/terryma/vim-multiple-cursors'     " util: multiple cursor support like sublime
-Plug 'https://github.com/ervandew/supertab'                " util: tab completion
-Plug 'https://github.com/bling/vim-airline'                " ui: mean status / tabline for vim
-Plug 'https://github.com/Yggdroot/indentLine'              " ui: indents as thin vertical lines
-Plug 'https://github.com/ironfish/scala-api-complete'
+Plug 'https://github.com/tpope/vim-fugitive'               " git:   wrapper for commands
+Plug 'https://github.com/airblade/vim-gitgutter'           " git:   diff in gutter
+
+Plug 'https://github.com/reedes/vim-colors-pencil'         " theme: for markdown and more
+Plug 'https://github.com/altercation/vim-colors-solarized' " theme: solarized
+Plug 'https://github.com/chriskempson/base16-vim'          " theme: base-16
+
+Plug 'https://github.com/itspriddle/vim-marked'            " nav:   marked for markdown preview
+Plug 'https://github.com/scrooloose/nerdtree'              " nav:   explorer style navigation
+Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'      " nav:   git support for nerdtree
+Plug 'https://github.com/tpope/vim-vinegar'
+
+Plug 'https://github.com/rking/ag.vim'                     " util:  'silver_searcher' replacement for ack
+Plug 'https://github.com/godlygeek/tabular'                " util:  filtering and alignment
+Plug 'https://github.com/tpope/vim-surround'               " util:  surrounds with brackets, quotes, etc.
+"Plug 'https://github.com/tomtom/tcomment_vim'              " util:  comment out code
+"Plug 'https://github.com/scrooloose/nerdcommenter'         " Util:  comment out code
+Plug 'https://github.com/tyru/caw.vim'                     " Util:  comment out code
+Plug 'https://github.com/terryma/vim-multiple-cursors'     " util:  multiple cursor support like sublime
+Plug 'https://github.com/ervandew/supertab'                " util:  tab completion
+Plug 'https://github.com/rizzatti/dash.vim'                " util:  load dash
+
+"Plug 'https://github.com/plasticboy/vim-markdown'          " lang:  markdown support (must come after tabular)
+Plug 'https://github.com/gabrielelana/vim-markdown'        " lang:  markdown support (must come after tabular)
+Plug 'https://github.com/derekwyatt/vim-scala'             " lang:  scala syntax support and more
+Plug 'https://github.com/ironfish/scala-api-complete'      " lang:  my autocomplete for scala
+
+Plug 'https://github.com/bling/vim-airline'                " ui:    mean status / tabline for vim
+Plug 'https://github.com/Yggdroot/indentLine'              " ui:    indents as thin vertical lines
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 call plug#end()
 " --- Bundles }}
 
-
 " --- Behaviors {{
+filetype plugin indent on
 filetype plugin on
 set autoindent                                             " copy indent to new line
 set autoread                                               " when a file has changed outside of nvim
@@ -57,12 +68,16 @@ set showcmd                                                " show information ab
 set showfulltag                                            " show the whole tag, not just the function name
 set showmode                                               " show mode in status line
 set softtabstop=2                                          " use 2 spaces, interpret tab as indent
+set t_vb=                                                  " clear the stupid flashing
 set tabstop=2                                              " set tab width
 set textwidth=132                                          " set width to 132
 set timeoutlen=300                                         " wait 300 millis for mapped key
 set title                                                  " set the current file name to the title
+if !has('nvim')
 set ttyfast                                                " fast terminal
+endif
 set viewdir=~/dotfiles/tmp/vim-view                        " view directory
+set visualbell                                             " turn of the stup bell.
 set whichwrap=h,l,[<]>],[<\>]                              " Make cursor keys wrap (] and \ are for right and left arrows).
 set wildmenu                                               " set menu for tab key
 set wildmode=list:longest,full                             " complete only up to the point of ambiguity
@@ -117,6 +132,14 @@ set smartcase                                              " case sensitive sear
 set wrapscan                                               " set search to wrap lines
 " --- Search }}
 
+" --- Spelling {{
+set complete+=kspell                                       " turn on tab completion for spelling
+set dictionary+=/usr/share/dict/words                      " unix/osx dictionary
+set spellfile=$HOME/.nvim/spell/en.utf8.add                " spelling whitelist
+set spelllang=en_us                                        " spelling language
+map <leader>ss :setlocal spell!<cr>
+" --- }}
+
 " --- File Configs {{
 " html
 autocmd FileType html setlocal shiftwidth=4
@@ -124,8 +147,11 @@ autocmd FileType html setlocal tabstop=4
 autocmd FileType html setlocal softtabstop=4
 autocmd FileType html setlocal expandtab
 " markdown
-autocmd BufNewFile,BufReadPost *.md       set filetype=markdown
-autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
+autocmd FileType md   setlocal textwidth=0
+"autocmd BufNewFile,BufRead *.md       set filetype=markdown
+"autocmd BufNewFile,BufRead *.markdown set filetype=markdown
+"autocmd BufNewFile,BufReadPost *.md       set filetype=markdown
+"autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
 " python
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal tabstop=4
@@ -144,11 +170,15 @@ autocmd FileType scala setlocal foldnestmax=10
 autocmd FileType scala setlocal nofoldenable
 autocmd FileType scala setlocal omnifunc=scalaapi#complete
 "autocmd FileType scala ScalaApiLoad
+" spelling
+"au BufRead *.txt setlocal spell
+"au BufRead *.md setlocal spell
+
 " --- File Configs }}
 
 " --- Color Scheme {{
-set background=dark                                        " important for dark color schemes
 "set t_Co=256                                               " 256 color support
+set background=dark                                        " important for dark color schemes
 
 "let base16colorspace=256                                   " needed for base16 colorschemes
 "colorscheme base16-tomorrow
@@ -156,16 +186,17 @@ set background=dark                                        " important for dark 
 "colorscheme base16-twilight
 "let g:airline_theme = 'base16'
 
-colorscheme solarized
-let g:solarized_termcolors=256
-let g:solarized_underline = 0
-let g:solarized_contrast = "high"
-highlight clear SignColumn                                  " Sign Column made by solarized color is strange, clear it.
-call gitgutter#highlight#define_highlights()                " vim-gitgutter will use Sign Column to set its color, reload it.
-let g:airline_theme = 'solarized'                           " set airblade's theme to soloraized.
+colorscheme solarized                                      " note: this must come first before settings.
+let g:solarized_termcolors = 256                           " important for terminal (non-gui)
+let g:solarized_underline  = 0
+let g:solarized_contrast   = "high"
+highlight clear SignColumn                                 " Sign Column made by solarized color is strange, clear it.
+let g:airline_theme        = 'solarized'                   " set airblade's theme to soloraized.
 
-"colorscheme pencil
-"let g:airline_theme = 'pencil'
+"0colorscheme pencil
+"let g:pencil_higher_contrast_ui = 0                        " 0=low (def), 1=high¬
+"let g:pencil_terminal_italics = 1                          " support italics in markdown
+"let g:airline_theme = 'pencil'                             " set airline color scheme
 " --- Color Scheme }}
 
 " --- Plugins {{
@@ -179,11 +210,16 @@ endif
 let g:airline_symbols.space = "\ua0"
 let g:airline#extensions#tabline#enabled = 1
 
+" --- caw commenter
+nmap <Leader>c <Plug>(caw:I:toggle)
+vmap <Leader>c <Plug>(caw:I:toggle)
+
 " --- vim-gitgutter
 let g:gitgutter_sign_column_always=0                       " disable gutter when gitgutter disabled
 let g:gitgutter_enabled = 1                                " enable at start
 let g:gitgutter_signs = 1                                  " enable signs
 let g:gitgutter_highlight_lines=0                          " enable line highlight
+call gitgutter#highlight#define_highlights()               " vim-gitgutter will use Sign Column to set its color, reload it.
 nnoremap <leader>gg :GitGutterToggle<CR>
 
 " --- fzf {{
@@ -192,55 +228,59 @@ nnoremap <leader>gg :GitGutterToggle<CR>
 " sink:    vim edit
 " options: fzf multi-select
 nnoremap <space><space> :call fzf#run({
-\  'source':      'ag -l -g ""',
-\  'sink':        'e',
-\  'options':     '-m',
-\  'tmux_height': '40%'
-\ })<CR>
-" open in a new tab
-nnoremap <space>t :call fzf#run({
-\  'source':      'ag -l -g ""',
-\  'sink':        'tabe',
-\  'options':     '-m',
-\  'tmux_height': '40%'
-\ })<CR>
-" vertical split
-nnoremap <space>v :call fzf#run({
-\  'source':      'ag -l -g ""',
-\  'sink':        'vertical botright split',
-\  'tmux_width':  winwidth('.')/2
-\ })<CR>
-" horizontal split
-nnoremap <space>h :call fzf#run({
-\  'source':      'ag -l -g ""',
-\  'sink':        'botright split',
-\  'tmux_height': '40%'
+\  'source':  'ag -l -g ""',
+\  'sink':    'e',
+\  'options': '-m',
+\  'down':    '40%'
 \ })<CR>
 
+" open in a new tab
+nnoremap <space>t :call fzf#run({
+\  'source':  'ag -l -g ""',
+\  'sink':    'tabe',
+\  'options': '-m',
+\  'down':    '40%'
+\ })<CR>
+
+" horizontal split
+nnoremap <silent> <space>h :call fzf#run({
+\  'source':  'ag -l -g ""',
+\  'down':    '40%',
+\  'sink':    'botright split' })<CR>
+
+" vertical split
+nnoremap <silent> <space>v :call fzf#run({
+\  'source':  'ag -l -g ""',
+\  'right':   winwidth('.') / 2,
+\  'sink':    'vertical botright split' })<CR>
+
 " --- Buffer select
-function! BufList()
+function! s:buflist()
   redir => ls
   silent ls
   redir END
   return split(ls, '\n')
 endfunction
 
-function! BufOpen(e)
-  execute 'buffer'. matchstr(a:e, '^[ 0-9]*')
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-"\  'source':      reverse(<sid>buflist()),
-"\  'sink':        function('<sid>bufopen'),
 nnoremap <silent> <space>b :call fzf#run({
-\  'source':      reverse(BufList()),
-\  'sink':        function('BufOpen'),
+\  'source':      reverse(<sid>buflist()),
+\  'sink':        function('<sid>bufopen'),
 \  'options':     '+m',
-\  'tmux_height': '40%'
-\ })<CR>
+\  'down':        len(<sid>buflist()) + 2 })<CR>
 " --- fzf }}
 
 " --- indentLine
 let g:indentLine_char='┆'
+let g:indentLine_leadingSpaceChar="."
+let g:indentLine_leadingSpaceEnabled=1
+
+" --- nerdtr,e
+let NERDTreeHijackNetrw=1                                  " make nerdtree act like netrw
+nnoremap <leader>t :NERDTreeToggle<CR>
 
 " --- supertab
 "@see - https://github.com/ervandew/supertab/issues/99

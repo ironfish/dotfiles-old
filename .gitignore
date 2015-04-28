@@ -1,6 +1,7 @@
 .cache
 .classpath
 .DS_STORE
+*.netrwhist
 .history
 .idea
 .idea_modules

@@ -2,7 +2,8 @@
 set fish_path $HOME/.oh-my-fish
 
 # Theme
-set fish_theme bobthefish-dkd
+#set fish_theme bobthefish-dkd
+set fish_theme agnoster
 #set -g theme_display_user yes
 set -g theme_display_ruby no
 

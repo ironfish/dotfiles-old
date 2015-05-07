@@ -69,9 +69,11 @@ $ brew install scala --with-docs --with-src
 $ brew install sbt
 ```
 
-### Powerline
+### powerline (DEPRICATED)
 
-Power line is a statusline plugin for vim, bash, zsh, tmux, etc.
+I don't use powerline anymore, but wanted to leave the instrutions for those who might.
+
+power line is a statusline plugin for vim, bash, zsh, tmux, etc.
 
 * [Powerline Source](https://github.com/powerline/powerline)
 * [Powerline Docs](https://powerline.readthedocs.org/en/latest/)
@@ -86,6 +88,10 @@ Because we installed python w/ homebrew we can't user `--user` option @see [Inst
 # used for various segments for powerline
 $ pip install --upgrade psutil
 ```
+
+### fonts
+
+I use patched fonts from [gabrielelana/awesome-terminal-fonts](https://github.com/gabrielelana/awesome-terminal-fonts/tree/patching-strategy/patched) in particular `SourceCodePro+Powerline+Awesome+Regular.ttf`.
 
 ### vim
 

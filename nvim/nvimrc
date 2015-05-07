@@ -1,124 +1,518 @@
+" ==================================================================================================================================
+"
+" <(✝)>< :: DOTFILES > vimrc
+" Duncan K. DeVore / @ironfish
+"
+" ==================================================================================================================================
 if &shell=~# 'fish$'
   set shell=/bin/sh
 endif
 
-" --- bundles {{
-call plug#begin('~/.nvim/plugged')                         " https://github.com/junegunn/vim-plug
+" BUNDLES {{
+" ==================================================================================================================================
+" plugin manager https://github.com/junegunn/vim-plug
+call plug#begin('~/.nvim/plugged')
 
-Plug 'https://github.com/tpope/vim-fugitive'               " git:   wrapper for commands
-Plug 'https://github.com/airblade/vim-gitgutter'           " git:   diff in gutter
+" git wrapper for commands
+Plug 'https://github.com/tpope/vim-fugitive'
+  " need function, leader has not been set
+  function! SetFugative()
+    nmap     <Leader>g :Gstatus<CR>gg<c-n>
+    nnoremap <Leader>d :Gdiff<CR>
+  endfunction
 
-Plug 'https://github.com/reedes/vim-colors-pencil'         " theme: for markdown and more
-Plug 'https://github.com/altercation/vim-colors-solarized' " theme: solarized
-Plug 'https://github.com/chriskempson/base16-vim'          " theme: base-16
+" diff in gutter
+Plug 'https://github.com/airblade/vim-gitgutter'
+  function! SetGitGutter()
+    " disable gutter when gitgutter disabled
+    let g:gitgutter_sign_column_always=0
+    " enable at start
+    let g:gitgutter_enabled=1
+    " max signs
+    let g:gitgutter_max_signs=1000
+    " heavy greek cross
+    let g:gitgutter_sign_added="\u271a"
+    " heavy rounded-tip rightwards arrow
+    let g:gitgutter_sign_modified="\u279c"
+    " heavy ballot X
+    let g:gitgutter_sign_removed="\u2718"
+    let g:gitgutter_sign_modified_removed="►"
+    let g:gitgutter_signs=1
+    " enable line highlights
+    let g:gitgutter_highlight_lines=0
+    " gitgutter will use Sign Column to set its color, reload it
+    call gitgutter#highlight#define_highlights()
+    " toggle gitgutter
+    nnoremap <Leader>gg :GitGutterToggle<CR>
+  endfunction
 
-Plug 'https://github.com/itspriddle/vim-marked'            " nav:   marked for markdown preview
-Plug 'https://github.com/scrooloose/nerdtree'              " nav:   explorer style navigation
-Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'      " nav:   git support for nerdtree
+" silver_searcher' replacement for ack
+Plug 'https://github.com/rking/ag.vim'
+
+" filtering and alignment
+Plug 'https://github.com/godlygeek/tabular'
+
+" surrounds with brackets, quotes, etc.
+Plug 'https://github.com/tpope/vim-surround'
+
+" comment out code
+Plug 'https://github.com/tyru/caw.vim'
+  function! SetCaw()
+    nmap <Leader>c <Plug>(caw:I:toggle)
+    vmap <Leader>c <Plug>(caw:I:toggle)
+  endfunction
+
+" multiple cursor support like sublime
+Plug 'https://github.com/terryma/vim-multiple-cursors'
+
+" tab completion
+Plug 'https://github.com/ervandew/supertab'
+  function! SetSuperTab()
+    "@see - https://github.com/ervandew/supertab/issues/99
+    let g:SuperTabDefaultCompletionType="context"
+    let g:SuperTabContextDefaultCompletionType="<c-p>"
+    let g:SuperTabCompletionContexts=['s:ContextText', 's:ContextDiscover']
+    let g:SuperTabContextDiscoverDiscovery=["&omnifunc:<c-x><c-o>"]
+    autocmd FileType *
+        \ if &omnifunc != '' |
+        \   call SuperTabChain(&omnifunc, "<c-p>") |
+        \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+        \ endif
+  endfunction
+
+" load dash
+Plug 'https://github.com/rizzatti/dash.vim'
+
+" autocompletion for parens, brackets, etc.
+Plug 'https://github.com/Raimondi/delimitMate'
+
+" markdown support must come after tabular
+"Plug 'https://github.com/gabrielelana/vim-markdown'
+
+" markdown support must come after tabular
+"Plug 'https://github.com/plasticboy/vim-markdown'
+
+" open/close marked for markdown preview
+Plug 'https://github.com/itspriddle/vim-marked'
+  "it sucks that I have to keep track of this, it should be part of the plugin
+  function! SetMarked()
+    let s:marked_docs = []
+    function! ToggleMarked()
+      let l:filename=expand("%:p")
+      if index(s:marked_docs, l:filename) < 0
+        call add(s:marked_docs, l:filename)
+        :MarkedOpen!
+      else
+        call remove(s:marked_docs, l:filename)
+        :MarkedQuit
+      endif
+    endfunction
+
+    " toggle number/relativenumber
+    nnoremap <leader>m :call ToggleMarked()<CR>
+  endfunction
+
+" syntax coloring support
+Plug 'https://github.com/nono/vim-handlebars'
+
+" scala language support
+Plug 'https://github.com/derekwyatt/vim-scala'
+
+" my autocompletion for scala
+Plug 'https://github.com/ironfish/scala-api-complete'
+
+" syntax checker
+Plug 'https://github.com/scrooloose/syntastic'
+  function! SetSyntastic()
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    let g:syntastic_always_populate_loc_list=1
+    let g:syntastic_auto_loc_list=1
+    let g:syntastic_check_on_open=1
+    let g:syntastic_check_on_wq=0
+  endfunction
+
+" solarized theme
+Plug 'https://github.com/altercation/vim-colors-solarized'
+  function! SetSolarized()
+    let g:solarized_contrast="normal"
+    let g:solarized_underline=0
+    let g:solarized_visibility="normal"
+  endfunction
+
+Plug 'https://github.com/itchyny/lightline.vim'
+  function! SetLightline()
+    let g:lightline = {
+        \ 'colorscheme': 'solarized_dark',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'gitgutter', 'fugitive', 'filename' ], [ 'ctrlpmark' ] ],
+        \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \ },
+        \ 'component_function': {
+        \   'gitgutter': 'MyGitGutter',
+        \   'fugitive': 'MyFugitive',
+        \   'filename': 'MyFilename',
+        \   'ctrlpmark': 'CtrlPMark',
+        \   'lineinfo': 'MyLineinfo',
+        \   'fileformat': 'MyFileformat',
+        \   'fileencoding': 'MyFileencoding',
+        \   'filetype': 'MyFiletype',
+        \ },
+        \ 'component_expand': {
+        \   'syntastic': 'SyntasticStatuslineFlag',
+        \ },
+        \ 'component_type': {
+        \   'syntastic': 'error',
+        \ },
+        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+        \ }
+
+    function! MyModified()
+      return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    endfunction
+
+    function! MyReadonly()
+      return &ft !~? 'help' && &readonly ? "\ue0a2" : ''
+    endfunction
+    
+    function! MyFugitive()
+      try
+        if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+          let mark = "\ue822"  " edit here for cool mark
+          let _ = fugitive#head()
+          return strlen(_) ? mark . ' ' . _ : ''
+        endif
+      catch
+      endtry
+      return ''
+    endfunction
+
+    function! MyLineinfo()
+      return printf("\ue862 %3d:%-2d", line('.'), col('.'))
+    endfunction
+
+	  function! MyFileformat()
+	    return winwidth(0) > 70 ? &fileformat : ''
+	  endfunction
+
+	  function! MyFileencoding()
+	    return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+	  endfunction
+
+    function! MyFiletype()
+	    return winwidth(0) > 70 ? (strlen(&filetype) ? "\ue12d" . ' ' . &filetype : 'no ft') : ''
+	  endfunction
+	   
+    function! MyFilename()
+      let fname = expand('%:t')
+      return fname == 'ControlP' ? g:lightline.ctrlp_item :
+           \ fname =~ 'NERD_tree' ? '' :
+           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+           \ ('' != fname ? fname : '[No Name]') .
+           \ ('' != MyModified() ? ' ' . MyModified() : '')
+    endfunction
+
+    function! CtrlPMark()
+      if expand('%:t') =~ 'ControlP'
+        call lightline#link('iR'[g:lightline.ctrlp_regex])
+        return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+              \ , g:lightline.ctrlp_next], 0)
+      else
+        return ''
+      endif
+    endfunction
+
+    let g:ctrlp_status_func = {
+      \ 'main': 'CtrlPStatusFunc_1',
+      \ 'prog': 'CtrlPStatusFunc_2',
+      \ }
+
+    function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+      let g:lightline.ctrlp_regex=a:regex
+      let g:lightline.ctrlp_prev=a:prev
+      let g:lightline.ctrlp_item=a:item
+      let g:lightline.ctrlp_next=a:next
+      return lightline#statusline(0)
+    endfunction
+
+    function! CtrlPStatusFunc_2(str)
+      return lightline#statusline(0)
+    endfunction
+    
+    augroup AutoSyntastic
+      autocmd!
+      autocmd BufWritePost *.c,*.cpp call s:syntastic()
+    augroup END
+
+    function! s:syntastic()
+      SyntasticCheck
+      call lightline#update()
+    endfunction
+
+    function! MyGitGutter()
+      if ! exists('*GitGutterGetHunkSummary')
+            \ || ! get(g:, 'gitgutter_enabled', 0)
+            \ || winwidth('.') <= 90
+        return ''
+      endif
+      let symbols = [
+            \ g:gitgutter_sign_added . ' ',
+            \ g:gitgutter_sign_modified . ' ',
+            \ g:gitgutter_sign_removed . ' '
+            \ ]
+      let hunks = GitGutterGetHunkSummary()
+      let ret = []
+      for i in [0, 1, 2]
+        if hunks[i] > 0
+          call add(ret, symbols[i] . hunks[i])
+        endif
+      endfor
+      return join(ret, ' ')
+    endfunction
+
+  endfunction
+
+" displays buffers in the tabline
+Plug 'https://github.com/ap/vim-buftabline'
+  function! SetBuftabline()
+    let g:buftabline_indicators=1
+  endfunction
+
+" indents as thin vertical lines
+Plug 'https://github.com/Yggdroot/indentLine'
+  function SetIndentline()
+    let g:indentLine_char='┋'
+    let g:indentLine_leadingSpaceChar="."
+    let g:indentLine_leadingSpaceEnabled=1
+  endfunction
+
+" rainbow parenthesis
+Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
+  " need function leader has not been set
+  function! SetRainbowParen()
+    nnoremap <Leader>r :RainbowParentheses!!<CR>
+    let g:rainbow#max_level=16
+    let g:rainbow#pairs=[['(', ')'], ['[', ']'], ['{','}']]
+  endfunction
+
+" explorer style navigation
+Plug 'https://github.com/scrooloose/nerdtree'
+  " need function, leader has not been set
+  function! SetNerdTree()
+    " make nerdtree act like netrw
+    let NERDTreeHijackNetrw=1
+    " toggle nerdtree
+    nnoremap <Leader>t :NERDTreeToggle<CR>
+    " set bookmarks file
+    let NERDTreeBookmarksFile=expand("$HOME/dotfiles/tmp/ntbookmarks")
+    " show bookmarks table
+    let NERDTreeShowBookmarks=1
+    " show hidden files
+    let NERDTreeShowHidden=1
+  endfunction
+
+" git support for nerdtree
+Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+
+" modal support for nerdtree, netrw
 Plug 'https://github.com/tpope/vim-vinegar'
 
-Plug 'https://github.com/rking/ag.vim'                     " util:  'silver_searcher' replacement for ack
-Plug 'https://github.com/godlygeek/tabular'                " util:  filtering and alignment
-Plug 'https://github.com/tpope/vim-surround'               " util:  surrounds with brackets, quotes, etc.
-Plug 'https://github.com/tyru/caw.vim'                     " Util:  comment out code
-Plug 'https://github.com/terryma/vim-multiple-cursors'     " util:  multiple cursor support like sublime
-Plug 'https://github.com/ervandew/supertab'                " util:  tab completion
-Plug 'https://github.com/rizzatti/dash.vim'                " util:  load dash
-
-Plug 'https://github.com/gabrielelana/vim-markdown'        " lang:  markdown support (must come after tabular)
-Plug 'https://github.com/derekwyatt/vim-scala'             " lang:  scala syntax support and more
-Plug 'https://github.com/ironfish/scala-api-complete'      " lang:  my autocomplete for scala
-
-Plug 'https://github.com/bling/vim-airline'                " ui:    mean status / tabline for vim
-Plug 'https://github.com/Yggdroot/indentLine'              " ui:    indents as thin vertical lines
+" fuzzy finder for both shell and vim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+  function! SetFzf()
+
+    " --- Search like ctrlp
+    " source:  use ag with (l=files-with-matches, g=PATTERN)
+    " sink:    vim edit
+    " options: fzf multi-select
+    nnoremap <space><space> :call fzf#run({
+        \  'source':  'ag -l -g ""',
+        \  'sink':    'e',
+        \  'options': '-m',
+        \  'down':    '40%'
+        \ })<CR>
+
+    " open in a new tab
+    nnoremap <space>t :call fzf#run({
+        \  'source':  'ag -l -g ""',
+        \  'sink':    'tabe',
+        \  'options': '-m',
+        \  'down':    '40%'
+        \ })<CR>
+
+    " horizontal split
+    nnoremap <silent> <space>h :call fzf#run({
+        \  'source':  'ag -l -g ""',
+        \  'down':    '40%',
+        \  'sink':    'botright split' })<CR>
+
+    " vertical split
+    nnoremap <silent> <space>v :call fzf#run({
+        \  'source':  'ag -l -g ""',
+        \  'right':   winwidth('.') / 2,
+        \  'sink':    'vertical botright split' })<CR>
+
+    " --- Buffer select
+    function! s:buflist()
+      redir => ls
+      silent ls
+      redir END
+      return split(ls, '\n')
+    endfunction
+
+    function! s:bufopen(e)
+      execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+    endfunction
+
+    nnoremap <silent> <space>b :call fzf#run({
+        \  'source':      reverse(<sid>buflist()),
+        \  'sink':        function('<sid>bufopen'),
+        \  'options':     '+m',
+        \  'down':        len(<sid>buflist()) + 2 })<CR>
+
+  endfunction
+
+" fuzzy finder for files, buffers, mru, outline, etc.
+Plug 'https://github.com/ctrlpvim/ctrlp.vim'
+  function! SetCtrlP()
+    " use ag with (-l = files-with-matches, -g = pattern)
+    let g:ctrlp_user_command='ag %s -l -g ""'
+    " disable cache, ag is more than fast enough
+    let g:ctrlp_use_caching=0
+    " bottom = position window at bottom
+    " order:ttb = order results from top to bottom
+    " min:1 = minimum window size of 1
+    " max:20 = maximum window size of 20
+    " results:100 = maximum result list of 100 items
+    let g:ctrlp_match_window='bottom,order:ttb,min:1,max:20,results:100'
+    "remap to ctrl-b
+    nnoremap <c-b> :CtrlPBuffer<cr>
+  endfunction
+
+" nice! do not have to generate ctags for outline
+Plug 'https://github.com/vim-scripts/ctrlp-funky'
+  function! SetCtrlPFunky()
+    " syntax highlighting for function outlining
+    let g:ctrlp_funky_syntax_highlight=1
+    "remap to ctrl-o
+    nnoremap <c-o> :CtrlPFunky<cr>
+  endfunction
 
 call plug#end()
-" --- bundles }}
+" ==================================================================================================================================
+" }}
 
-" --- behaviors {{
-filetype plugin indent on
-filetype plugin on
-set autoindent                                             " copy indent to new line
-set autoread                                               " when a file has changed outside of nvim
-set backspace=indent,eol,start                             " backspace over autoindent, eol, start to join lines
-set clipboard=unnamed                                      " use system clipboard
-set colorcolumn=+1                                         " set the right margin
-set cursorcolumn                                           " highlight the current column
-set cursorline                                             " highlight the current line
-set encoding=utf-8                                         " default set by neovim
-set expandtab                                              " replace tabs with spaces
-set history=100                                            " remember some stuff
-set laststatus=2                                           " set status line position
-set lazyredraw                                             " redraw only when needed
-set linebreak                                              " wrap at word
-set matchpairs=(:),[:],{:},<:>                             " highlight matching tags
-set mouse=a                                                " mouse support
-set number                                                 " show line numbers
-set ruler                                                  " show ruler in status line
-set scrolloff=8                                            " keep cursor 8 lines from top and bottom when page scrolls
-set shortmess+=A                                           " don't warn when there is an existing swap file
-set shiftwidth=2                                           " number of spaces to use for indent
-set showbreak=↪                                            " show break character when wrapping
-set showcmd                                                " show information about current command
-set showfulltag                                            " show the whole tag, not just the function name
-set showmode                                               " show mode in status line
-set softtabstop=2                                          " use 2 spaces, interpret tab as indent
-set t_vb=                                                  " clear the stupid flashing
-set tabstop=2                                              " set tab width
-set textwidth=132                                          " set width to 132
-set timeoutlen=300                                         " wait 300 millis for mapped key
-set title                                                  " set the current file name to the title
+" DEFAULTS {{
+" ==================================================================================================================================
+" remap leader to space
+let mapleader="\<Space>"
+" wait 300 millis for mapped key
+set timeoutlen=300
+
+" vim only
 if !has('nvim')
-set ttyfast                                                " fast terminal
+  " set default encoding (default in nvim)
+  set encoding=utf-8
+  " fast terminal
+  set ttyfast
 endif
-set visualbell                                             " turn of the stup bell.
-set whichwrap=h,l,[<]>],[<\>]                              " Make cursor keys wrap (] and \ are for right and left arrows).
-set wildmenu                                               " set menu for tab key
-set wildmode=list:longest,full                             " complete only up to the point of ambiguity
 
-" directories
-set backupdir=~/dotfiles/tmp/nvim-backup/                  " backup directory
-set directory=~/dotfiles/tmp/nvim-swap/                    " swap file directory
-set undodir=~/dotfiles/tmp/nvim-undo/                      " undo directory
-set viewdir=~/dotfiles/tmp/nvim-view/                      " view directory
-set viminfo='1000,n~/dotfiles/tmp/viminfo                  " viminfo directory
+" filetype detection, plugin and indent on
+filetype plugin indent on
+" Only define colors for groups that don't have highlighting yet
+syntax enable
+" scrolling can be very slow for long wraps (i.e. columns)
+set synmaxcol=200
 
+" colorscheme
+call SetSolarized()
+set background=dark
+colorscheme solarized
+call SetBuftabline()
+call SetLightline()
+call SetIndentline()
+
+" ctags location
+"set tags+=~/.ctags
+" ==================================================================================================================================
+" }}
+
+" DIRECTORIES (SWAP, BACKUP, ETC) {{
+" ==================================================================================================================================
+" don't warn when there is an existing swap file
+set shortmess+=A
+" backup directory
+set backupdir=~/dotfiles/tmp/nvim-backup/
+" swapfile directory
+set directory=~/dotfiles/tmp/nvim-swap/
+" undo directory
+set undodir=~/dotfiles/tmp/nvim-undo/
+" view directory
+set viewdir=~/dotfiles/tmp/nvim-view/
+" viminfo directory
+set viminfo='1000,n~/dotfiles/tmp/viminfo
+" ==================================================================================================================================
+" }}
+
+" EDITOR DISPLAY {{
+" ==================================================================================================================================
+" copy indent to new line
+set autoindent
+" set the right marging
+set colorcolumn=+1
+" highlight the current column
+set cursorcolumn
+" highlight the current line
+set cursorline
+" replace tabs with spaces
+set expandtab
+" set status line position
+set laststatus=2
+" redraw only when needed
+set lazyredraw
+" wrap at word
+set linebreak
 " list of invisible character to show
-set list listchars=tab:»-,trail:·,nbsp:·,extends:»,precedes:«,eol:¬
-" --- behaviors }}
+set list listchars=tab:»\ ,trail:-,extends:»,precedes:«
+" highlight matching tags
+set matchpairs=(:),[:],{:},<:>
+" show line numbers
+set number
+" show ruler in status line
+set ruler
+" number of spaces to use for indent
+set shiftwidth=2
+" show break character when wrapping
+set showbreak=↪
+" show information about current command
+set showcmd
+" show the whole tag, not just the function name
+set showfulltag
+" hide show mode in status line, using lightline plugin, not needed
+set noshowmode
+" use 2 spaces, interpret tab as indent
+set softtabstop=2
+" set tab width
+set tabstop=2
+" set width to 132
+set textwidth=132
+" set current file name to the title
+set title
+" soft wrap text that is longer than the line width
+set wrap linebreak nolist
+" ==================================================================================================================================
+" }}
 
-" --- folding {{
-" don't fold files by default on open
-set nofoldenable
-" fold marker
-set foldmarker={{,}}
-" fold based on indent level
-set foldmethod=marker
-set foldlevel=1
-set foldlevelstart=10
-set foldnestmax=10
-" --- folding }}
-
-" --- mappings {{
-" remap leader to ,
-let mapleader=","
-" ,f to fold
-nnoremap <leader>f za
-" ctrl-r for redo sucks, use uppercase U instead
-noremap U <C-R>
-
-" ,s to save
-noremap  <leader>s :update<CR>
-vnoremap <leader>s <C-C>:update<CR>
-inoremap <leader>s <C-O>:update<CR>
-
-" ,e to go to end of line
+" EDITOR BEHAVIOR {{
+" ==================================================================================================================================
+" go to end of line
 imap     <leader>e <esc>$
 nnoremap <leader>e $
 vnoremap <leader>e $
 
-" ,b to go to beginning of line
+" go to beginning of line
 imap     <leader>b <esc>0
 nnoremap <leader>b 0
 vnoremap <leader>b 0
@@ -127,12 +521,63 @@ vnoremap <leader>b 0
 nnoremap <tab> %
 vnoremap <tab> %
 
+" move cursor down within non-breaking lines
+nnoremap j gj
+" move cursor up within non-breaking lines
+nnoremap k gk
+" ctrl-r for redo sucks, use uppercase U instead
+noremap U <C-R>
 " toggle number/relativenumber
 nnoremap <leader>n :call ToggleNumber()<CR>
-" toggle/clear highlights
-nnoremap <leader>h :noh<cr>
 " toggle invisible characters
 nnoremap <leader>i :set list!<CR>
+" notify when file has changed outside of vim/nvim
+set autoread
+" backspace over autoindent, eol, start to join lines
+set backspace=indent,eol,start
+" use system clipboard
+set clipboard=unnamed
+" remember some stuff
+set history=100
+" Keep the cursor on the same column
+set nostartofline
+" mouse support
+set mouse=a
+" keep cursor 8 lines from top and bottom when page scrolls
+set scrolloff=8
+" clear the stupid flashing
+set t_vb=
+" turn of the stupid bell
+set visualbell
+" make cursor keys wrap (] and \ are for right and left arrows
+set whichwrap=h,l,[<]>],[<\>]
+" ==================================================================================================================================
+" }}
+
+" FOLDING {{
+" ==================================================================================================================================
+" toggle fold
+nnoremap <leader>f za
+" don't fold files by default on open
+set nofoldenable
+" fold marker
+set foldmarker={{,}}
+
+" fold based on indent level
+set foldmethod=marker
+set foldlevel=1
+set foldlevelstart=10
+set foldnestmax=10
+" ==================================================================================================================================
+" }}
+
+" BUFFER, WINDOW, TAB {{
+" ==================================================================================================================================
+" save current buffer
+noremap  <leader>s :update<CR>
+vnoremap <leader>s <C-C>:update<CR>
+inoremap <leader>s <C-O>:update<CR>
+
 " close buffer
 nnoremap <leader>d :bd<CR>
 " vertical window split
@@ -147,13 +592,24 @@ nnoremap <leader><leader>h <C-w>s
 nnoremap <leader><leader>d <C-w><down>
 " move to up split
 nnoremap <leader><leader>u <C-w><up>
-" move cursor down within non-breaking lines
-nnoremap j gj
-" move cursor up within non-breaking lines
-nnoremap k gk
-" --- mappings }}
+" hide buffers when abandoned, will allow movement to another without saving
+set hidden
+" ==================================================================================================================================
+" }}
 
-" --- search {{
+" MENU COMPLETION {{
+" ==================================================================================================================================
+" set menu for tab key
+set wildmenu
+" complete only up to the point of ambiguity
+set wildmode=list:longest,full
+" ==================================================================================================================================
+" }}
+
+" SEARCH {{
+" ==================================================================================================================================
+" toggle/clear highlights
+nnoremap <leader>h :noh<cr>
 " highlight search results
 set hlsearch
 " set search to ignore case
@@ -164,9 +620,13 @@ set incsearch
 set smartcase
 " set search to wrap lines
 set wrapscan
-" --- search }}
+" ==================================================================================================================================
+" }}
 
-" --- spelling {{
+" SPELLING {{
+" ==================================================================================================================================
+" toggle spelling
+map <leader>ss :setlocal spell!<cr>
 " turn on tab completion for spelling
 set complete+=kspell
 " unix/osx dictionary
@@ -175,166 +635,99 @@ set dictionary+=/usr/share/dict/words
 set spellfile=$HOME/.nvim/spell/en.utf8.add
 " spelling language
 set spelllang=en_us
-" toggle spelling
-map <leader>ss :setlocal spell!<cr>
-" --- spelling }}
+" ==================================================================================================================================
+" }}
 
-" --- file configs {{
-" html
-autocmd FileType html setlocal shiftwidth=4
-autocmd FileType html setlocal tabstop=4
-autocmd FileType html setlocal softtabstop=4
-autocmd FileType html setlocal expandtab
-" markdown
-autocmd FileType md   setlocal textwidth=0
-" python
-autocmd FileType python setlocal shiftwidth=4
-autocmd FileType python setlocal tabstop=4
-autocmd FileType python setlocal softtabstop=4
-autocmd FileType python setlocal expandtab
-" scala
-autocmd BufNewFile,BufRead *.scala set filetype=scala
-autocmd FileType scala setlocal shiftwidth=2
-autocmd FileType scala setlocal tabstop=2
-autocmd FileType scala setlocal softtabstop=2
-autocmd FileType scala setlocal expandtab
-autocmd FileType scala setlocal foldmethod=indent
-autocmd FileType scala setlocal foldlevel=1
-autocmd FileType scala setlocal foldlevelstart=10
-autocmd FileType scala setlocal foldnestmax=10
-autocmd FileType scala setlocal nofoldenable
-autocmd FileType scala setlocal omnifunc=scalaapi#complete
-" --- file configs }}
+" FILE CONFS {{
+" ==================================================================================================================================
+augroup filetype_java
+  autocmd!
+  autocmd BufNewFile,BufRead *.java set filetype=java
+  autocmd FileType java setlocal shiftwidth=4
+  autocmd FileType java setlocal tabstop=4
+  autocmd FileType java setlocal softtabstop=4
+  autocmd FileType java setlocal expandtab
+  autocmd FileType java setlocal foldmethod=indent
+  autocmd FileType java setlocal foldlevel=1
+  autocmd FileType java setlocal foldlevelstart=10
+  autocmd FileType java setlocal foldnestmax=10
+  autocmd FileType java setlocal nofoldenable
+  "autocmd FileType scala setlocal omnifunc=scalaapi#complete
+  "autocmd FileType scala set tags=~/dotfiles/nvim/plugged/vim-scala/ctags/scala.ctags
+augroup END
 
-" --- colorsheme {{
-" important for dark color schemes
-set background=dark
-" note: this must come first before settings
-colorscheme solarized
-" important for terminal (non-gui)
-let g:solarized_termcolors = 256
-let g:solarized_underline  = 0
-let g:solarized_contrast   = "high"
-" Sign Column made by solarized color is strange, clear it
-highlight clear SignColumn
-" set airblade's theme to solorized
-let g:airline_theme        = 'solarized'
-" --- colorscheme }}
+augroup filetype_html
+  autocmd!
+  autocmd FileType html setlocal shiftwidth=4
+  autocmd FileType html setlocal tabstop=4
+  autocmd FileType html setlocal softtabstop=4
+  autocmd FileType html setlocal expandtab
+augroup END
 
-" --- airline {{
-let g:airline_powerline_fonts = 1
+augroup filetype_markdown
+  autocmd!
+  " required so vim does not think .md files are something els
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'handlebars', 'java', 
+      \ 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby', 
+      \ 'scala', 'sass', 'xml', 'html']
+  "autocmd FileType md   setlocal textwidth=0
+augroup END
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-let g:airline#extensions#tabline#enabled = 1
-" -- airline }}
+augroup filetype_python
+  autocmd!
+  autocmd FileType python setlocal shiftwidth=4
+  autocmd FileType python setlocal tabstop=4
+  autocmd FileType python setlocal softtabstop=4
+  autocmd FileType python setlocal expandtab
+augroup END
 
-" --- caw commenter {{
-nmap <Leader>c <Plug>(caw:I:toggle)
-vmap <Leader>c <Plug>(caw:I:toggle)
-" --- caw commentor }}
+augroup filetype_scala
+  autocmd!
+  autocmd BufNewFile,BufRead *.scala set filetype=scala
+  autocmd FileType scala, RainbowParentheses
+  autocmd FileType scala setlocal shiftwidth=2
+  autocmd FileType scala setlocal tabstop=2
+  autocmd FileType scala setlocal softtabstop=2
+  autocmd FileType scala setlocal expandtab
+  autocmd FileType scala setlocal foldmethod=indent
+  autocmd FileType scala setlocal foldlevel=1
+  autocmd FileType scala setlocal foldlevelstart=10
+  autocmd FileType scala setlocal foldnestmax=10
+  autocmd FileType scala setlocal nofoldenable
+  autocmd FileType scala setlocal omnifunc=scalaapi#complete
+augroup END
+" ==================================================================================================================================
+" }}
 
-" --- gitgutter {{
-" disable gutter when gitgutter disabled
-let g:gitgutter_sign_column_always=0
-" enable at start
-let g:gitgutter_enabled = 1
-" enable signs
-let g:gitgutter_signs = 1
-" enable line highlights
-let g:gitgutter_highlight_lines=0
-" gitgutter will use Sign Column to set its color, reload it
-call gitgutter#highlight#define_highlights()
-" toggle gitgutter
-nnoremap <leader>gg :GitGutterToggle<CR>
-" --- gitgutter }}
+" SET PLUGINS {{
+" ==================================================================================================================================
+call SetMarked()
 
-" --- fzf {{
-" --- Search like ctrlp
-" source:  use ag with (l=files-with-matches, g=PATTERN)
-" sink:    vim edit
-" options: fzf multi-select
-nnoremap <space><space> :call fzf#run({
-\  'source':  'ag -l -g ""',
-\  'sink':    'e',
-\  'options': '-m',
-\  'down':    '40%'
-\ })<CR>
+call SetCaw()
 
-" open in a new tab
-nnoremap <space>t :call fzf#run({
-\  'source':  'ag -l -g ""',
-\  'sink':    'tabe',
-\  'options': '-m',
-\  'down':    '40%'
-\ })<CR>
+" love fzf, but currently does not work will with neovim
+"call SetFzf()
 
-" horizontal split
-nnoremap <silent> <space>h :call fzf#run({
-\  'source':  'ag -l -g ""',
-\  'down':    '40%',
-\  'sink':    'botright split' })<CR>
+call SetCtrlP()
+call SetCtrlPFunky()
 
-" vertical split
-nnoremap <silent> <space>v :call fzf#run({
-\  'source':  'ag -l -g ""',
-\  'right':   winwidth('.') / 2,
-\  'sink':    'vertical botright split' })<CR>
+call SetGitGutter()
 
-" --- Buffer select
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
+call SetFugative()
 
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
+call SetNerdTree()
 
-nnoremap <silent> <space>b :call fzf#run({
-\  'source':      reverse(<sid>buflist()),
-\  'sink':        function('<sid>bufopen'),
-\  'options':     '+m',
-\  'down':        len(<sid>buflist()) + 2 })<CR>
-" --- fzf }}
+call SetRainbowParen()
 
-" --- indentLine {{
-let g:indentLine_char='┆'
-let g:indentLine_leadingSpaceChar="."
-let g:indentLine_leadingSpaceEnabled=1
-" --- indentline }}
+call SetSuperTab()
 
-" --- nerdtree {{
-" make nerdtree act like netrw
-let NERDTreeHijackNetrw=1
-" toggle nerdtree
-nnoremap <leader>t :NERDTreeToggle<CR>
-" set bookmarks file
-let NERDTreeBookmarksFile=expand("$HOME/dotfiles/tmp/ntbookmarks")
-" show bookmarks table
-let NERDTreeShowBookmarks=1
-" show hidden files
-let NERDTreeShowHidden=1
-" -- nerdtree }}
+"call SetSyntastic()
+" ==================================================================================================================================
+" }}
 
-" --- supertab {{
-"@see - https://github.com/ervandew/supertab/issues/99
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-p>"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextDiscoverDiscovery = ["&omnifunc:<c-x><c-o>"]
-autocmd FileType *
-  \ if &omnifunc != '' |
-  \ call SuperTabChain(&omnifunc, "<c-p>") |
-  \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-  \ endif
-" --- supertab }}
-
-" --- functions {{
+" FUNCTIONS {{
+" ==================================================================================================================================
 function! ToggleNumber()
   if(&relativenumber == 1)
     set norelativenumber
@@ -343,4 +736,5 @@ function! ToggleNumber()
     set relativenumber
   endif
 endfunction
-" --- functions }}
+" ==================================================================================================================================
+" }}

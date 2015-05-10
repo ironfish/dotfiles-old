@@ -49,6 +49,15 @@ Plug 'https://github.com/airblade/vim-gitgutter'
 " silver_searcher' replacement for ack
 Plug 'https://github.com/rking/ag.vim'
 
+" easy alignment
+Plug 'https://github.com/junegunn/vim-easy-align'
+  function! SetEasyAlign()
+    " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+    vmap <Enter> <Plug>(EasyAlign)
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nmap ga <Plug>(EasyAlign)
+  endfunction
+
 " filtering and alignment
 Plug 'https://github.com/godlygeek/tabular'
 
@@ -64,6 +73,24 @@ Plug 'https://github.com/tyru/caw.vim'
 
 " multiple cursor support like sublime
 Plug 'https://github.com/terryma/vim-multiple-cursors'
+  function! SetMultipleCursors()
+    " VISUAL MODE:
+    "   1. ctrl-n will select the word(s) and place you in VISUAL mode
+    "   3. 'h','j','k' and 'l' will allow you to change the selection block
+    "   4. 'c' or 's' will delete the selected word(s) and enter INSERT mode
+    " NORMAL MODE:
+    "   1. use 'v' to enter normal mode
+    "   2. 'i' will insert at the cursor(s) current location
+    "   3. 'I' will move the cursor to the beginning of the line for insertion
+    "   4. 'a' will move the cursor to the end of the word for insertion
+    "   4. 'A' will move the cursor to the end of the line for insertion
+    " turn off defaults as they may conflict with CtrlP
+    let g:multi_cursor_use_default_mapping=0
+    let g:multi_cursor_next_key='<C-n>'
+    let g:multi_cursor_prev_key='<C-m>'
+    let g:multi_cursor_skip_key='<C-x>'
+    let g:multi_cursor_quit_key='<Esc>'
+  endfunction
 
 " tab completion
 Plug 'https://github.com/ervandew/supertab'
@@ -282,7 +309,7 @@ Plug 'https://github.com/ap/vim-buftabline'
 
 " indents as thin vertical lines
 Plug 'https://github.com/Yggdroot/indentLine'
-  function SetIndentline()
+  function! SetIndentline()
     let g:indentLine_char='┋'
     let g:indentLine_leadingSpaceChar="."
     let g:indentLine_leadingSpaceEnabled=1
@@ -408,7 +435,9 @@ call plug#end()
 " ==================================================================================================================================
 " remap leader to space
 let mapleader="\<Space>"
+
 " wait 300 millis for mapped key
+set timeout
 set timeoutlen=300
 
 " vim only
@@ -419,10 +448,9 @@ if !has('nvim')
   set ttyfast
 endif
 
-" filetype detection, plugin and indent on
-filetype plugin indent on
 " Only define colors for groups that don't have highlighting yet
 syntax enable
+
 " scrolling can be very slow for long wraps (i.e. columns)
 set synmaxcol=200
 
@@ -439,73 +467,233 @@ call SetIndentline()
 " ==================================================================================================================================
 " }}
 
-" DIRECTORIES (SWAP, BACKUP, ETC) {{
+" DIRECTORIES, WRITING (SWAP, BACKUP, ETC) {{
 " ==================================================================================================================================
-" don't warn when there is an existing swap file
-set shortmess+=A
+" save current buffer
+nmap <leader>w :w!<cr>
+
+" reload nvimrc
+nnoremap <leader>ww :source $MYVIMRC<CR>
+
+" notify when file has changed outside of vim/nvim
+set autoread
+
+" Like 'autowrite', but also used for ':edit', ':enew', ':quit', ':qall', r:exit", ':xit', ':recover' and closing the Vim window
+set autowriteall
+
+" delete old backup, backup current filed
+set backup
+
 " backup directory
 set backupdir=~/dotfiles/tmp/nvim-backup/
+
 " swapfile directory
 set directory=~/dotfiles/tmp/nvim-swap/
+
+" don't warn when there is an existing swap file
+set shortmess+=A
+
 " undo directory
 set undodir=~/dotfiles/tmp/nvim-undo/
+
 " view directory
 set viewdir=~/dotfiles/tmp/nvim-view/
+
 " viminfo directory
 set viminfo='1000,n~/dotfiles/tmp/viminfo
+
+" delete old backup, backup current file
+set writebackup
 " ==================================================================================================================================
 " }}
 
-" EDITOR DISPLAY {{
+" DISPLAY {{
 " ==================================================================================================================================
-" copy indent to new line
-set autoindent
+" toggle number/relativenumber
+nnoremap <leader>n :call ToggleNumber()<CR>
+
+" toggle invisible characters
+nnoremap <leader>i :set list!<CR>
+
 " set the right marging
 set colorcolumn=+1
+
 " highlight the current column
 set cursorcolumn
+
 " highlight the current line
 set cursorline
-" replace tabs with spaces
-set expandtab
+
+" characters to fill the statuslines and vertical separators
+set fillchars+=stl:\ 
+set fillchars+=stlnc:\ 
+set fillchars+=fold:\ 
+set fillchars+=diff:\ 
+set fillchars+=vert:\ 
+
 " set status line position
 set laststatus=2
+
 " redraw only when needed
 set lazyredraw
+
 " wrap at word
 set linebreak
+
 " list of invisible character to show
-set list listchars=tab:»\ ,trail:-,extends:»,precedes:«
+set list
+set listchars+=tab:›\ "
+set listchars+=trail:·
+set listchars+=nbsp:␣
+set listchars+=extends:›
+set listchars+=precedes:‹
+set listchars+=eol:¶"
+
 " highlight matching tags
 set matchpairs=(:),[:],{:},<:>
+
 " show line numbers
 set number
+
 " show ruler in status line
 set ruler
-" number of spaces to use for indent
-set shiftwidth=2
-" show break character when wrapping
-set showbreak=↪
+
 " show information about current command
 set showcmd
+
 " show the whole tag, not just the function name
 set showfulltag
+
 " hide show mode in status line, using lightline plugin, not needed
 set noshowmode
-" use 2 spaces, interpret tab as indent
-set softtabstop=2
-" set tab width
-set tabstop=2
+
+" keep cursor 8 lines from top and bottom when page scrolls
+set scrolloff=8
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
+" clear the stupid flashing
+set t_vb=
+
 " set width to 132
 set textwidth=132
+
 " set current file name to the title
 set title
-" soft wrap text that is longer than the line width
-set wrap linebreak nolist
+
+" turn of the stupid bell
+set visualbell
 " ==================================================================================================================================
 " }}
 
-" EDITOR BEHAVIOR {{
+" CUT, PASTE and UNDO {{
+" ==================================================================================================================================
+" ctrl-r for redo sucks, use uppercase U instead
+noremap U <C-R>
+
+" use system clipboard
+set clipboard=unnamed
+
+" remember some stuff
+set history=100
+" ==================================================================================================================================
+" }}
+
+" FOLDING {{
+" ==================================================================================================================================
+" toggle fold
+nnoremap <leader>f za
+
+" don't fold files by default on open
+set nofoldenable
+
+" fold marker
+set foldmarker={{,}}
+
+" fold based on indent level
+set foldmethod=marker
+set foldlevel=1
+set foldlevelstart=10
+set foldnestmax=10
+" ==================================================================================================================================
+" }}
+
+" INDENTS, SPACES, TABS and WRAPS {{
+" ==================================================================================================================================
+" filetype detection, plugin and indent on
+filetype plugin indent on
+
+" copy indent to new line
+set autoindent
+
+" replace tabs with spaces
+set expandtab
+
+" don't join lines with two spaces at the end of sentences; I don't two-space
+set nojoinspaces
+
+" number of spaces to use for indent
+set shiftwidth=2
+
+" show break character when wrapping
+set showbreak=↪
+
+" smart autoindenting when starting a new line
+set smartindent
+
+" when on, a <Tab> in front of a line inserts blanks according to 'shiftwidth', 'tabstop' or 'softtabstop' is used in other places.
+set smarttab
+
+" use 2 spaces, interpret tab as indent
+set softtabstop=2
+
+" set tab width
+set tabstop=2
+" ==================================================================================================================================
+" }}
+
+" MENU COMPLETION {{
+" ==================================================================================================================================
+" set menu for tab key
+set wildmenu
+
+" complete only up to the point of ambiguity
+set wildmode=list:longest,full
+" ==================================================================================================================================
+" }}
+
+" MOUSE SUPPORT {{
+" ==================================================================================================================================
+" mouse support
+set mouse=a
+" ==================================================================================================================================
+" }}
+
+" NAVIGATION for BUFFERS, WINDOWS and TABS {{
+" ==================================================================================================================================
+" close buffer
+nnoremap <leader>d :bd<CR>
+
+" vertical/horizontal window split
+nnoremap <leader>v <C-w>v
+"nnoremap <leader><leader>h <C-w>s
+
+" move to left/right/up/down split
+" NOTE: C-h is a prolem in neovim @see https://github.com/neovim/neovim/issues/2048
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+
+" hide buffers when abandoned, will allow movement to another without saving
+set hidden
+" ==================================================================================================================================
+" }}
+
+" NAVIGATION for LINES {{
 " ==================================================================================================================================
 " go to end of line
 imap     <leader>e <esc>$
@@ -521,105 +709,57 @@ vnoremap <leader>b 0
 nnoremap <tab> %
 vnoremap <tab> %
 
-" move cursor down within non-breaking lines
+" move cursor down/up within non-breaking lines
 nnoremap j gj
-" move cursor up within non-breaking lines
 nnoremap k gk
-" ctrl-r for redo sucks, use uppercase U instead
-noremap U <C-R>
-" toggle number/relativenumber
-nnoremap <leader>n :call ToggleNumber()<CR>
-" toggle invisible characters
-nnoremap <leader>i :set list!<CR>
-" notify when file has changed outside of vim/nvim
-set autoread
+
+" keep the cursor on the same column
+set nostartofline
+
 " backspace over autoindent, eol, start to join lines
 set backspace=indent,eol,start
-" use system clipboard
-set clipboard=unnamed
-" remember some stuff
-set history=100
-" Keep the cursor on the same column
-set nostartofline
-" mouse support
-set mouse=a
-" keep cursor 8 lines from top and bottom when page scrolls
-set scrolloff=8
-" clear the stupid flashing
-set t_vb=
-" turn of the stupid bell
-set visualbell
 " make cursor keys wrap (] and \ are for right and left arrows
 set whichwrap=h,l,[<]>],[<\>]
 " ==================================================================================================================================
 " }}
 
-" FOLDING {{
-" ==================================================================================================================================
-" toggle fold
-nnoremap <leader>f za
-" don't fold files by default on open
-set nofoldenable
-" fold marker
-set foldmarker={{,}}
-
-" fold based on indent level
-set foldmethod=marker
-set foldlevel=1
-set foldlevelstart=10
-set foldnestmax=10
-" ==================================================================================================================================
-" }}
-
-" BUFFER, WINDOW, TAB {{
-" ==================================================================================================================================
-" save current buffer
-noremap  <leader>s :update<CR>
-vnoremap <leader>s <C-C>:update<CR>
-inoremap <leader>s <C-O>:update<CR>
-
-" close buffer
-nnoremap <leader>d :bd<CR>
-" vertical window split
-nnoremap <leader>v <C-w>v
-" move to left split
-nnoremap <leader><leader>l <C-w><left>
-" move to right split
-nnoremap <leader><leader>r <C-w><right>
-" horizontal window split
-nnoremap <leader><leader>h <C-w>s
-" move to down split
-nnoremap <leader><leader>d <C-w><down>
-" move to up split
-nnoremap <leader><leader>u <C-w><up>
-" hide buffers when abandoned, will allow movement to another without saving
-set hidden
-" ==================================================================================================================================
-" }}
-
-" MENU COMPLETION {{
-" ==================================================================================================================================
-" set menu for tab key
-set wildmenu
-" complete only up to the point of ambiguity
-set wildmode=list:longest,full
-" ==================================================================================================================================
-" }}
-
 " SEARCH {{
+" ==================================================================================================================================
+" NOTES:
+" type / followed by ctrl-f to open search history window
 " ==================================================================================================================================
 " toggle/clear highlights
 nnoremap <leader>h :noh<cr>
+
 " highlight search results
 set hlsearch
+
 " set search to ignore case
 set ignorecase
+
 " incremental highlight as search is typed
 set incsearch
+
 " case sensitive search when given caps
 set smartcase
+
+" soft wrap text that is longer than the line width
+set wrap linebreak nolist
+
 " set search to wrap lines
 set wrapscan
+" ==================================================================================================================================
+" }}
+
+" SELECTING {{
+" ==================================================================================================================================
+" NOTES:
+" ctrl-v to select text in block mode
+" ==================================================================================================================================
+" when in visual block mode, let me move the cursor anywhere in the buffer; don't restrict me only to regions with text
+if has('virtualedit')
+  set virtualedit+=block
+endif
 " ==================================================================================================================================
 " }}
 
@@ -627,12 +767,16 @@ set wrapscan
 " ==================================================================================================================================
 " toggle spelling
 map <leader>ss :setlocal spell!<cr>
+
 " turn on tab completion for spelling
 set complete+=kspell
+
 " unix/osx dictionary
 set dictionary+=/usr/share/dict/words
+
 " spelling whitelist
 set spellfile=$HOME/.nvim/spell/en.utf8.add
+
 " spelling language
 set spelllang=en_us
 " ==================================================================================================================================
@@ -709,6 +853,10 @@ call SetCaw()
 " love fzf, but currently does not work will with neovim
 "call SetFzf()
 
+call SetMultipleCursors()
+
+call SetEasyAlign()
+
 call SetCtrlP()
 call SetCtrlPFunky()
 
@@ -735,6 +883,11 @@ function! ToggleNumber()
   else
     set relativenumber
   endif
+endfunction
+
+nnoremap <Leader>k :call ShowMaps()
+function! ShowMaps()
+  :! ag --nocolor --nonumbers 'i(nore)?map|mapleader|n(nore)?map|v(nore)?map' $MYVIMRC | sed -E 's/^(( )*)?(.*)/\3/'
 endfunction
 " ==================================================================================================================================
 " }}

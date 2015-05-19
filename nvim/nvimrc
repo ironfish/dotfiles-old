@@ -8,48 +8,49 @@ if &shell=~# 'fish$'
   set shell=/bin/sh
 endif
 
-" BUNDLES {{
+" PLUG#BEGIN (plugin manager begin) {{
 " ==================================================================================================================================
-" plugin manager https://github.com/junegunn/vim-plug
+" NOTE: https://github.com/junegunn/vim-plug
+" NOTE: i like to keep all my plugin settings with the plugin
 call plug#begin('~/.nvim/plugged')
 
-" git wrapper for commands
+" VIM-FUGATIVE (run git commands)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tpope/vim-fugitive'
   " need function, leader has not been set
   function! SetFugative()
     nmap     <Leader>g :Gstatus<CR>gg<c-n>
     nnoremap <Leader>d :Gdiff<CR>
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" diff in gutter
+" VIM-GITGUTTER (show git diff in gutter)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/airblade/vim-gitgutter'
   function! SetGitGutter()
-    " disable gutter when gitgutter disabled
-    let g:gitgutter_sign_column_always=0
-    " enable at start
-    let g:gitgutter_enabled=1
-    " max signs
-    let g:gitgutter_max_signs=1000
-    " heavy greek cross
-    let g:gitgutter_sign_added="\u271a"
-    " heavy rounded-tip rightwards arrow
-    let g:gitgutter_sign_modified="\u279c"
-    " heavy ballot X
-    let g:gitgutter_sign_removed="\u2718"
-    let g:gitgutter_sign_modified_removed="►"
-    let g:gitgutter_signs=1
-    " enable line highlights
-    let g:gitgutter_highlight_lines=0
+    let g:gitgutter_sign_column_always=0         " disable gutter when gitgutter disabled
+    let g:gitgutter_enabled=1                    " enable at start
+    let g:gitgutter_max_signs=1000               " max signs
+    let g:gitgutter_sign_added="\u271a"          " heavy greek cross
+    let g:gitgutter_sign_modified="\u279c"       " heavy rounded-tip rightwards arrow
+    let g:gitgutter_sign_removed="\u2718"        " heavy ballot X
+    let g:gitgutter_sign_modified_removed="►"    " medium right facing triangle
+    let g:gitgutter_signs=1                      " enable signs by default
+    let g:gitgutter_highlight_lines=0            " enable line highlights
     " gitgutter will use Sign Column to set its color, reload it
     call gitgutter#highlight#define_highlights()
     " toggle gitgutter
     nnoremap <Leader>gg :GitGutterToggle<CR>
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" silver_searcher' replacement for ack
+" AG (silver_sercher, super fast, replacepment for ack)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/rking/ag.vim'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" easy alignment
+" VIM-EASY-ALIGN (provides easy alignment of stuff)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/junegunn/vim-easy-align'
   function! SetEasyAlign()
     " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -57,33 +58,41 @@ Plug 'https://github.com/junegunn/vim-easy-align'
     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
     nmap ga <Plug>(EasyAlign)
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" filtering and alignment
+" TABULAR (provides filtering and alignment)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/godlygeek/tabular'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" surrounds with brackets, quotes, etc.
+" VIM-SURROUND (surrounds with brackets, quotes, etc.)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tpope/vim-surround'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" comment out code
+" CAW (provides code comments)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tyru/caw.vim'
   function! SetCaw()
     nmap <Leader>c <Plug>(caw:I:toggle)
     vmap <Leader>c <Plug>(caw:I:toggle)
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" multiple cursor support like sublime
+" VIM-MULTPLE-CURSORS (multiple cursor support like sublime text)
+" ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE VISUAL MODE:
+"   1. ctrl-n will select the word(s) and place you in VISUAL mode
+"   3. 'h','j','k' and 'l' will allow you to change the selection block
+"   4. 'c' or 's' will delete the selected word(s) and enter INSERT mode
+" NOTE NORMAL MODE:
+"   1. use 'v' to enter normal mode
+"   2. 'i' will insert at the cursor(s) current location
+"   3. 'I' will move the cursor to the beginning of the line for insertion
+"   4. 'a' will move the cursor to the end of the word for insertion
+"   4. 'A' will move the cursor to the end of the line for insertion
 Plug 'https://github.com/terryma/vim-multiple-cursors'
   function! SetMultipleCursors()
-    " VISUAL MODE:
-    "   1. ctrl-n will select the word(s) and place you in VISUAL mode
-    "   3. 'h','j','k' and 'l' will allow you to change the selection block
-    "   4. 'c' or 's' will delete the selected word(s) and enter INSERT mode
-    " NORMAL MODE:
-    "   1. use 'v' to enter normal mode
-    "   2. 'i' will insert at the cursor(s) current location
-    "   3. 'I' will move the cursor to the beginning of the line for insertion
-    "   4. 'a' will move the cursor to the end of the word for insertion
-    "   4. 'A' will move the cursor to the end of the line for insertion
     " turn off defaults as they may conflict with CtrlP
     let g:multi_cursor_use_default_mapping=0
     let g:multi_cursor_next_key='<C-n>'
@@ -91,8 +100,10 @@ Plug 'https://github.com/terryma/vim-multiple-cursors'
     let g:multi_cursor_skip_key='<C-x>'
     let g:multi_cursor_quit_key='<Esc>'
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" tab completion
+" SUPERTAB (awesome tab completion)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ervandew/supertab'
   function! SetSuperTab()
     "@see - https://github.com/ervandew/supertab/issues/99
@@ -106,20 +117,30 @@ Plug 'https://github.com/ervandew/supertab'
         \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
         \ endif
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" load dash
+" DASH (load dash api support, must have dash installed, OSX only)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/rizzatti/dash.vim'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" autocompletion for parens, brackets, etc.
+" DELIMITMATE (autocompletion for parens, brackets, etc.)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/Raimondi/delimitMate'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" markdown support must come after tabular
+" VIM-MARKDOWN (gabrielelana markdown support must come after tabular)
+" ----------------------------------------------------------------------------------------------------------------------------------
 "Plug 'https://github.com/gabrielelana/vim-markdown'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" markdown support must come after tabular
+" VIM-MARKDOWN (plasticboy markdown support must come after tabular)
+" ----------------------------------------------------------------------------------------------------------------------------------
 "Plug 'https://github.com/plasticboy/vim-markdown'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" open/close marked for markdown preview
+" VIM-MARKED (open/close marked for markdown preview)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/itspriddle/vim-marked'
   "it sucks that I have to keep track of this, it should be part of the plugin
   function! SetMarked()
@@ -138,17 +159,25 @@ Plug 'https://github.com/itspriddle/vim-marked'
     " toggle number/relativenumber
     nnoremap <leader>m :call ToggleMarked()<CR>
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" syntax coloring support
+" VIM-HANDLEBARS (provides syntax coloring support)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/nono/vim-handlebars'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" scala language support
+" VIM-SCALA (derek wyatt's awesome scala language support)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/derekwyatt/vim-scala'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" my autocompletion for scala
+" SCALA-API-COMPLETE (my autocompletion for scala, work in progress)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ironfish/scala-api-complete'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" syntax checker
+" SYNTASTIC (compilation syntax checker)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/scrooloose/syntastic'
   function! SetSyntastic()
     set statusline+=%#warningmsg#
@@ -159,22 +188,29 @@ Plug 'https://github.com/scrooloose/syntastic'
     let g:syntastic_check_on_open=1
     let g:syntastic_check_on_wq=0
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" solarized theme
+" VIM-COLORS-SOLARIZED (best colorscheme around)
+" ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: these need to be set before setting colorscheme
+" NOTE: great article: http://tinyurl.com/mqm8od3
 Plug 'https://github.com/altercation/vim-colors-solarized'
   function! SetSolarized()
     let g:solarized_contrast="normal"
     let g:solarized_underline=0
     let g:solarized_visibility="normal"
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
+" LIGHTLINE (best statusline for vim hands down!)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/itchyny/lightline.vim'
   function! SetLightline()
     let g:lightline = {
         \ 'colorscheme': 'solarized_dark',
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'gitgutter', 'fugitive', 'filename' ], [ 'ctrlpmark' ] ],
-        \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \   'right': [ [ 'syntastic', 'trailing', 'indentation', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype'] ]
         \ },
         \ 'component_function': {
         \   'gitgutter': 'MyGitGutter',
@@ -188,9 +224,13 @@ Plug 'https://github.com/itchyny/lightline.vim'
         \ },
         \ 'component_expand': {
         \   'syntastic': 'SyntasticStatuslineFlag',
+        \   'trailing': 'TrailingSpaceWarning',
+        \   'indentation': 'MixedIndentSpaceWarning',
         \ },
         \ 'component_type': {
         \   'syntastic': 'error',
+        \   'trailing': 'warning',
+        \   'indentation': 'warining',
         \ },
         \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
         \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
@@ -203,7 +243,7 @@ Plug 'https://github.com/itchyny/lightline.vim'
     function! MyReadonly()
       return &ft !~? 'help' && &readonly ? "\ue0a2" : ''
     endfunction
-    
+
     function! MyFugitive()
       try
         if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
@@ -220,21 +260,22 @@ Plug 'https://github.com/itchyny/lightline.vim'
       return printf("\ue862 %3d:%-2d", line('.'), col('.'))
     endfunction
 
-	  function! MyFileformat()
-	    return winwidth(0) > 70 ? &fileformat : ''
-	  endfunction
+    function! MyFileformat()
+      return winwidth(0) > 70 ? &fileformat : ''
+    endfunction
 
-	  function! MyFileencoding()
-	    return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-	  endfunction
+    function! MyFileencoding()
+      return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    endfunction
 
     function! MyFiletype()
-	    return winwidth(0) > 70 ? (strlen(&filetype) ? "\ue12d" . ' ' . &filetype : 'no ft') : ''
-	  endfunction
-	   
+      return winwidth(0) > 70 ? (strlen(&filetype) ? "\ue12d" . ' ' . &filetype : 'no ft') : ''
+    endfunction
+
     function! MyFilename()
       let fname = expand('%:t')
       return fname == 'ControlP' ? g:lightline.ctrlp_item :
+           \ fname == '__Tagbar__' ? g:lightline.fname :
            \ fname =~ 'NERD_tree' ? '' :
            \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
            \ ('' != fname ? fname : '[No Name]') .
@@ -267,7 +308,7 @@ Plug 'https://github.com/itchyny/lightline.vim'
     function! CtrlPStatusFunc_2(str)
       return lightline#statusline(0)
     endfunction
-    
+
     augroup AutoSyntastic
       autocmd!
       autocmd BufWritePost *.c,*.cpp call s:syntastic()
@@ -299,87 +340,119 @@ Plug 'https://github.com/itchyny/lightline.vim'
       return join(ret, ' ')
     endfunction
 
-  endfunction
+    " credit to https://github.com/obxhdx/vimfiles/blob/master/lightline.vim
+    function! TrailingSpaceWarning()
+      if winwidth(0) < 80
+        return ''
+      endif
+      let trailing = search('\s$', 'nw')
+      if trailing != 0
+        return '… trailing[' . trailing . ']'
+      else
+        return ''
+      endif
+    endfunction
 
-" displays buffers in the tabline
+    function! MixedIndentSpaceWarning()
+      if winwidth(0) < 80
+        return ''
+      endif
+      let tabs = search('^\t', 'nw')
+      let spaces = search('^ ', 'nw')
+      if (tabs != 0) && (spaces != 0)
+        return '» mixed-indent[' . tabs . ']'
+      else
+        return ''
+      endif
+    endfunction
+
+    augroup ComponentExpand
+      autocmd!
+      autocmd CursorHold,BufWritePost,InsertLeave * call s:flags()
+    augroup END
+
+    function! s:flags()
+      if exists('#LightLine')
+        call TrailingSpaceWarning()
+        call MixedIndentSpaceWarning()
+        call lightline#update()
+      endif
+    endfunction
+
+  endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
+
+" VIM-BUFTABLINE (displays buffers in the tabline)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ap/vim-buftabline'
   function! SetBuftabline()
-    let g:buftabline_indicators=1
+    let g:buftabline_indicators=1  " buffer's state is indicated in the buffer label
+    let g:buftabline_show=1        " only if there are at least two buffers
+    let g:buftabline_numbers=1     " the buffer number is shown in the buffer label
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" indents as thin vertical lines
+" INDENTLINE (indents as thin vertical lines)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/Yggdroot/indentLine'
   function! SetIndentline()
     let g:indentLine_char='┋'
     let g:indentLine_leadingSpaceChar="."
     let g:indentLine_leadingSpaceEnabled=1
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" rainbow parenthesis
+" RAINBOW_PARENTHESIS (nested colored parenthesis)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
-  " need function leader has not been set
   function! SetRainbowParen()
     nnoremap <Leader>r :RainbowParentheses!!<CR>
     let g:rainbow#max_level=16
     let g:rainbow#pairs=[['(', ')'], ['[', ']'], ['{','}']]
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" explorer style navigation
-Plug 'https://github.com/scrooloose/nerdtree'
-  " need function, leader has not been set
-  function! SetNerdTree()
-    " make nerdtree act like netrw
-    let NERDTreeHijackNetrw=1
-    " toggle nerdtree
-    nnoremap <Leader>t :NERDTreeToggle<CR>
-    " set bookmarks file
-    let NERDTreeBookmarksFile=expand("$HOME/dotfiles/tmp/ntbookmarks")
-    " show bookmarks table
-    let NERDTreeShowBookmarks=1
-    " show hidden files
-    let NERDTreeShowHidden=1
-  endfunction
+" NERDTREE (explorer style navigation)
+" ----------------------------------------------------------------------------------------------------------------------------------
+"Plug 'https://github.com/scrooloose/nerdtree'
+"  function! SetNerdTree()
+"    " toggle nerdtree
+"    nnoremap <Leader>t :NERDTreeToggle<CR>
+"    let NERDTreeBookmarksFile=expand("$HOME/dotfiles/tmp/ntbookmarks")    " set bookmarks file
+"    let NERDTreeHijackNetrw=1    " make nerdtree act like netrw
+"    let NERDTreeShowBookmarks=1  " show bookmarks table
+"    let NERDTreeShowHidden=1     " show hidden files
+"  endfunction
 
 " git support for nerdtree
-Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+"Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
 
 " modal support for nerdtree, netrw
 Plug 'https://github.com/tpope/vim-vinegar'
+" ----------------------------------------------------------------------------------------------------------------------------------
 
-" fuzzy finder for both shell and vim
+" TAGBAR
+" ----------------------------------------------------------------------------------------------------------------------------------
+Plug 'https://github.com/majutsushi/tagbar'
+  function! SetTagbar()
+    let g:tagbar_compact=1
+    let g:tagbar_indent=1
+  endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
+
+" FZF (fuzzy finder for both shell and vim)
+" ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: currently not working with neovim due to neovim terminal issue
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   function! SetFzf()
 
-    " --- Search like ctrlp
-    " source:  use ag with (l=files-with-matches, g=PATTERN)
-    " sink:    vim edit
-    " options: fzf multi-select
-    nnoremap <space><space> :call fzf#run({
-        \  'source':  'ag -l -g ""',
-        \  'sink':    'e',
-        \  'options': '-m',
-        \  'down':    '40%'
-        \ })<CR>
+    " display finder info inline with query
+    if has('nvim')
+      let $FZF_DEFAULT_OPTS .= ' --inline-info'
+    endif
 
-    " open in a new tab
-    nnoremap <space>t :call fzf#run({
-        \  'source':  'ag -l -g ""',
-        \  'sink':    'tabe',
-        \  'options': '-m',
-        \  'down':    '40%'
-        \ })<CR>
-
-    " horizontal split
-    nnoremap <silent> <space>h :call fzf#run({
-        \  'source':  'ag -l -g ""',
-        \  'down':    '40%',
-        \  'sink':    'botright split' })<CR>
-
-    " vertical split
-    nnoremap <silent> <space>v :call fzf#run({
-        \  'source':  'ag -l -g ""',
-        \  'right':   winwidth('.') / 2,
-        \  'sink':    'vertical botright split' })<CR>
+    " -m = multi-select
+    nnoremap <leader><leader> :FZF -m<CR>
 
     " --- Buffer select
     function! s:buflist()
@@ -393,307 +466,138 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
       execute 'buffer' matchstr(a:e, '^[ 0-9]*')
     endfunction
 
-    nnoremap <silent> <space>b :call fzf#run({
+    nnoremap <silent> <space><space>b :call fzf#run({
         \  'source':      reverse(<sid>buflist()),
         \  'sink':        function('<sid>bufopen'),
         \  'options':     '+m',
         \  'down':        len(<sid>buflist()) + 2 })<CR>
 
-  endfunction
+    command! FZFTag if !empty(tagfiles()) | call fzf#run({
+        \   'source': "sed '/^\\!/d;s/\t.*//' " . join(tagfiles()) . ' | uniq',
+        \   'sink':   'tag',
+        \ }) | else | echo 'No tags' | endif
 
-" fuzzy finder for files, buffers, mru, outline, etc.
+  endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
+
+" CTRLP (fuzzy finder for files, buffers, mru, outline, etc.)
+" ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
   function! SetCtrlP()
-    " use ag with (-l = files-with-matches, -g = pattern)
-    let g:ctrlp_user_command='ag %s -l -g ""'
-    " disable cache, ag is more than fast enough
-    let g:ctrlp_use_caching=0
+    "remap to ctrl-b
+    nnoremap <c-b> :CtrlPBuffer<cr>
+    let g:ctrlp_user_command='ag %s -l -g ""'    " use ag with (-l = files-with-matches, -g = pattern)
+    let g:ctrlp_use_caching=0                    " disable cache, ag is more than fast enough
     " bottom = position window at bottom
     " order:ttb = order results from top to bottom
     " min:1 = minimum window size of 1
     " max:20 = maximum window size of 20
     " results:100 = maximum result list of 100 items
     let g:ctrlp_match_window='bottom,order:ttb,min:1,max:20,results:100'
-    "remap to ctrl-b
-    nnoremap <c-b> :CtrlPBuffer<cr>
   endfunction
 
 " nice! do not have to generate ctags for outline
 Plug 'https://github.com/vim-scripts/ctrlp-funky'
   function! SetCtrlPFunky()
-    " syntax highlighting for function outlining
-    let g:ctrlp_funky_syntax_highlight=1
     "remap to ctrl-o
     nnoremap <c-o> :CtrlPFunky<cr>
+    let g:ctrlp_funky_syntax_highlight=1    " syntax highlighting for function outlining
   endfunction
+" ----------------------------------------------------------------------------------------------------------------------------------
 
+" PLUG#END (plugin manager end)
 call plug#end()
 " ==================================================================================================================================
 " }}
 
 " DEFAULTS {{
 " ==================================================================================================================================
-" remap leader to space
+" default mapping for keys
 let mapleader="\<Space>"
-
-" wait 300 millis for mapped key
-set timeout
-set timeoutlen=300
+set timeout             " use timeoutlen between mapped key press
+set timeoutlen=300      " timeout length to wait in millis
 
 " vim only
 if !has('nvim')
-  " set default encoding (default in nvim)
-  set encoding=utf-8
-  " fast terminal
-  set ttyfast
+  set encoding=utf-8    " set default encoding (default in nvim)
+  set ttyfast           " fast terminal
 endif
 
-" Only define colors for groups that don't have highlighting yet
-syntax enable
-
-" scrolling can be very slow for long wraps (i.e. columns)
-set synmaxcol=200
-
-" colorscheme
-call SetSolarized()
-set background=dark
-colorscheme solarized
-call SetBuftabline()
-call SetLightline()
-call SetIndentline()
-
-" ctags location
-"set tags+=~/.ctags
+call SetFzf()           " love fzf
+call SetCtrlP()         " init CtrlP
+call SetCtrlPFunky()    " init CtrlPFunky
+call SetGitGutter()     " init GitGutter
+call SetFugative()      " init Fugative (git stuff)
+"call SetNerdTree()      " init NerdTree
+call SetTagbar()        " init tagbar
 " ==================================================================================================================================
 " }}
 
-" DIRECTORIES, WRITING (SWAP, BACKUP, ETC) {{
+" COLORS {{
 " ==================================================================================================================================
-" save current buffer
-nmap <leader>w :w!<cr>
+syntax enable
+call SetSolarized()     " init solarized colorscheme settings, needs done before colorscheme
+set background=dark     " important for dark schemes
+colorscheme solarized
+" ==================================================================================================================================
+" }}
 
-" reload nvimrc
+" READ and WRITE {{
+" ==================================================================================================================================
+nnoremap <leader>w :w!<cr>
 nnoremap <leader>ww :source $MYVIMRC<CR>
+set autoread          " notify when file has changed outside of vim/nvim
+set autowriteall      " write on exit
+" ==================================================================================================================================
+" }}
 
-" notify when file has changed outside of vim/nvim
-set autoread
+" BACKUP, SWAP, UNDO, ETC {{
+" ==================================================================================================================================
+" BACKUP
+set backup            " backup file
+set writebackup       " backup before overwriting original file
+set backupdir=~/dotfiles/tmp/nvim-backup//
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), "p")
+endif
 
-" Like 'autowrite', but also used for ':edit', ':enew', ':quit', ':qall', r:exit", ':xit', ':recover' and closing the Vim window
-set autowriteall
+" SWAP
+set shortmess+=A      " don't warn when there is an existing swap file
+set updatetime=500    " time in millis until next swap file is written
+set directory=~/dotfiles/tmp/nvim-swap//
+if !isdirectory(expand(&directory))
+  call mkdir(expand(&directory), "p")
+endif
 
-" delete old backup, backup current filed
-set backup
+" UNDO
+set undofile          " returns name of undo file
+set undodir=~/dotfiles/tmp/nvim-undo//
+if !isdirectory(expand(&undodir))
+  call mkdir(expand(&undodir), "p")
+endif
 
-" backup directory
-set backupdir=~/dotfiles/tmp/nvim-backup/
-
-" swapfile directory
-set directory=~/dotfiles/tmp/nvim-swap/
-
-" don't warn when there is an existing swap file
-set shortmess+=A
-
-" undo directory
-set undodir=~/dotfiles/tmp/nvim-undo/
-
-" view directory
-set viewdir=~/dotfiles/tmp/nvim-view/
-
-" viminfo directory
+" VIMINFO
 set viminfo='1000,n~/dotfiles/tmp/viminfo
 
-" delete old backup, backup current file
-set writebackup
+" VIEW
+set viewdir=~/dotfiles/tmp/nvim-view//
+if !isdirectory(expand(&viewdir))
+  call mkdir(expand(&viewdir), "p")
+endif
 " ==================================================================================================================================
 " }}
 
 " DISPLAY {{
 " ==================================================================================================================================
-" toggle number/relativenumber
-nnoremap <leader>n :call ToggleNumber()<CR>
-
-" toggle invisible characters
-nnoremap <leader>i :set list!<CR>
-
-" set the right marging
-set colorcolumn=+1
-
-" highlight the current column
-set cursorcolumn
-
-" highlight the current line
-set cursorline
-
-" characters to fill the statuslines and vertical separators
-set fillchars+=stl:\ 
-set fillchars+=stlnc:\ 
-set fillchars+=fold:\ 
-set fillchars+=diff:\ 
-set fillchars+=vert:\ 
-
-" set status line position
-set laststatus=2
-
-" redraw only when needed
-set lazyredraw
-
-" wrap at word
-set linebreak
-
-" list of invisible character to show
-set list
-set listchars+=tab:›\ "
-set listchars+=trail:·
-set listchars+=nbsp:␣
-set listchars+=extends:›
-set listchars+=precedes:‹
-set listchars+=eol:¶"
-
-" highlight matching tags
-set matchpairs=(:),[:],{:},<:>
-
-" show line numbers
-set number
-
-" show ruler in status line
-set ruler
-
-" show information about current command
-set showcmd
-
-" show the whole tag, not just the function name
-set showfulltag
-
-" hide show mode in status line, using lightline plugin, not needed
-set noshowmode
-
-" keep cursor 8 lines from top and bottom when page scrolls
-set scrolloff=8
-
-" Show matching brackets when text indicator is over them
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" clear the stupid flashing
+set lazyredraw      " redraw only when needed
+set title           " set current file name to the title
+set noerrorbells    " turn off error bells
+set novisualbell    " turn off visual bell
 set t_vb=
-
-" set width to 132
-set textwidth=132
-
-" set current file name to the title
-set title
-
-" turn of the stupid bell
-set visualbell
 " ==================================================================================================================================
 " }}
 
-" CUT, PASTE and UNDO {{
-" ==================================================================================================================================
-" ctrl-r for redo sucks, use uppercase U instead
-noremap U <C-R>
-
-" use system clipboard
-set clipboard=unnamed
-
-" remember some stuff
-set history=100
-" ==================================================================================================================================
-" }}
-
-" FOLDING {{
-" ==================================================================================================================================
-" toggle fold
-nnoremap <leader>f za
-
-" don't fold files by default on open
-set nofoldenable
-
-" fold marker
-set foldmarker={{,}}
-
-" fold based on indent level
-set foldmethod=marker
-set foldlevel=1
-set foldlevelstart=10
-set foldnestmax=10
-" ==================================================================================================================================
-" }}
-
-" INDENTS, SPACES, TABS and WRAPS {{
-" ==================================================================================================================================
-" filetype detection, plugin and indent on
-filetype plugin indent on
-
-" copy indent to new line
-set autoindent
-
-" replace tabs with spaces
-set expandtab
-
-" don't join lines with two spaces at the end of sentences; I don't two-space
-set nojoinspaces
-
-" number of spaces to use for indent
-set shiftwidth=2
-
-" show break character when wrapping
-set showbreak=↪
-
-" smart autoindenting when starting a new line
-set smartindent
-
-" when on, a <Tab> in front of a line inserts blanks according to 'shiftwidth', 'tabstop' or 'softtabstop' is used in other places.
-set smarttab
-
-" use 2 spaces, interpret tab as indent
-set softtabstop=2
-
-" set tab width
-set tabstop=2
-" ==================================================================================================================================
-" }}
-
-" MENU COMPLETION {{
-" ==================================================================================================================================
-" set menu for tab key
-set wildmenu
-
-" complete only up to the point of ambiguity
-set wildmode=list:longest,full
-" ==================================================================================================================================
-" }}
-
-" MOUSE SUPPORT {{
-" ==================================================================================================================================
-" mouse support
-set mouse=a
-" ==================================================================================================================================
-" }}
-
-" NAVIGATION for BUFFERS, WINDOWS and TABS {{
-" ==================================================================================================================================
-" close buffer
-nnoremap <leader>d :bd<CR>
-
-" vertical/horizontal window split
-nnoremap <leader>v <C-w>v
-"nnoremap <leader><leader>h <C-w>s
-
-" move to left/right/up/down split
-" NOTE: C-h is a prolem in neovim @see https://github.com/neovim/neovim/issues/2048
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-
-" hide buffers when abandoned, will allow movement to another without saving
-set hidden
-" ==================================================================================================================================
-" }}
-
-" NAVIGATION for LINES {{
+" COLUMNS and LINES {{
 " ==================================================================================================================================
 " go to end of line
 imap     <leader>e <esc>$
@@ -705,61 +609,207 @@ imap     <leader>b <esc>0
 nnoremap <leader>b 0
 vnoremap <leader>b 0
 
+" toggle number/relative number
+nnoremap <leader>n :call ToggleNumber()<CR>
+
+function! ToggleNumber()
+  if(&relativenumber == 1)
+    set norelativenumber
+    set number
+  else
+    set relativenumber
+  endif
+endfunction
+
+set colorcolumn=+1                " increase the left margin by 1
+set cursorcolumn                  " highlight the current column
+set cursorline                    " highlight the current line
+set number                        " show line numbers
+set backspace=indent,eol,start    " backspace over auto-indent, eol, start to join lines
+set whichwrap=h,l,[<]>],[<\>]     " make cursor keys wrap (] and \ are for right and left arrows
+" ==================================================================================================================================
+" }}
+
+" FILL CHARACTERS {{
+" ==================================================================================================================================
+" characters to fill the statuslines and vertical separators
+set fillchars+=stl:\ 
+set fillchars+=stlnc:\ 
+set fillchars+=fold:\ 
+set fillchars+=diff:\ 
+set fillchars+=vert:\ 
+" ==================================================================================================================================
+" }}
+
+" LIST CHARACTERS {{
+" ==================================================================================================================================
+" toggle invisible characters, list of characters to show
+nnoremap <leader>i :set list!<CR>
+set listchars+=tab:›\ "
+set listchars+=trail:·
+set listchars+=nbsp:␣
+set listchars+=extends:›
+set listchars+=precedes:‹
+set listchars+=eol:¶"
+" ==================================================================================================================================
+" }}
+
+" STATUSLINE {{
+" ==================================================================================================================================
+set laststatus=2       " show the status line
+set ruler              " show the line and column number of the cursor
+set showcmd            " show partial command in the last line of the screen
+set noshowmode         " hide show mode in status line, using lightline plugin, not needed
+call SetLightline()    " init lightline
+" ==================================================================================================================================
+" }}
+
+" CUT, PASTE and UNDO {{
+" ==================================================================================================================================
+" ctrl-r for redo sucks, use uppercase U instead
+noremap U <C-R>
+set clipboard=unnamed    " use system clipboard
+set history=100          " remember some stuff
+" ==================================================================================================================================
+" }}
+
+" FOLDING (default folding based on marker level) {{
+" ==================================================================================================================================
+" toggle fold
+nnoremap <leader>f za
+set nofoldenable        " do not fold on start 
+"set foldenable          " fold on start 
+set foldmarker={{,}}    " default fold marker
+set foldmethod=marker   " default fold method
+set foldlevel=0         " open all the highest level folds
+set foldlevelstart=10   " open most folds by default
+set foldnestmax=10      " maximum number of nested folds
+" ==================================================================================================================================
+" }}
+
+" FORMATTING {{
+" NOTE: from command line set formatoptions? will show you the current formatoptions 
+" ==================================================================================================================================
+" INDENTS
+filetype plugin indent on
+set autoindent          " copy indent from current line
+set shiftwidth=2        " number of spaces to use for indent
+set smartindent         " smart auto-indenting when starting a new line
+call SetIndentline()    " init indent line (draws visual for indents)
+call SetEasyAlign()     " init easy align
+
+" FORMATOPTIONS
+set formatoptions+=r    " continue comments by default
+set formatoptions+=o    " make comment when using o or O from comment line
+set formatoptions+=q    " format comments with gq
+set formatoptions+=n    " recognize numbered lists
+set formatoptions+=c    " format comments
+set formatoptions+=t    " wrap when using textwidth
+
+" TABS vs SPACES
+set expandtab           " replace tabs with spaces
+set smarttab            " when on, a <Tab> in front of a line inserts blanks
+set softtabstop=2       " use 2 spaces, interpret tab as indent
+set tabstop=2           " set tab width
+
+" WRAPS
+set linebreak           " wrap long lines at a character
+set nojoinspaces        " don't join lines with two spaces at the end of sentences
+set nolist
+set showbreak=↪         " line break character for wrapped lines
+set textwidth=132       " set width to 132
+set wrap                " wrap lines longer that the window
+" ==================================================================================================================================
+" }}
+
+" MENUS {{
+" ==================================================================================================================================
+set showfulltag                 " show the whole tag, not just the function name
+set wildmenu                    " set menu for tab key
+set wildmode=list:longest,full  " complete only up to the point of ambiguity
+call SetSuperTab()              " init supertab
+" ==================================================================================================================================
+" }}
+
+" MOUSE {{
+" ==================================================================================================================================
+set mouse=a
+" ==================================================================================================================================
+" }}
+
+" BUFFERS {{
+" ==================================================================================================================================
+" close buffer
+nnoremap <leader>d :bd<CR>
+set hidden              " hide buffers when abandoned, will allow movement to another without saving
+call SetBuftabline()    " init BufferTabline
+" ==================================================================================================================================
+" }}
+
+" WINDOWS {{
+" ==================================================================================================================================
+" vertical  window split
+nnoremap <leader>/ <C-w>v
+
+" horizontal window split
+nnoremap <leader>- <C-w>s
+
+" move to left/right/up/down split
+" NOTE: C-h is a prolem in neovim @see https://github.com/neovim/neovim/issues/2048
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+" ==================================================================================================================================
+" }}
+
+" PAIRS {{
+" ==================================================================================================================================
 " use tab instead of % to switch between matching pair
 nnoremap <tab> %
 vnoremap <tab> %
+set matchpairs=(:),[:],{:},<:>    " highlight matching tags
+call SetRainbowParen()            " init rainbow parens
+" ==================================================================================================================================
+" }}
 
+" SCROLLING {{
+" ==================================================================================================================================
 " move cursor down/up within non-breaking lines
 nnoremap j gj
 nnoremap k gk
-
-" keep the cursor on the same column
-set nostartofline
-
-" backspace over autoindent, eol, start to join lines
-set backspace=indent,eol,start
-" make cursor keys wrap (] and \ are for right and left arrows
-set whichwrap=h,l,[<]>],[<\>]
+noremap  <Up> gk
+noremap  <Down> gj
+inoremap <Down> <C-o>gj
+inoremap <Up>   <C-o>gk
+set nostartofline    " keep the cursor on the same column
+set scrolloff=8      " keep cursor 8 lines from top and bottom when page scrolls
+set synmaxcol=200    " scrolling can be very slow for long wraps (i.e. columns)
 " ==================================================================================================================================
 " }}
 
 " SEARCH {{
 " ==================================================================================================================================
-" NOTES:
-" type / followed by ctrl-f to open search history window
-" ==================================================================================================================================
+" NOTE: type / followed by ctrl-f to open search history window
 " toggle/clear highlights
 nnoremap <leader>h :noh<cr>
-
-" highlight search results
-set hlsearch
-
-" set search to ignore case
-set ignorecase
-
-" incremental highlight as search is typed
-set incsearch
-
-" case sensitive search when given caps
-set smartcase
-
-" soft wrap text that is longer than the line width
-set wrap linebreak nolist
-
-" set search to wrap lines
-set wrapscan
+:let @/ = ""      " clear the last search results on loading of file
+set hlsearch      " highlight search results
+set ignorecase    " set search to ignore case
+set incsearch     " incremental highlight as search is typed
+set smartcase     " case sensitive search when given caps
+set wrapscan      " set search to wrap lines
 " ==================================================================================================================================
 " }}
 
 " SELECTING {{
 " ==================================================================================================================================
-" NOTES:
-" ctrl-v to select text in block mode
-" ==================================================================================================================================
+" NOTE: ctrl-v to select text in block mode
 " when in visual block mode, let me move the cursor anywhere in the buffer; don't restrict me only to regions with text
 if has('virtualedit')
   set virtualedit+=block
 endif
+call SetMultipleCursors()    " init multiple cursors
 " ==================================================================================================================================
 " }}
 
@@ -767,23 +817,26 @@ endif
 " ==================================================================================================================================
 " toggle spelling
 map <leader>ss :setlocal spell!<cr>
-
-" turn on tab completion for spelling
-set complete+=kspell
-
-" unix/osx dictionary
-set dictionary+=/usr/share/dict/words
-
-" spelling whitelist
-set spellfile=$HOME/.nvim/spell/en.utf8.add
-
-" spelling language
-set spelllang=en_us
+set complete+=kspell                          " turn on tab completion for spelling
+set dictionary+=/usr/share/dict/words         " unix/osx dictionary
+set spellfile=$HOME/.nvim/spell/en.utf8.add   " spelling whitelist
+set spelllang=en_us                           " spelling language
 " ==================================================================================================================================
 " }}
 
-" FILE CONFS {{
+" SYNTAX {{
 " ==================================================================================================================================
+syntax enable           " Only define colors for groups that don't have highlighting yet
+call SetCaw()           " init caw (used for commenting)
+call SetMarked()        " init marked (used for displaying markdown files in Marked 2)
+"call SetSyntastic()    " init syntastic 
+" ==================================================================================================================================
+" }}
+
+
+" FILETYPES {{
+" ==================================================================================================================================
+" JAVA
 augroup filetype_java
   autocmd!
   autocmd BufNewFile,BufRead *.java set filetype=java
@@ -800,6 +853,7 @@ augroup filetype_java
   "autocmd FileType scala set tags=~/dotfiles/nvim/plugged/vim-scala/ctags/scala.ctags
 augroup END
 
+" HTML
 augroup filetype_html
   autocmd!
   autocmd FileType html setlocal shiftwidth=4
@@ -808,9 +862,10 @@ augroup filetype_html
   autocmd FileType html setlocal expandtab
 augroup END
 
+" MARKDOWN
 augroup filetype_markdown
   autocmd!
-  " required so vim does not think .md files are something els
+  " required so vim does not think .md files are something else
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
   let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'handlebars', 'java', 
       \ 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby', 
@@ -818,6 +873,10 @@ augroup filetype_markdown
   "autocmd FileType md   setlocal textwidth=0
 augroup END
 
+" NETRW
+autocmd FileType netrw nnoremap q :bd<CR>
+
+" PYTHON
 augroup filetype_python
   autocmd!
   autocmd FileType python setlocal shiftwidth=4
@@ -826,6 +885,7 @@ augroup filetype_python
   autocmd FileType python setlocal expandtab
 augroup END
 
+" SCALA
 augroup filetype_scala
   autocmd!
   autocmd BufNewFile,BufRead *.scala set filetype=scala
@@ -844,47 +904,8 @@ augroup END
 " ==================================================================================================================================
 " }}
 
-" SET PLUGINS {{
-" ==================================================================================================================================
-call SetMarked()
-
-call SetCaw()
-
-" love fzf, but currently does not work will with neovim
-"call SetFzf()
-
-call SetMultipleCursors()
-
-call SetEasyAlign()
-
-call SetCtrlP()
-call SetCtrlPFunky()
-
-call SetGitGutter()
-
-call SetFugative()
-
-call SetNerdTree()
-
-call SetRainbowParen()
-
-call SetSuperTab()
-
-"call SetSyntastic()
-" ==================================================================================================================================
-" }}
-
 " FUNCTIONS {{
 " ==================================================================================================================================
-function! ToggleNumber()
-  if(&relativenumber == 1)
-    set norelativenumber
-    set number
-  else
-    set relativenumber
-  endif
-endfunction
-
 nnoremap <Leader>k :call ShowMaps()
 function! ShowMaps()
   :! ag --nocolor --nonumbers 'i(nore)?map|mapleader|n(nore)?map|v(nore)?map' $MYVIMRC | sed -E 's/^(( )*)?(.*)/\3/'

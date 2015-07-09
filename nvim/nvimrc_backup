@@ -18,8 +18,8 @@ call plug#begin('~/.nvim/plugged')
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tpope/vim-fugitive'
   function! SetFugative()
-    nmap     <leader>gs :Gstatus<CR>gg<c-n>
-    nnoremap <leader>gd :Gdiff<CR>
+    nmap     <Leader>g :Gstatus<CR>gg<c-n>
+    nnoremap <Leader>d :Gdiff<CR>
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ Plug 'https://github.com/airblade/vim-gitgutter'
     " gitgutter will use Sign Column to set its color, reload it
     call gitgutter#highlight#define_highlights()
     " toggle gitgutter
-    nnoremap <leader>gg :GitGutterToggle<CR>
+    nnoremap <Leader>gg :GitGutterToggle<CR>
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -73,8 +73,8 @@ Plug 'https://github.com/tpope/vim-surround'
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tyru/caw.vim'
   function! SetCaw()
-    nmap <leader>c <Plug>(caw:I:toggle)
-    vmap <leader>c <Plug>(caw:I:toggle)
+    nmap <Leader>c <Plug>(caw:I:toggle)
+    vmap <Leader>c <Plug>(caw:I:toggle)
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -179,8 +179,6 @@ Plug 'https://github.com/derekwyatt/vim-scala'
 Plug 'https://github.com/ironfish/scala-api-complete'
 " ----------------------------------------------------------------------------------------------------------------------------------
 
-Plug 'https://github.com/benekastah/neomake'
-
 " SYNTASTIC (compilation syntax checker)
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/scrooloose/syntastic'
@@ -201,8 +199,6 @@ Plug 'https://github.com/scrooloose/syntastic'
 
 " VIM-COLORS-SOLARIZED (best colorscheme around)
 " ----------------------------------------------------------------------------------------------------------------------------------
-Plug 'https://github.com/chriskempson/base16-vim'
-
 " NOTE: these need to be set before setting colorscheme
 " NOTE: great article: http://tinyurl.com/mqm8od3
 Plug 'https://github.com/altercation/vim-colors-solarized'
@@ -218,7 +214,7 @@ Plug 'https://github.com/altercation/vim-colors-solarized'
 Plug 'https://github.com/itchyny/lightline.vim'
   function! SetLightline()
     let g:lightline = {
-        \ 'colorscheme': '16_ocean',
+        \ 'colorscheme': 'solarized_dark',
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'gitgutter', 'fugitive', 'filename' ], [ 'ctrlpmark' ] ],
         \   'right': [ [ 'syntastic', 'trailing', 'indentation', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype'] ]
@@ -243,13 +239,10 @@ Plug 'https://github.com/itchyny/lightline.vim'
         \   'trailing': 'warning',
         \   'indentation': 'warining',
         \ },
-        \ 'separator': { 'left': '', 'right': '' },
-        \ 'subseparator': { 'left': '|', 'right': '|' }
+        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
         \ }
 
-"        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-"        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
- 
     function! MyModified()
       return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
     endfunction
@@ -420,7 +413,7 @@ Plug 'https://github.com/Yggdroot/indentLine'
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
   function! SetRainbowParen()
-    nnoremap <leader>r :RainbowParentheses!!<CR>
+    nnoremap <Leader>r :RainbowParentheses!!<CR>
     let g:rainbow#max_level=16
     let g:rainbow#pairs=[['(', ')'], ['[', ']'], ['{','}']]
   endfunction
@@ -428,10 +421,10 @@ Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
 
 " NERDTREE (explorer style navigation)
 " ----------------------------------------------------------------------------------------------------------------------------------
-"Plug 'https://github.com/scrooloose/nerdtree'
+Plug 'https://github.com/scrooloose/nerdtree'
   function! SetNerdTree()
     " toggle nerdtree
-    nnoremap <leader>t :NERDTreeToggle<CR>
+    nnoremap <Leader>t :NERDTreeToggle<CR>
     let NERDTreeBookmarksFile=expand("$HOME/dotfiles/tmp/ntbookmarks")    " set bookmarks file
     let NERDTreeHijackNetrw=1    " make nerdtree act like netrw
     let NERDTreeShowBookmarks=1  " show bookmarks table
@@ -439,12 +432,11 @@ Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
   endfunction
 
 " git support for nerdtree
-"Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
 
 " modal support for nerdtree, netrw
-Plug 'https://github.com/tpope/vim-vinegar'
-Plug 'https://github.com/eiginn/netrw'
-"Plug 'https://github.com/dhruvasagar/vim-vinegar'
+"Plug 'https://github.com/tpope/vim-vinegar'
+Plug 'https://github.com/dhruvasagar/vim-vinegar'
 " ----------------------------------------------------------------------------------------------------------------------------------
 
 " TAGBAR
@@ -530,8 +522,7 @@ call plug#end()
 " DEFAULTS {{
 " ==================================================================================================================================
 " default mapping for keys
-"let mapleader="\<Space>" "I prefer space but it causes problems when typing text
-let mapleader=","
+let mapleader="\<Space>"
 set timeout             " use timeoutlen between mapped key press
 set timeoutlen=300      " timeout length to wait in millis
 
@@ -546,7 +537,7 @@ call SetCtrlP()         " init CtrlP
 call SetCtrlPFunky()    " init CtrlPFunky
 call SetGitGutter()     " init GitGutter
 call SetFugative()      " init Fugative (git stuff)
-"call SetNerdTree()      " init NerdTree
+call SetNerdTree()      " init NerdTree
 call SetTagbar()        " init tagbar
 " ==================================================================================================================================
 " }}
@@ -554,13 +545,9 @@ call SetTagbar()        " init tagbar
 " COLORS {{
 " ==================================================================================================================================
 syntax enable
-"call SetSolarized()     " init solarized colorscheme settings, needs done before colorscheme
+call SetSolarized()     " init solarized colorscheme settings, needs done before colorscheme
 set background=dark     " important for dark schemes
-"colorscheme solarized
-
-let base16colorspace=256
-"colorscheme base16-solarized
-colorscheme base16-ocean
+colorscheme solarized
 " ==================================================================================================================================
 " }}
 
@@ -611,8 +598,8 @@ endif
 
 " DISPLAY {{
 " ==================================================================================================================================
-"set lazyredraw      " redraw only when needed
-"set title           " set current file name to the title
+set lazyredraw      " redraw only when needed
+set title           " set current file name to the title
 set noerrorbells    " turn off error bells
 set novisualbell    " turn off visual bell
 set t_vb=
@@ -683,7 +670,6 @@ set ruler              " show the line and column number of the cursor
 set showcmd            " show partial command in the last line of the screen
 set noshowmode         " hide show mode in status line, using lightline plugin, not needed
 call SetLightline()    " init lightline
-nnoremap <a-r> :redraw!<CR>
 " ==================================================================================================================================
 " }}
 
@@ -788,16 +774,11 @@ nnoremap <C-k> <C-w>k
 if exists(':terminal')
   " allow terminal buffer size to be very large
   let g:terminal_scrollback_buffer_size = 100000
-  tnoremap <a-h> <C-\><C-n><C-w>h
-  tnoremap <a-j> <C-\><C-n><C-w>j
-  tnoremap <a-k> <C-\><C-n><C-w>k
-  tnoremap <a-l> <C-\><C-n><C-w>l
-  nnoremap <a-h> <C-w>h
-  nnoremap <a-j> <C-w>j
-  nnoremap <a-k> <C-w>k
-  nnoremap <A-l> <C-w>l
-  nnoremap <a-/> :vsp term://fish \| startinsert<CR>
-  nnoremap <a--> :sp term://fish \| startinsert<CR>
+"  tnoremap <A-d>t   <C-\><C-n>:vsp term://fish<CR>
+"  tnoremap <A-d>    <C-\><C-n>:vsp<CR>
+"  nnoremap <A-d>t   :vsp term://fish<CR>
+  nnoremap <c-g> :vsp term://fish<CR>
+  au WinEnter term://* startinsert
 endif
 " ==================================================================================================================================
 " }}
@@ -915,9 +896,6 @@ augroup END
 
 " NETRW
 autocmd FileType netrw nnoremap q :bd<CR>
-let g:netrw_liststyle = 1
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_special_syntax = 1
 
 " PYTHON
 augroup filetype_python

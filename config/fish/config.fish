@@ -3,13 +3,14 @@ set fish_path $HOME/.oh-my-fish
 
 # THEME {{
 # ==================================================================================================================================
-eval sh $HOME/.config/base16-shell/base16-ocean.dark.sh
-set fish_theme agnoster
-if [ -e "$TMUX" ]
-  set -gx TERM xterm-256color
-else
-  set -gx TERM screen-256color
-end
+#eval sh $HOME/.config/base16-shell/base16-ocean.dark.sh
+#eval sh $HOME/.config/base16-shell/base16-ocean.light.sh
+eval sh $HOME/.config/base16-shell/base16-solarized.light.sh
+#if [ -e "$TMUX" ]
+#  set -gx TERM xterm-256color
+#else
+#  set -gx TERM screen-256color
+#end
 # ==================================================================================================================================
 # }}
 
@@ -29,15 +30,6 @@ alias gwt 'cd ~/Workspace/typesafe/'
 alias gww 'cd ~/Workspace/ww/'
 alias gits 'git status'
 alias gitp 'git pull'
-# ==================================================================================================================================
-# }}
-
-# PLUGINS {{
-# ==================================================================================================================================
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-fish/plugins/*)
-# Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
-# Example format: set fish_plugins autojump bundler
-set fish_plugins brew tmux
 # ==================================================================================================================================
 # }}
 
@@ -62,6 +54,11 @@ set -x DOCKER_TLS_VERIFY 1
 # ==================================================================================================================================
 # Load oh-my-fish configuration.
 . $fish_path/oh-my-fish.fish
+# Custom plugins and themes may be added to ~/.oh-my-fish/custom
+# Plugins and themes can be found at https://github.com/oh-my-fish/
+Theme 'agnoster'
+Plugin 'brew'
+Plugin 'tmux'
 # ==================================================================================================================================
 # }}
 

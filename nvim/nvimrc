@@ -14,7 +14,7 @@ endif
 " NOTE: i like to keep all my plugin settings with the plugin
 call plug#begin('~/.nvim/plugged')
 
-" VIM-FUGATIVE (run git commands)
+" VIM-FUGATIVE (run git commands) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tpope/vim-fugitive'
   function! SetFugative()
@@ -22,8 +22,9 @@ Plug 'https://github.com/tpope/vim-fugitive'
     nnoremap <leader>gd :Gdiff<CR>
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+"}}
 
-" VIM-GITGUTTER (show git diff in gutter)
+" VIM-GITGUTTER (show git diff in gutter) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/airblade/vim-gitgutter'
   function! SetGitGutter()
@@ -42,14 +43,25 @@ Plug 'https://github.com/airblade/vim-gitgutter'
     nnoremap <leader>gg :GitGutterToggle<CR>
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" AG (silver_sercher, super fast, replacepment for ack)
+" AG (silver_sercher, super fast, replacepment for ack) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
+" NOTES: ag text-search --scala  # will search for text in scala files
+" NOTES: ag text-search --java   # will search for text in scala java
 Plug 'https://github.com/rking/ag.vim'
 " ----------------------------------------------------------------------------------------------------------------------------------
+"}}
 
-" VIM-EASY-ALIGN (provides easy alignment of stuff)
+" VIM-EASY-ALIGN (provides easy alignment of stuff) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: vip<Enter>=
+" - visual-select inner paragraph
+" - Start EasyAlign command (<Enter>)
+" - Align around =
+" NOTE: gaip=
+" - Start EasyAlign command (ga) for inner paragraph
+" - Align around =
 Plug 'https://github.com/junegunn/vim-easy-align'
   function! SetEasyAlign()
     " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -58,18 +70,23 @@ Plug 'https://github.com/junegunn/vim-easy-align'
     nmap ga <Plug>(EasyAlign)
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" TABULAR (provides filtering and alignment)
+" TABULAR (provides filtering and alignment) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/godlygeek/tabular'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-SURROUND (surrounds with brackets, quotes, etc.)
+" VIM-SURROUND (surrounds with brackets, quotes, etc.) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: Surround.vim is all about "surroundings": parentheses, brackets, quotes, XML tags, and more. The plugin provides
+"       mappings to easily delete, change and add such surroundings in pairs.
 Plug 'https://github.com/tpope/vim-surround'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" CAW (provides code comments)
+" CAW (provides code comments) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/tyru/caw.vim'
   function! SetCaw()
@@ -77,8 +94,9 @@ Plug 'https://github.com/tyru/caw.vim'
     vmap <leader>c <Plug>(caw:I:toggle)
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-MULTPLE-CURSORS (multiple cursor support like sublime text)
+" VIM-MULTPLE-CURSORS (multiple cursor support like sublime text) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 " NOTE VISUAL MODE:
 "   1. ctrl-n will select the word(s) and place you in VISUAL mode
@@ -94,14 +112,15 @@ Plug 'https://github.com/terryma/vim-multiple-cursors'
   function! SetMultipleCursors()
     " turn off defaults as they may conflict with CtrlP
     let g:multi_cursor_use_default_mapping=0
-    let g:multi_cursor_next_key='<C-n>'
-    let g:multi_cursor_prev_key='<C-m>'
-    let g:multi_cursor_skip_key='<C-x>'
+    let g:multi_cursor_next_key ='<C-n>'
+    let g:multi_cursor_prev_key ='<C-m>'
+    let g:multi_cursor_skip_key ='<C-x>'
     let g:multi_cursor_quit_key='<Esc>'
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" SUPERTAB (awesome tab completion)
+" SUPERTAB (awesome tab completion) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ervandew/supertab'
   function! SetSuperTab()
@@ -117,8 +136,9 @@ Plug 'https://github.com/ervandew/supertab'
         \ endif
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" DASH (load dash api support, must have dash installed, OSX only)
+" DASH (load dash api support, must have dash installed, OSX only) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/rizzatti/dash.vim'
   function! SetDash()
@@ -126,28 +146,24 @@ Plug 'https://github.com/rizzatti/dash.vim'
     :nmap <silent> <leader>a <Plug>DashSearch
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" DELIMITMATE (autocompletion for parens, brackets, etc.)
+" DELIMITMATE (autocompletion for parens, brackets, etc.) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/Raimondi/delimitMate'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-MARKDOWN
+" VIM-MARKDOWN (support for markdown files) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: Most of these types of markdown plugins need to come after tabular
 "Plug 'https://github.com/tpope/vim-markdown'
+Plug 'https://github.com/plasticboy/vim-markdown'
+"Plug 'https://github.com/gabrielelana/vim-markdown'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-MARKDOWN (gabrielelana markdown support must come after tabular)
-" ----------------------------------------------------------------------------------------------------------------------------------
-Plug 'https://github.com/gabrielelana/vim-markdown'
-" ----------------------------------------------------------------------------------------------------------------------------------
-
-" VIM-MARKDOWN (plasticboy markdown support must come after tabular)
-" ----------------------------------------------------------------------------------------------------------------------------------
-"Plug 'https://github.com/plasticboy/vim-markdown'
-" ----------------------------------------------------------------------------------------------------------------------------------
-
-" VIM-MARKED (open/close marked for markdown preview)
+" VIM-MARKED (open/close marked for markdown preview) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/itspriddle/vim-marked'
   "it sucks that I have to keep track of this, it should be part of the plugin
@@ -168,20 +184,28 @@ Plug 'https://github.com/itspriddle/vim-marked'
     nnoremap <leader>m :call ToggleMarked()<CR>
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-SCALA (derek wyatt's awesome scala language support)
+" VIM-SCALA (derek wyatt's awesome scala language support) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/derekwyatt/vim-scala'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" SCALA-API-COMPLETE (my autocompletion for scala, work in progress)
+" SCALA-API-COMPLETE (my autocompletion for scala, work in progress) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ironfish/scala-api-complete'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
+" NEOMAKE (asynchronous making for neovim) {{
+" ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: A plugin for asynchronous :make using Neovim's job-control functionality.
 Plug 'https://github.com/benekastah/neomake'
+" ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" SYNTASTIC (compilation syntax checker)
+" SYNTASTIC (compilation syntax checker) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/scrooloose/syntastic'
   function! SetSyntastic()
@@ -198,27 +222,31 @@ Plug 'https://github.com/scrooloose/syntastic'
     let g:syntastic_scala_checkers = ['fsc']
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-COLORS-SOLARIZED (best colorscheme around)
+" VIM-COLORS (best colorschemes around) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/chriskempson/base16-vim'
 
+" NOTE: DEPRECATED, not using, favor base16 instead.
 " NOTE: these need to be set before setting colorscheme
 " NOTE: great article: http://tinyurl.com/mqm8od3
-Plug 'https://github.com/altercation/vim-colors-solarized'
-  function! SetSolarized()
-    let g:solarized_contrast="normal"
-    let g:solarized_underline=0
-    let g:solarized_visibility="normal"
-  endfunction
+"Plug 'https://github.com/altercation/vim-colors-solarized'
+"  function! SetSolarized()
+"    let g:solarized_contrast="normal"
+"    let g:solarized_underline=0
+"    let g:solarized_visibility="normal"
+"  endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+"}}
 
-" LIGHTLINE (best statusline for vim hands down!)
+" LIGHTLINE (best statusline for vim hands down!) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
+" NOTE: modified color scheme \ 'colorscheme': '16_ocean',
 Plug 'https://github.com/itchyny/lightline.vim'
   function! SetLightline()
     let g:lightline = {
-        \ 'colorscheme': '16_ocean',
+        \ 'colorscheme': 'solarized',
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'gitgutter', 'fugitive', 'filename' ], [ 'ctrlpmark' ] ],
         \   'right': [ [ 'syntastic', 'trailing', 'indentation', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype'] ]
@@ -249,7 +277,7 @@ Plug 'https://github.com/itchyny/lightline.vim'
 
 "        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
 "        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
- 
+
     function! MyModified()
       return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
     endfunction
@@ -395,8 +423,9 @@ Plug 'https://github.com/itchyny/lightline.vim'
 
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" VIM-BUFTABLINE (displays buffers in the tabline)
+" VIM-BUFTABLINE (displays buffers in the tabline) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/ap/vim-buftabline'
   function! SetBuftabline()
@@ -405,8 +434,9 @@ Plug 'https://github.com/ap/vim-buftabline'
     let g:buftabline_numbers=1     " the buffer number is shown in the buffer label
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" INDENTLINE (indents as thin vertical lines)
+" INDENTLINE (indents as thin vertical lines) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/Yggdroot/indentLine'
   function! SetIndentline()
@@ -415,8 +445,9 @@ Plug 'https://github.com/Yggdroot/indentLine'
     let g:indentLine_leadingSpaceEnabled=1
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" RAINBOW_PARENTHESIS (nested colored parenthesis)
+" RAINBOW_PARENTHESIS (nested colored parenthesis) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
   function! SetRainbowParen()
@@ -425,10 +456,12 @@ Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
     let g:rainbow#pairs=[['(', ')'], ['[', ']'], ['{','}']]
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" NERDTREE (explorer style navigation)
+" NERDTREE (explorer style navigation) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
-"Plug 'https://github.com/scrooloose/nerdtree'
+" NOTE: like netrw but really like git integration with NerdTree
+Plug 'https://github.com/scrooloose/nerdtree'
   function! SetNerdTree()
     " toggle nerdtree
     nnoremap <leader>t :NERDTreeToggle<CR>
@@ -439,15 +472,16 @@ Plug 'https://github.com/junegunn/rainbow_parentheses.vim'
   endfunction
 
 " git support for nerdtree
-"Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
 
 " modal support for nerdtree, netrw
-Plug 'https://github.com/tpope/vim-vinegar'
-Plug 'https://github.com/eiginn/netrw'
-"Plug 'https://github.com/dhruvasagar/vim-vinegar'
+"Plug 'https://github.com/tpope/vim-vinegar'
+"Plug 'https://github.com/eiginn/netrw'
+Plug 'https://github.com/dhruvasagar/vim-vinegar'
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" TAGBAR
+" TAGBAR (list functions/symbols) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
 Plug 'https://github.com/majutsushi/tagbar'
   function! SetTagbar()
@@ -455,10 +489,10 @@ Plug 'https://github.com/majutsushi/tagbar'
     let g:tagbar_indent=1
   endfunction
 " ----------------------------------------------------------------------------------------------------------------------------------
+" }}
 
-" FZF (fuzzy finder for both shell and vim)
+" FZF (fuzzy finder for both shell and vim) {{
 " ----------------------------------------------------------------------------------------------------------------------------------
-" NOTE: currently not working with neovim due to neovim terminal issue
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
   function! SetFzf()
 
@@ -530,15 +564,13 @@ call plug#end()
 " DEFAULTS {{
 " ==================================================================================================================================
 " default mapping for keys
-"let mapleader="\<Space>" "I prefer space but it causes problems when typing text
-let mapleader=","
+let mapleader=","       " for space, use let mapleader='\<space>'
 set timeout             " use timeoutlen between mapped key press
 set timeoutlen=300      " timeout length to wait in millis
 
 " vim only
 if !has('nvim')
   set encoding=utf-8    " set default encoding (default in nvim)
-  set ttyfast           " fast terminal
 endif
 
 call SetFzf()           " love fzf
@@ -546,27 +578,27 @@ call SetCtrlP()         " init CtrlP
 call SetCtrlPFunky()    " init CtrlPFunky
 call SetGitGutter()     " init GitGutter
 call SetFugative()      " init Fugative (git stuff)
-"call SetNerdTree()      " init NerdTree
+call SetNerdTree()      " init NerdTree
 call SetTagbar()        " init tagbar
 " ==================================================================================================================================
 " }}
 
 " COLORS {{
 " ==================================================================================================================================
-syntax enable
-"call SetSolarized()     " init solarized colorscheme settings, needs done before colorscheme
-set background=dark     " important for dark schemes
-"colorscheme solarized
-
-let base16colorspace=256
-"colorscheme base16-solarized
-colorscheme base16-ocean
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1    " enable true color
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1  " change curser shape in insert mode
+syntax enable                        " enable syntax
+" set background=dark                " important for dark schemes
+colorscheme base16-solarized         " set colorscheme
+" colorscheme base16-ocean
 " ==================================================================================================================================
 " }}
 
 " READ and WRITE {{
 " ==================================================================================================================================
+" write file
 nnoremap <leader>w :w!<cr>
+" reload nvimrc
 nnoremap <leader>ww :source $MYVIMRC<CR>
 set autoread          " notify when file has changed outside of vim/nvim
 set autowriteall      " write on exit
@@ -599,7 +631,11 @@ if !isdirectory(expand(&undodir))
 endif
 
 " VIMINFO
-set viminfo='1000,n~/dotfiles/tmp/viminfo
+if !has('nvim')
+  set viminfo='1000,n~/dotfiles/tmp/viminfo
+else
+  set viminfo='1000,n~/dotfiles/tmp/nviminfo
+endif
 
 " VIEW
 set viewdir=~/dotfiles/tmp/nvim-view//
@@ -611,11 +647,11 @@ endif
 
 " DISPLAY {{
 " ==================================================================================================================================
-"set lazyredraw      " redraw only when needed
-"set title           " set current file name to the title
+"set title          " NOTE: cause problems in neovim; set current file name to the title
+set lazyredraw      " redraw only when needed
 set noerrorbells    " turn off error bells
 set novisualbell    " turn off visual bell
-set t_vb=
+set t_vb=           " no visual bells
 " ==================================================================================================================================
 " }}
 
@@ -645,21 +681,10 @@ endfunction
 
 set colorcolumn=+1                " increase the left margin by 1
 set cursorcolumn                  " highlight the current column
-set cursorline                    " highlight the current line
+set nocursorline                  " NOTE: causes prolems with .md; do not highlight the current line
 set number                        " show line numbers
 set backspace=indent,eol,start    " backspace over auto-indent, eol, start to join lines
 set whichwrap=h,l,[<]>],[<\>]     " make cursor keys wrap (] and \ are for right and left arrows
-" ==================================================================================================================================
-" }}
-
-" FILL CHARACTERS {{
-" ==================================================================================================================================
-" characters to fill the statuslines and vertical separators
-set fillchars+=stl:\ 
-set fillchars+=stlnc:\ 
-set fillchars+=fold:\ 
-set fillchars+=diff:\ 
-set fillchars+=vert:\ 
 " ==================================================================================================================================
 " }}
 
@@ -700,8 +725,7 @@ set history=100          " remember some stuff
 " ==================================================================================================================================
 " toggle fold
 nnoremap <leader>f za
-set nofoldenable        " do not fold on start 
-"set foldenable          " fold on start 
+set nofoldenable        " do not fold on start
 set foldmarker={{,}}    " default fold marker
 set foldmethod=marker   " default fold method
 set foldlevel=0         " open all the highest level folds
@@ -711,8 +735,8 @@ set foldnestmax=10      " maximum number of nested folds
 " }}
 
 " FORMATTING {{
-" NOTE: from command line set formatoptions? will show you the current formatoptions 
 " ==================================================================================================================================
+" NOTE: from command line set formatoptions? will show you the current formatoptions
 " INDENTS
 filetype plugin indent on
 set autoindent          " copy indent from current line
@@ -784,7 +808,8 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 
-" terminal settings:
+" neovim terminal settings:
+set splitbelow
 if exists(':terminal')
   " allow terminal buffer size to be very large
   let g:terminal_scrollback_buffer_size = 100000
@@ -823,7 +848,7 @@ inoremap <Down> <C-o>gj
 inoremap <Up>   <C-o>gk
 set nostartofline    " keep the cursor on the same column
 set scrolloff=8      " keep cursor 8 lines from top and bottom when page scrolls
-set synmaxcol=200    " scrolling can be very slow for long wraps (i.e. columns)
+set synmaxcol=132    " scrolling can be very slow for long wraps (i.e. columns)
 " ==================================================================================================================================
 " }}
 
@@ -832,7 +857,7 @@ set synmaxcol=200    " scrolling can be very slow for long wraps (i.e. columns)
 " NOTE: type / followed by ctrl-f to open search history window
 " toggle/clear highlights
 nnoremap <leader>h :noh<cr>
-:let @/ = ""      " clear the last search results on loading of file
+let @/ = ""       " clear the last search results on loading of file
 set hlsearch      " highlight search results
 set ignorecase    " set search to ignore case
 set incsearch     " incremental highlight as search is typed
@@ -873,8 +898,7 @@ call SetDash()          " init dash
 " ==================================================================================================================================
 " }}
 
-
-" FILETYPES {{
+" FILE-TYPES {{
 " ==================================================================================================================================
 " JAVA
 augroup filetype_java
@@ -907,8 +931,8 @@ augroup filetype_markdown
   autocmd!
   " required so vim does not think .md files are something else
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-  let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'java', 
-      \ 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby', 
+  let g:markdown_fenced_languages = ['bash=sh', 'css', 'django', 'java',
+      \ 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby',
       \ 'scala', 'sass', 'xml', 'html']
   "autocmd FileType md   setlocal textwidth=0
 augroup END

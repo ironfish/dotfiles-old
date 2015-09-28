@@ -1,4 +1,5 @@
 [core]
+  excludesfile = ~/dotfiles/config/git/ignore
 [credential]
   helper = osxkeychain
 [color]

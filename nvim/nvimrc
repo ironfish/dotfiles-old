@@ -813,6 +813,37 @@ set splitbelow
 if exists(':terminal')
   " allow terminal buffer size to be very large
   let g:terminal_scrollback_buffer_size = 100000
+  " :term colors need to be set manually
+  if &background == "light"
+    let g:terminal_color_0="#002b36"
+    let g:terminal_color_1="#dc322f"
+    let g:terminal_color_2="#859900"
+    let g:terminal_color_3="#b58900"
+    let g:terminal_color_4="#268bd2"
+    let g:terminal_color_5="#6c71c4"
+    let g:terminal_color_6="#2aa198"
+    let g:terminal_color_7="#93a1a1"
+    let g:terminal_color_8="#657b83"
+    " color_9 = color_1
+    let g:terminal_color_9="#dc322f"
+    " color_10 = color_2
+    let g:terminal_color_10="#859900"
+    " color_11 = color_3
+    let g:terminal_color_11="#b58900"
+    " color_12 = color_4
+    let g:terminal_color_12="#268bd2"
+    " color_13 = color_5
+    let g:terminal_color_13="#6c71c4"
+    " color_14 = color_6
+    let g:terminal_color_14="#2aa198"
+    let g:terminal_color_15="#fdf6e3"
+    let g:terminal_color_16="#cb4b16"
+    let g:terminal_color_17="#d33682"
+    let g:terminal_color_18="#073642"
+    let g:terminal_color_19="#586e75"
+    let g:terminal_color_20="#839496"
+    let g:terminal_color_21="#eee8d5"
+  endif
   tnoremap <a-h> <C-\><C-n><C-w>h
   tnoremap <a-j> <C-\><C-n><C-w>j
   tnoremap <a-k> <C-\><C-n><C-w>k

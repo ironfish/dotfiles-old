@@ -1,6 +1,4 @@
-# Automatically created by GitHub for Mac
-# To make edits, delete these initial comments, or else your changes may be lost!
-
+# OSX stuff
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -25,3 +23,9 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# IntelliJ
+*.idea/
+
+# Development
+*.log

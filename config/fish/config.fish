@@ -16,20 +16,36 @@ eval sh $HOME/.config/base16-shell/base16-solarized.light.sh
 
 # ALIASES {{
 # ==================================================================================================================================
-alias ... 'cd ../..'
-alias .... 'cd ../../..'
-alias ..... 'cd ../../../..'
+# edit aliases
 alias ef 'nvim ~/dotfiles/config/fish/config.fish'
 alias et 'nvim ~/dotfiles/tmux/tmux.conf'
 alias en 'nvim ~/dotfiles/nvim/nvimrc'
-alias gd 'cd ~/dotfiles/'
-alias gf 'cd ~/dotfiles/config/fish/'
-alias gn 'cd ~/Dropbox/Notes/'
-alias gw 'cd ~/Workspace/'
-alias gwt 'cd ~/Workspace/typesafe/'
-alias gww 'cd ~/Workspace/ww/'
-alias gits 'git status'
-alias gitp 'git pull'
+
+# print aliases
+alias cf 'cat ~/dotfiles/config/fish/config.fish'
+
+# cd aliases
+alias ... 'cd ../..'
+alias .... 'cd ../../..'
+alias ..... 'cd ../../../..'
+alias cdd 'cd ~/dotfiles/'
+alias cdf 'cd ~/dotfiles/config/fish/'
+alias cdg 'cd ~/Workspace/github'
+alias cdn 'cd ~/Dropbox/Notes/'
+alias cdt 'cd ~/Workspace/typesafe/'
+alias cdw 'cd ~/Workspace/'
+
+# git aliases
+alias ga 'git add .'
+alias gc 'git commit -m'
+alias gcd 'git checkout -b'
+alias gp 'git pull'
+alias gpo 'git push origin'
+alias gs 'git status'
+
+# sbt aliases
+alias scc 'sbt clean compile'
+alias st  'sbt test'
 # ==================================================================================================================================
 # }}
 
@@ -43,10 +59,11 @@ set -g -x FZF_DEFAULT_COMMAND 'ag -l -g ""'
 set fish_custom $HOME/.config/fish
 
 # docker stuff
-set -x DOCKER_HOST tcp://192.168.59.103:2376
-set -x DOCKER_CERT_PATH /Users/ironfish/.boot2docker/certs/boot2docker-vm
-set -x DOCKER_TLS_VERIFY 1
+#set -x DOCKER_HOST tcp://192.168.59.103:2376
+#set -x DOCKER_CERT_PATH /Users/ironfish/.boot2docker/certs/boot2docker-vm
+#set -x DOCKER_TLS_VERIFY 1
 
+set -g -x fish_term24bit 1
 # ==================================================================================================================================
 # }}
 

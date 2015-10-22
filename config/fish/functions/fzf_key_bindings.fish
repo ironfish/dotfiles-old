@@ -1,1 +1,0 @@
-/Users/ironfish/.fzf/shell/key-bindings.fish
